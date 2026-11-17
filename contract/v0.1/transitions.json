@@ -1,0 +1,60 @@
+{
+  "schema_version": "0.1",
+  "states": [
+    "draft",
+    "queued",
+    "running",
+    "awaiting_approval",
+    "awaiting_review",
+    "accepted",
+    "failed",
+    "cancelled"
+  ],
+  "terminal": [
+    "accepted",
+    "cancelled"
+  ],
+  "transitions": {
+    "draft": [
+      "queued",
+      "cancelled"
+    ],
+    "queued": [
+      "running",
+      "cancelled"
+    ],
+    "running": [
+      "awaiting_review",
+      "awaiting_approval",
+      "failed",
+      "cancelled",
+      "queued"
+    ],
+    "awaiting_approval": [
+      "awaiting_review",
+      "cancelled"
+    ],
+    "awaiting_review": [
+      "accepted",
+      "queued",
+      "cancelled"
+    ],
+    "failed": [
+      "queued",
+      "cancelled"
+    ],
+    "accepted": [],
+    "cancelled": []
+  },
+  "rules": {
+    "completion_vs_acceptance": "run.completed means the worker stopped with an artifact. Only a human approval.decide(review, accept) produces task.accepted.",
+    "cancellation": "task.cancel on a running task records task.cancel_requested; the task becomes cancelled only when the worker acknowledges at its next tool boundary. In any non-running, non-terminal state it is cancelled immediately.",
+    "retry": "failed -> queued is a new run; no automatic retries in v0.1.",
+    "timeout": "A run that exceeds its turn or tool-call budget ends as failed with error 'budget_exhausted'.",
+    "stale_version": "Commands on an existing task must carry expected_version; a mismatch is rejected with 'stale_version' and nothing changes.",
+    "duplicates": "A repeated idempotency_key returns the first result with duplicate=true and has no further effect.",
+    "replay": "GET events?since=<cursor> returns events with cursor > since in order. Cursors are retained for the life of the store in v0.1; if since < oldest_cursor-1 the server answers 'cursor_expired' and the client must take a new snapshot.",
+    "approval_binding": "approval.decide carries the sha256 of the artifact that was reviewed; if the latest artifact differs the decision is rejected with 'approval_stale'.",
+    "lesson_handoff": "running -> queued happens only when a School lesson's interactive run ends (lesson.finish) and its review run is queued."
+  }
+}

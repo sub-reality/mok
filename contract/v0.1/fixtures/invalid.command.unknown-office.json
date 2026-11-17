@@ -1,0 +1,2 @@
+{"command_id":"cmd_fixture_0005","idempotency_key":"fixture-bad-0005","actor":{"id":"owner"},"scope":{"office":"finance"},
+ "action":"task.create","params":{"title":"x","workflow":"okfilm.production_plan"}}

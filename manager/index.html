@@ -1,0 +1,750 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style></head><body>
+<title>Subreal Manager 2027</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#17191c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Saira+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: graphite management shell — persistent rail (desktop) / bottom bar (phone), ivory work panels, optional detail pane.
+   The agenda screen alone switches to ruled notebook paper. */
+:root{
+  color-scheme:dark;
+  --shell:#17191c; --shell-2:#202327; --shell-3:#2a2e33; --shell-ink:#e8e5dd; --shell-dim:#9a9a94; --shell-line:#34383e;
+  --panel:#ebe6da; --panel-2:#f5f1e7; --ink:#1b1c1e; --dim:#5d5b55; --line:#cfc8b8;
+  --okfilm:#c7772e; --institute:#8a3f6b; --school:#1f8a8a;
+  --good:#2f7d4f; --warn:#9a6a00; --bad:#b3362c; --info:#35608f;
+  --paper:#f3ecd9; --paper-rule:#d9cfb6; --ribbon:#8a2a2a;
+  --f-display:"Saira Condensed","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --f-paper:"Newsreader",Georgia,serif;
+}
+@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){
+  color-scheme:light;
+  --shell:#dedbd3; --shell-2:#d0ccc3; --shell-3:#c2beb4; --shell-ink:#1b1c1e; --shell-dim:#5a5953; --shell-line:#b4afa4;
+  --panel:#fbf9f3; --panel-2:#ffffff; --ink:#1b1c1e; --dim:#5d5b55; --line:#d8d2c4;
+  --okfilm:#a85f1c; --institute:#7a3460; --school:#17706f;
+  --good:#256b42; --warn:#8a5e00; --bad:#a32f26; --info:#2c5380;
+  --paper:#f6f0df; --paper-rule:#ddd3bb; --ribbon:#8a2a2a;
+}}
+:root[data-theme="light"]{
+  color-scheme:light;
+  --shell:#dedbd3; --shell-2:#d0ccc3; --shell-3:#c2beb4; --shell-ink:#1b1c1e; --shell-dim:#5a5953; --shell-line:#b4afa4;
+  --panel:#fbf9f3; --panel-2:#ffffff; --ink:#1b1c1e; --dim:#5d5b55; --line:#d8d2c4;
+  --okfilm:#a85f1c; --institute:#7a3460; --school:#17706f;
+  --good:#256b42; --warn:#8a5e00; --bad:#a32f26; --info:#2c5380;
+  --paper:#f6f0df; --paper-rule:#ddd3bb; --ribbon:#8a2a2a;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--shell);color:var(--shell-ink);font:14px/1.5 var(--f-body);margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--info);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.02em;margin:0;text-wrap:balance}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.lbl{font-family:var(--f-display);font-weight:500;text-transform:uppercase;letter-spacing:.09em;font-size:12px;color:var(--shell-dim)}
+
+.app{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;min-height:100%;padding-block:12px 16px}
+/* rail */
+.rail{display:flex;flex-direction:column;gap:14px;position:sticky;top:calc(12px + env(safe-area-inset-top,0px));align-self:start;min-width:0}
+.mast h1{font-size:25px;line-height:.95;text-transform:uppercase;font-weight:700}
+.mast .l2{font-family:var(--f-paper);font-style:italic;font-size:15px;margin-top:4px}
+.mast .l3{font-family:var(--f-display);letter-spacing:.3em;font-size:12px;font-weight:600;margin-top:6px}
+.mast .l4{font-size:11.5px;color:var(--shell-dim);margin-top:5px;line-height:1.35}
+nav.main{display:flex;flex-direction:column;gap:2px}
+nav.main a{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 10px;border-radius:3px;color:var(--shell-ink);
+  text-decoration:none;font-family:var(--f-display);font-size:16px;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+nav.main a:hover{background:var(--shell-2)}
+nav.main a[aria-current="page"]{background:var(--shell-3);box-shadow:inset 3px 0 0 var(--shell-ink)}
+.cnt{font-family:var(--f-mono);font-size:11px;background:var(--bad);color:#fff;border-radius:9px;padding:0 6px;min-width:18px;text-align:center}
+.cnt[data-z="1"]{background:var(--shell-3);color:var(--shell-dim)}
+/* top bar */
+.main-col{min-width:0;display:flex;flex-direction:column;gap:12px}
+#view:focus{outline:none}
+.topbar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.offsw{display:flex;border:1px solid var(--shell-line);border-radius:3px;overflow:hidden}
+.offsw button{background:none;border:0;border-right:1px solid var(--shell-line);padding:6px 11px;font-family:var(--f-display);font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--shell-dim)}
+.offsw button:last-child{border-right:0}
+.offsw button[aria-pressed="true"]{background:var(--shell-3);color:var(--shell-ink)}
+.offsw button[data-o="okfilm"][aria-pressed="true"]{box-shadow:inset 0 -3px 0 var(--okfilm)}
+.offsw button[data-o="institute"][aria-pressed="true"]{box-shadow:inset 0 -3px 0 var(--institute)}
+.offsw button[data-o="school"][aria-pressed="true"]{box-shadow:inset 0 -3px 0 var(--school)}
+.modebadge{font-family:var(--f-mono);font-size:11.5px;border:1px solid var(--shell-line);padding:4px 8px;border-radius:3px;color:var(--shell-dim)}
+.modebadge b{color:var(--shell-ink);font-weight:600}
+.modebadge.sim{border-color:var(--warn);color:var(--shell-ink);background:color-mix(in srgb,var(--warn) 22%,transparent)}
+.modebadge.stale{border-color:var(--bad);color:var(--shell-ink);background:color-mix(in srgb,var(--bad) 22%,transparent)}
+.grow{flex:1}
+.btn{border:1px solid var(--shell-line);background:var(--shell-2);color:var(--shell-ink);padding:6px 12px;border-radius:3px;font-family:var(--f-display);font-size:14.5px;letter-spacing:.05em;text-transform:uppercase}
+.btn:hover{background:var(--shell-3)}
+.btn.primary{background:var(--shell-ink);color:var(--shell);border-color:var(--shell-ink);font-weight:600}
+.btn.sm{padding:3px 9px;font-size:13px}
+.panel .btn{border-color:var(--line);background:var(--panel-2);color:var(--ink)}
+.panel .btn:hover{background:var(--panel)}
+.panel .btn.go{background:var(--good);border-color:var(--good);color:#fff}
+.panel .btn.no{background:none;border-color:var(--bad);color:var(--bad)}
+kbd{font-family:var(--f-mono);font-size:11px;border:1px solid currentColor;border-radius:3px;padding:0 4px;opacity:.75}
+.notice{border:1px solid var(--warn);background:color-mix(in srgb,var(--warn) 16%,transparent);padding:8px 12px;border-radius:3px;font-size:13px}
+/* panels */
+.panel{background:var(--panel);color:var(--ink);border-radius:4px;padding:14px 16px;min-width:0}
+.panel h2{font-size:21px;text-transform:uppercase}
+.panel h3{font-size:16px;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.panel .lbl{color:var(--dim)}
+.panel p{margin:0 0 .7em;max-width:68ch}
+.panel a{color:var(--info)}
+.grid{display:grid;gap:12px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:12px;align-items:start}
+.off-okfilm{border-top:4px solid var(--okfilm)} .off-institute{border-top:4px solid var(--institute)} .off-school{border-top:4px solid var(--school)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:6px;vertical-align:1px}
+.dot.okfilm{background:var(--okfilm)} .dot.institute{background:var(--institute)} .dot.school{background:var(--school)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:0;font-size:13px}
+.kv dt{color:var(--dim)} .kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{font-family:var(--f-display);font-weight:500;text-transform:uppercase;letter-spacing:.07em;font-size:12px;color:var(--dim);text-align:left;padding:4px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+tr.row{cursor:pointer} tr.row:hover td{background:var(--panel-2)} tr.sel td{background:var(--panel-2);box-shadow:inset 0 0 0 9999px color-mix(in srgb,var(--info) 8%,transparent)}
+td.num,th.num{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.st{display:inline-block;font-family:var(--f-mono);font-size:11px;padding:1px 7px;border-radius:2px;border:1px solid currentColor;white-space:nowrap}
+.st.awaiting_review,.st.awaiting_approval{color:var(--warn);background:color-mix(in srgb,var(--warn) 12%,transparent)}
+.st.accepted{color:var(--good)} .st.failed{color:var(--bad);background:color-mix(in srgb,var(--bad) 10%,transparent)}
+.st.running{color:var(--info)} .st.queued,.st.draft,.st.cancelled,.st.idle{color:var(--dim)}
+.st.unsent{color:var(--bad);border-style:dashed}
+.tag{font-family:var(--f-mono);font-size:10.5px;border:1px solid var(--line);color:var(--dim);padding:0 5px;border-radius:2px;white-space:nowrap}
+.tag.v{border-color:var(--good);color:var(--good)} .tag.o{border-style:dashed;border-color:var(--warn);color:var(--warn)} .tag.x{border-color:var(--bad);color:var(--bad)}
+pre.art{font-family:var(--f-mono);font-size:12px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--panel-2);border:1px solid var(--line);padding:12px;margin:8px 0 0;max-height:56vh;overflow:auto;border-radius:3px}
+pre.cmd{font-family:var(--f-mono);font-size:11.5px;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--panel-2);border:1px dashed var(--line);padding:8px;margin:6px 0;border-radius:3px}
+.empty{color:var(--dim);padding:10px 0}
+.bigdec{font-family:var(--f-display);font-size:26px;line-height:1.05;text-transform:uppercase;font-weight:600}
+.row-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+form.f{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;align-items:end}
+form.f label{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--dim);min-width:0}
+.panel input,.panel select,.panel textarea{background:var(--panel-2);border:1px solid var(--line);border-radius:3px;padding:6px 8px;color:var(--ink);min-width:0;width:100%}
+.kan{display:grid;grid-template-columns:repeat(7,minmax(130px,1fr));gap:8px;min-width:940px}
+.kan>div{background:var(--panel-2);border:1px solid var(--line);border-radius:3px;padding:8px;min-height:90px}
+.kcard{border-left:3px solid var(--dim);padding:4px 6px;margin-top:6px;font-size:12.5px;background:var(--panel)}
+.kcard.okfilm{border-color:var(--okfilm)} .kcard.institute{border-color:var(--institute)} .kcard.school{border-color:var(--school)}
+ul.plain{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.chk{display:flex;gap:8px;align-items:flex-start}
+/* agenda — notebook */
+.book{background:var(--paper);color:#22201b;border-radius:3px 10px 10px 3px;padding:18px 18px 22px 30px;position:relative;
+  box-shadow:inset 12px 0 14px -10px rgba(0,0,0,.28);font-family:var(--f-paper);font-size:16px;min-width:0}
+.book::after{content:"";position:absolute;top:0;right:34px;width:12px;height:64px;background:var(--ribbon);clip-path:polygon(0 0,100% 0,100% 100%,50% 82%,0 100%)}
+.book h2{font-family:var(--f-paper);font-weight:500;font-size:27px;text-transform:none;letter-spacing:0}
+.book .sub{font-style:italic;color:#6a6456;font-size:14.5px}
+.ruled{background-image:repeating-linear-gradient(to bottom,transparent 0 27px,var(--paper-rule) 27px 28px);line-height:28px;padding-top:1px}
+.tl{display:grid;grid-template-columns:86px 1fr;column-gap:10px}
+.tl .t{font-family:var(--f-mono);font-size:11.5px;color:#6a6456}
+.tl .e{min-width:0;overflow-wrap:anywhere}
+.inkwrap{position:relative;border:1px solid var(--paper-rule);margin-top:10px;background-image:radial-gradient(var(--paper-rule) 1px,transparent 1px);background-size:14px 14px}
+canvas#ink{display:block;width:100%;height:260px;touch-action:none}
+.book .btn{background:none;border-color:#b7ac90;color:#22201b;font-size:13px}
+.book .btn[aria-pressed="true"]{background:#22201b;color:var(--paper)}
+.book textarea{background:transparent;border:0;width:100%;min-height:84px;font:inherit;line-height:28px;color:inherit;resize:vertical;padding:0}
+.mgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+.mgrid button{background:none;border:1px solid var(--paper-rule);padding:3px 2px;min-height:44px;font-family:var(--f-mono);font-size:11px;color:#22201b;text-align:left;display:flex;flex-direction:column;gap:2px;min-width:0}
+.mgrid button.out{opacity:.3} .mgrid button.today{border-color:#22201b;border-width:2px} .mgrid button.sel{background:rgba(0,0,0,.08)}
+.mgrid i{display:block;height:4px;border-radius:2px}
+/* bottom bar (phone) */
+.bottom{display:none}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr);padding-bottom:calc(74px + env(safe-area-inset-bottom,0px))}
+  .rail{position:static}
+  nav.main{display:none}
+  .mast{display:flex;flex-wrap:wrap;gap:2px 12px;align-items:baseline}
+  .mast .l4{flex-basis:100%}
+  .split{grid-template-columns:minmax(0,1fr)}
+  .bottom{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--shell-2);border-top:1px solid var(--shell-line);
+    padding:6px max(10px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px));gap:6px;align-items:center}
+  .bottom .tabs{display:flex;gap:2px;overflow-x:auto;flex:1;min-width:0;scrollbar-width:none}
+  .bottom a{flex:0 0 auto;padding:10px 9px;color:var(--shell-dim);text-decoration:none;font-family:var(--f-display);text-transform:uppercase;font-size:14px;letter-spacing:.04em}
+  .bottom a[aria-current="page"]{color:var(--shell-ink);box-shadow:inset 0 -2px 0 var(--shell-ink)}
+  .bottom .btn{padding:11px 14px}
+  .topbar .devam{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="app">
+  <aside class="rail">
+    <div class="mast">
+      <h1>Subreal Manager 2027</h1>
+      <div class="l2">Logos &amp; Agape</div>
+      <div class="l3">ACTUALIZATIONS</div>
+      <div class="l4">Agile Management (Vertical/Archaeological Thinking)</div>
+    </div>
+    <nav class="main" id="nav" aria-label="Ekranlar"></nav>
+  </aside>
+  <div class="main-col">
+    <div class="topbar">
+      <div class="offsw" id="offsw" role="group" aria-label="Ofis"></div>
+      <span class="modebadge" id="modebadge"></span>
+      <span class="grow"></span>
+      <button class="btn sm" id="modeBtn" type="button">Bağlantı</button>
+      <button class="btn sm" id="themeBtn" type="button">Tema</button>
+      <button class="btn primary devam" id="devam" type="button">Devam Et <kbd>Space</kbd></button>
+    </div>
+    <div id="banner"></div>
+    <main id="view" tabindex="-1"></main>
+  </div>
+</div>
+<div class="bottom"><div class="tabs" id="btabs"></div><button class="btn primary" id="devam2" type="button">Devam</button></div>
+
+<script>
+"use strict";
+/* ================= Subreal Manager — Project B =================
+   Owns: layout, agenda pages, ink, planning cards, private routines, game XP display.
+   Does NOT own operational truth. Tasks, runs, artifacts and approvals come from the core (Project A)
+   through contract v0.1: a snapshot + ordered events, and validated commands. */
+
+const PLAN_START = "2026-11-17";           // Gün 1 of the re-anchored 90-day plan
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const LS = {
+  get(k, d){ try{ const v = localStorage.getItem("srm:"+k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("srm:"+k, JSON.stringify(v)); return true; }catch(e){ return false; } },
+  del(k){ try{ localStorage.removeItem("srm:"+k); }catch(e){} }
+};
+const iso = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const D = s => new Date(s+"T12:00:00");
+const addDays = (s, n) => { const d = D(s); d.setDate(d.getDate()+n); return iso(d); };
+const TODAY = iso(new Date());
+const TRD = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
+const TRM = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+const fmt = s => { const d = D(s); return d.getDate()+" "+TRM[d.getMonth()]+" "+d.getFullYear(); };
+const dayNo = s => Math.round((D(s)-D(PLAN_START))/864e5)+1;
+const uid = p => p+"_"+(crypto.randomUUID ? crypto.randomUUID().replace(/-/g,"").slice(0,16) : Math.random().toString(16).slice(2).padEnd(16,"0"));
+
+const OFFICE = {okfilm:{n:"O.K. Film",long:"Production Company / Agency"}, institute:{n:"Enstitü",long:"Subrealism Institute"}, school:{n:"Okul",long:"Education — School"}};
+const STATE_TR = {draft:"taslak",queued:"sırada",running:"çalışıyor",awaiting_approval:"onay bekliyor",awaiting_review:"inceleme bekliyor",accepted:"kabul edildi",failed:"başarısız",cancelled:"iptal"};
+const WORKFLOWS = {okfilm:"okfilm.production_plan", institute:"institute.claim_evidence_map", school:"school.lesson"};
+
+/* ---------- planning data owned by the manager (not operational truth) ---------- */
+const MILESTONES = [ // offsets kept from the earlier 90-day plan, re-anchored to PLAN_START
+  [10,"institute","Dergi hedef matrisi"],[24,"institute","Sub-Realism Manifesto v0.1"],[34,"institute","Kavram sözlüğü — 15 terim, EN/TR/DE"],
+  [40,"institute","Doğrulama dosyası kapanır"],[52,"institute","Waiting for the Past — arşiv görüntü kaynak ve hak listesi"],
+  [60,"institute","Website MVP"],[72,"institute","Bu Bir Pipodur — Subrealism and Conceptual Art dosyası"],
+  [82,"institute","Waiting for the Past — 180/360° proof of concept (3–5 dk)"],[82,"institute","AI & Sub-Reality makalesi — ilk tam metin"],
+  [89,"institute","Berlin Meetup #1"],[90,"institute","Kapanış ve 2027 başvuru takvimi"]];
+const GOALS_SEED = [
+  {id:"g1",office:"institute",t:"Sub-Realism Manifesto v0.1",unit:"yayımlanabilir metin, 12 önerme",day:24},
+  {id:"g2",office:"institute",t:"Kavram sözlüğü",unit:"15 terim × EN/TR/DE",day:34},
+  {id:"g3",office:"institute",t:"Tezde mühür / sub-reality ayrımı (Onarım 1)",unit:"tez, ek ve makalede tüm yer bildiren kullanımlar düzeltilmiş",day:40},
+  {id:"g4",office:"institute",t:"Sansür oranı arşiv kontrolü (önerme 5)",unit:"en az bir arşivden senaryo-öncesi / sonrası müdahale sayımı",day:60},
+  {id:"g5",office:"institute",t:"AI & Sub-Reality makalesi",unit:"ilk tam metin",day:82},
+  {id:"g6",office:"institute",t:"Bu Bir Pipodur dosyası",unit:"küratöryel dosya, kabul ölçütleri sergilenen malzeme olarak",day:72},
+  {id:"g7",office:"institute",t:"Waiting for the Past — proof of concept",unit:"tek lokasyon, 3–5 dk, 180/360°",day:82},
+  {id:"g8",office:"institute",t:"Cahiers du cinéma des simulacres — yeniden başlatma",unit:"1. sayı: biçim ve sıklık kararı + ilk metin",day:null},
+  {id:"g9",office:"institute",t:"PhD Exposé revizyonu",unit:"gözden geçirilmiş exposé",day:null,note:"2027 Q1"},
+  {id:"g10",office:"school",t:"telc Deutsch-Test für den Beruf B2",unit:"sınav",day:null,note:"Nisan–Mayıs 2027 (Satz-Trainer başlığına göre)"}];
+const DEADLINES = [ // historical dates preserved; expired ones stay expired until a verified new cycle is recorded
+  ["2026-09-02","Berlinale Talents 2027"],["2026-09-30","NECSUS · Features Spring 2027 (özet)"],["2026-09-30","Bridport Memoir Award"],
+  ["2026-10-11","Son Ümit Öykü Ödülü"],["2026-10-21","Berlinale 2027 — uzun metraj"],["2026-11-03","CPH:DOX 2027 — ikinci tur"],
+  ["2026-11-04","Berlinale 2027 — kısa film"],["2027-02-01","NECSUS — tam metin (özet kabul edildiyse)"],
+  [null,"Yaşar Nabi Nayır Gençlik Ödülleri","~Oca–Mar 2027"],[null,"Venice Immersive","~Nis–May 2027"],[null,"Bridport Prize","~May 2027"],
+  [null,"Biennale College Cinema — Immersive","~May–Tem 2027"]];
+const ROUTINES = [ // private, optional, each must be confirmed before it appears in the agenda
+  {id:"wake",t:"05:30",e:"Uyanış · lamba 20–30 dk",days:[0,1,2,3,4,5,6],src:"Kış 2026–27 belgesi"},
+  {id:"b1",t:"06:00–09:15",e:"Blok I — Sub-Realism metni, dergi başvuruları",days:[1,2,3,4],src:"Kış belgesi"},
+  {id:"light",t:"09:30–10:15",e:"Açık havada hareket — günün ana ışık dozu",days:[0,1,2,3,4,5,6],src:"Kış belgesi"},
+  {id:"b2",t:"10:30–13:15",e:"Blok II — Cahiers des Simulacres · Waiting for the Past · portfolyo",days:[1,2,3,4],src:"Kış belgesi"},
+  {id:"nap",t:"13:30–13:50",e:"Şekerleme (en fazla 20 dk)",days:[1,2,3,4,5],src:"Kış belgesi"},
+  {id:"b3",t:"14:15–16:30",e:"Blok III — müşteri edit işi, yönetim",days:[1,2,3,4],src:"Kış belgesi"},
+  {id:"nap2",t:"16:15–16:35",e:"İkinci şekerleme — deneme, durdurma kuralları geçerli",days:[1,2,3,4],src:"Kış belgesi, Gün 11–14 deneyi"},
+  {id:"b2k",t:"17:00–20:30",e:"Almanca B2 kursu",days:[1,2,3,4],src:"Kış belgesi"},
+  {id:"hyp",t:"22:00",e:"Otohipnoz / gevşeme — 10 dk",days:[0,1,2,3,4,5,6],src:"bu oturumda eklendi"},
+  {id:"gym",t:"esnek",e:"Salon — PPL döngüsü (WORKOUT defterinde kayıt)",days:[1,2,3,4,5,6],src:"WORKOUT"},
+  {id:"tai",t:"esnek",e:"Evde: tai chi kısa form 10–15 dk",days:[0,3,6],src:"bu oturumda eklendi"},
+  {id:"post",t:"her mola",e:"Pomodoro arası duruş: çene geri çekme · torasik ekstansiyon · skapula · kalça fleksör esnetme (2–3 dk)",days:[0,1,2,3,4,5,6],src:"bu oturumda eklendi"},
+  {id:"wed",t:"akşam",e:"Düğün çekimi (öncesinde 14:00–15:30 planlı şekerleme)",days:[6],src:"Kış belgesi"}];
+const DECK = [ // Satz-Trainer · Fokus 4 · Neue Arbeit
+  ["İlk iş günümde doldurmam gereken çok form var.","Am ersten Arbeitstag habe ich viele Formulare auszufüllen.","haben + zu = müssen. Ayrılabilir fiilde zu ortada: auszufüllen."],
+  ["Stüdyodaki güvenlik kurallarına uymanız gerekir.","Sie haben die Sicherheitsregeln im Studio zu beachten.","Resmî talimat dili: Sie haben … zu beachten."],
+  ["Objektifimi tamir ettiriyorum.","Ich lasse mein Objektiv reparieren.","lassen = ettirmek."],
+  ["Yapımcı müziği kendim seçmeme izin veriyor.","Der Produzent lässt mich die Musik selbst auswählen.","lassen = izin vermek; lassen + Akk + Infinitiv."],
+  ["Kamerayı kiralama şirketinden getirttim.","Ich habe mir die Kamera vom Verleih liefern lassen.","Perfekt'te lassen Infinitiv kalır."],
+  ["Güçlü yönleriniz neler? – Titiz çalışırım ve zaman baskısı altında da genel tabloyu kaybetmem.","Was sind Ihre Stärken? – Ich arbeite genau und behalte auch unter Zeitdruck den Überblick.","den Überblick behalten."],
+  ["Neden bizde çalışmak istiyorsunuz? – Çünkü belgeselleriniz beni çok etkiliyor.","Warum möchten Sie bei uns arbeiten? – Weil mich Ihre Dokumentarfilme sehr überzeugen.","weil → fiil sona."],
+  ["Harddiskleri nereye teslim etmem gerektiğini gösterebilir misiniz?","Könnten Sie mir zeigen, wo ich die Festplatten abgeben soll?","Kibar soru + dolaylı soru, fiil sona."]];
+const CANDIDATES = [{"skill": "codex:visualize", "is": "Görselleştirme & Grafik", "club": "Akademik Athletic", "model": "GPT-6.1 Sol", "ca": 156, "pa": 170, "calls": 108, "source": "codex"}, {"skill": "codex:computer-use", "is": "Masaüstü Operatörü", "club": "Dev Rangers", "model": "GPT-6.1 Sol", "ca": 149, "pa": 168, "calls": 74, "source": "codex"}, {"skill": "codex:template-creator", "is": "Şablon Üretici", "club": "O.K. Film FC", "model": "GPT-6.1 Sol", "ca": 144, "pa": 158, "calls": 68, "source": "codex"}, {"skill": "codex:documents", "is": "Word Belge Ustası", "club": "Bürokratie United", "model": "GPT-6.1 Sol", "ca": 150, "pa": 160, "calls": 60, "source": "codex"}, {"skill": "codex:presentations", "is": "Sunum Hazırlayıcı", "club": "Akademik Athletic", "model": "GPT-6.1 Sol", "ca": 148, "pa": 160, "calls": 60, "source": "codex"}, {"skill": "codex:pdf", "is": "PDF İşleyici", "club": "Bürokratie United", "model": "GPT-6.1 Sol", "ca": 140, "pa": 146, "calls": 60, "source": "codex"}, {"skill": "codex:artifact-template-palace-restaurant-posts", "is": "Palace Restaurant Instagram Serisi", "club": "O.K. Film FC", "model": "GPT-6.1 Sol", "ca": 151, "pa": 170, "calls": 35, "source": "altyapi"}, {"skill": "codex:spreadsheets", "is": "Tablo & Excel Uzmanı", "club": "Bürokratie United", "model": "GPT-6.1 Sol", "ca": 152, "pa": 162, "calls": 27, "source": "codex"}, {"skill": "codex:sites", "is": "Web Sitesi Kurucu", "club": "Dev Rangers", "model": "GPT-6.1 Sol", "ca": 141, "pa": 163, "calls": 25, "source": "codex"}, {"skill": "codex:artifact-template-restaurants", "is": "Restoran Instagram Postları", "club": "O.K. Film FC", "model": "GPT-6.1 Sol", "ca": 146, "pa": 168, "calls": 24, "source": "altyapi"}, {"skill": "premiere-auto-selects", "is": "Otomatik Kesim Seçici", "club": "O.K. Film FC", "model": "Opus 5.5", "ca": 168, "pa": 186, "calls": 13, "source": "altyapi"}, {"skill": "reverse-engineer-anything", "is": "Tersine Mühendislik", "club": "Dev Rangers", "model": "Opus 5.5", "ca": 150, "pa": 180, "calls": 12, "source": "github"}, {"skill": "multicam-audio-sync", "is": "Çok Kamera Ses Senkronu", "club": "O.K. Film FC", "model": "Sonnet 5.5", "ca": 154, "pa": 178, "calls": 11, "source": "altyapi"}, {"skill": "world-brief", "is": "Dünya Bülteni", "club": "Akademik Athletic", "model": "Opus 5.5", "ca": 152, "pa": 170, "calls": 9, "source": "github"}, {"skill": "yt-script", "is": "YouTube Senaristi", "club": "Sosyal Medya City", "model": "Opus 5.5", "ca": 146, "pa": 188, "calls": 8, "source": "github"}, {"skill": "country-briefing", "is": "Ülke Risk Analisti", "club": "Akademik Athletic", "model": "Opus 5.5", "ca": 155, "pa": 172, "calls": 7, "source": "github"}, {"skill": "conflict-pulse", "is": "Çatışma Takipçisi", "club": "Akademik Athletic", "model": "Opus 5.5", "ca": 148, "pa": 165, "calls": 7, "source": "github"}, {"skill": "hazard-watch", "is": "Afet Gözcüsü", "club": "Akademik Athletic", "model": "Opus 5.5", "ca": 146, "pa": 162, "calls": 7, "source": "github"}];
+
+/* ---------- data layer: fixture | live | rehearsal ---------- */
+const S = { mode: LS.get("mode","fixture"), office:"all", snap:null, events:[], details:{}, bodies:{}, stale:false, staleWhy:"",
+            live:{url:"http://127.0.0.1:8787", token:""}, sel:null, lastSync:null };
+let outbox = LS.get("outbox", []);     // commands composed here but NOT sent to the core
+let rehearsal = null;                  // synthetic in-memory store, never touches the core
+
+async function loadFixture(){
+  try{
+    const r = await fetch("fixtures/recording.json", {cache:"no-store"});
+    if(!r.ok) throw new Error(r.status);
+    const f = await r.json();
+    S.snap = f.snapshot; S.events = f.events; S.details = f.details || {}; S.bodies = f.bodies || {}; S.stale = false;
+    S.lastSync = f.snapshot.generated_at;
+  }catch(e){
+    S.snap = emptySnap(); S.events = []; S.details = {}; S.bodies = {}; S.stale = true; S.staleWhy = "Kayıt dosyası okunamadı.";
+  }
+}
+function emptySnap(){ return {schema_version:"0.1",generated_at:new Date().toISOString(),cursor:0,simulation:false,offices:[],agents:[],tasks:[],runs:[],artifacts:[]}; }
+async function api(path, opt={}){
+  const r = await fetch(S.live.url+path, {...opt, headers:{"Authorization":"Bearer "+S.live.token,"Content-Type":"application/json"}});
+  return r.json();
+}
+async function loadLive(){
+  try{
+    const snap = await api("/v0/snapshot");
+    if(snap.schema_version !== "0.1") throw new Error("sözleşme sürümü uyuşmuyor");
+    const ev = await api("/v0/events?since=0");
+    S.snap = snap; S.events = ev.events || []; S.details = {}; S.bodies = {}; S.stale = false; S.lastSync = snap.generated_at;
+  }catch(e){
+    // never invent progress: keep the last snapshot and say it is stale
+    S.stale = true; S.staleWhy = "Çekirdeğe ulaşılamıyor ("+esc(e.message||e)+"). Gösterilen durum son başarılı eşitlemeye aittir.";
+    if(!S.snap) S.snap = emptySnap();
+  }
+}
+function startRehearsal(){
+  const t = TODAY;
+  rehearsal = {clock:t, snap:{...emptySnap(), simulation:true,
+    agents:[{id:"okfilm-worker",office:"okfilm",role:"Production planner",tools:["read_source","write_artifact"],runtime:"yok — prova"},
+            {id:"institute-worker",office:"institute",role:"Claim-evidence mapper",tools:["read_source","write_artifact"],runtime:"yok — prova"},
+            {id:"school-worker",office:"school",role:"Lesson reviewer",tools:["read_source","write_artifact"],runtime:"yok — prova"}],
+    tasks:[
+      {task_id:"sim_1",office:"okfilm",title:"[PROVA] Düğün filmi kaba kurgu planı",workflow:"okfilm.production_plan",state:"awaiting_review",version:4,due:addDays(t,3),priority:"top",kind:"edit",created_at:t,updated_at:t},
+      {task_id:"sim_2",office:"okfilm",title:"[PROVA] Restoran Reels çekim planı",workflow:"okfilm.production_plan",state:"queued",version:2,due:addDays(t,6),priority:"high",kind:"shoot",created_at:t,updated_at:t},
+      {task_id:"sim_3",office:"institute",title:"[PROVA] Manifesto taslağı — iddia haritası",workflow:"institute.claim_evidence_map",state:"running",version:3,due:addDays(t,9),priority:"normal",kind:"research",created_at:t,updated_at:t}],
+    runs:[],artifacts:[{artifact_id:"sim_a1",task_id:"sim_1",name:"prova.md",sha256:"0".repeat(64),version:1}]}, events:[]};
+  S.snap = rehearsal.snap; S.events = rehearsal.events; S.details = {}; S.bodies = {sim_a1:"# PROVA ÇIKTISI\n\nBu metin sentetiktir. Hiçbir ajan çalışmadı, hiçbir araç çağrılmadı."}; S.stale = false;
+}
+function rehearsalStep(){ // only in rehearsal: move the synthetic clock and synthetic states
+  rehearsal.clock = addDays(rehearsal.clock, 1);
+  for(const t of rehearsal.snap.tasks){
+    if(t.state === "running"){ t.state = "awaiting_review"; rehearsal.snap.artifacts.push({artifact_id:"sim_a"+t.task_id,task_id:t.task_id,name:"prova.md",sha256:"1".repeat(64),version:1}); S.bodies["sim_a"+t.task_id] = "# PROVA ÇIKTISI\n\nSentetik."; }
+    else if(t.state === "queued") t.state = "running";
+  }
+}
+async function reload(){
+  if(S.mode === "live") await loadLive();
+  else if(S.mode === "rehearsal"){ if(!rehearsal) startRehearsal(); }
+  else await loadFixture();
+  render();
+}
+function setMode(m){ S.mode = m; LS.set("mode", m === "live" ? "fixture" : m); if(m !== "rehearsal") rehearsal = null; S.sel = null; reload(); }
+
+/* ---------- commands ---------- */
+function buildCommand(office, action, params, expected){
+  const c = {command_id:uid("cmd"), idempotency_key:uid("mgr"), actor:{id:"owner",client:"subreal-manager"}, scope:{office}, action, params};
+  if(expected != null) c.expected_version = expected;
+  return c;
+}
+async function submit(cmd, label){
+  if(S.mode === "rehearsal"){ applyRehearsal(cmd); toast("Prova: sentetik depoya uygulandı. Çekirdeğe hiçbir şey gönderilmedi."); render(); return; }
+  if(S.mode === "live" && !S.stale){
+    try{
+      const r = await api("/v0/commands", {method:"POST", body:JSON.stringify(cmd)});
+      if(r.ok) toast("Çekirdek kabul etti: "+label); else toast("Çekirdek reddetti ("+r.error.code+"): "+r.error.message);
+      await reload(); return;
+    }catch(e){ S.stale = true; S.staleWhy = "Komut gönderilemedi; bağlantı koptu."; }
+  }
+  outbox.push({cmd, label, at:new Date().toISOString()}); LS.set("outbox", outbox);
+  toast("Gönderilmedi — komut giden kutusunda bekliyor."); render();
+}
+function applyRehearsal(cmd){
+  const p = cmd.params, snap = rehearsal.snap;
+  if(cmd.action === "task.create") snap.tasks.push({task_id:uid("sim"),office:cmd.scope.office,title:"[PROVA] "+p.title,workflow:p.workflow,state:"queued",version:2,due:p.due||null,priority:p.priority||null,kind:p.kind||null,created_at:rehearsal.clock,updated_at:rehearsal.clock});
+  if(cmd.action === "approval.decide"){ const t = snap.tasks.find(x => x.task_id === p.task_id); if(t){ t.state = p.decision === "accept" ? "accepted" : "queued"; t.version++; } }
+  if(cmd.action === "task.cancel"){ const t = snap.tasks.find(x => x.task_id === p.task_id); if(t){ t.state = "cancelled"; t.version++; } }
+}
+function cliFor(cmd){
+  const p = cmd.params;
+  if(cmd.action === "task.create") return `python3 -m offices create ${cmd.scope.office} ${p.workflow} ${JSON.stringify(p.title)}`+(p.due?` --due ${p.due}`:"")+(p.priority?` --priority ${p.priority}`:"")+(p.kind?` --kind ${p.kind}`:"");
+  if(cmd.action === "approval.decide") return `python3 -m offices review ${p.task_id} ${p.decision} --sha ${p.artifact_sha256}`;
+  if(cmd.action === "task.cancel") return `python3 -m offices cancel ${p.task_id}`;
+  return JSON.stringify(cmd);
+}
+
+/* ---------- derived views ---------- */
+const inOffice = x => S.office === "all" || x.office === S.office;
+const tasks = () => (S.snap?.tasks || []).filter(inOffice);
+const runsOf = id => (S.snap?.runs || []).filter(r => r.task_id === id);
+const artsOf = id => (S.snap?.artifacts || []).filter(a => a.task_id === id);
+const latestArt = id => artsOf(id).slice(-1)[0];
+const goals = () => LS.get("goals", GOALS_SEED);
+const jobsAsked = () => LS.get("intakeWeek", "");
+const weekKey = s => { const d = D(s); d.setDate(d.getDate()-((d.getDay()+6)%7)); return iso(d); };
+const sentenceIdx = () => ((dayNo(TODAY)-1) % DECK.length + DECK.length) % DECK.length;
+
+function actionable(){ // what "Devam Et" walks through, in this order. It only navigates.
+  const a = [];
+  for(const t of tasks()) if(t.state === "awaiting_review" || t.state === "awaiting_approval") a.push({k:"review:"+t.task_id, view:"inbox", sel:t.task_id, t:"İnceleme: "+t.title});
+  for(const t of tasks()) if(t.state === "failed") a.push({k:"failed:"+t.task_id, view:"inbox", sel:t.task_id, t:"Başarısız koşu: "+t.title});
+  if(outbox.length) a.push({k:"outbox", view:"isler", t:"Gönderilmemiş "+outbox.length+" komut"});
+  if(jobsAsked() !== weekKey(TODAY)) a.push({k:"intake", view:"isler", t:"Haftalık iş ve deadline toplantısı"});
+  if(LS.get("sentence:"+TODAY, null) == null) a.push({k:"sentence", view:"antrenman", t:"Günün Almanca cümlesi"});
+  for(const g of goals()) if(g.day == null && !g.next) a.push({k:"goal:"+g.id, view:"yonetim", t:"Tarihsiz hedef: "+g.t});
+  return a;
+}
+let devamPos = -1;
+function devam(){
+  if(S.mode === "rehearsal"){ rehearsalStep(); toast("Prova saati: "+fmt(rehearsal.clock)+" — yalnızca sentetik veri ilerledi."); }
+  const a = actionable();
+  if(!a.length){ toast("Bekleyen karar yok."); render(); return; }
+  devamPos = (devamPos+1) % a.length;
+  const it = a[devamPos]; S.sel = it.sel || null;
+  if(location.hash === "#"+it.view) render(); else location.hash = it.view;
+  toast((devamPos+1)+"/"+a.length+" · "+it.t);
+}
+function xp(){ // visible rule: 10 XP per task the owner accepted in the core. Nothing else earns XP.
+  return (S.snap?.tasks || []).filter(t => t.state === "accepted" && !S.snap.simulation).length * 10;
+}
+
+/* ---------- rendering ---------- */
+const VIEWS = [["portal","Portal"],["inbox","Gelen Kutusu"],["isler","İşler"],["kadro","Kadro"],["operasyon","Operasyon"],["transfer","Transfer"],["antrenman","Antrenman"],["ajanda","Ajanda"],["yonetim","Yönetim"]];
+const view = () => { const h = location.hash.slice(1); return VIEWS.some(v => v[0] === h) ? h : "portal"; };
+function toast(m){ let t = $("#toast"); if(!t){ t = document.createElement("div"); t.id = "toast"; t.setAttribute("role","status");
+    t.style.cssText = "position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--shell-ink);color:var(--shell);padding:8px 14px;border-radius:3px;z-index:40;max-width:min(92vw,560px);font-size:13px"; document.body.appendChild(t); }
+  t.textContent = m; t.hidden = false; clearTimeout(t._x); t._x = setTimeout(() => t.hidden = true, 3600); }
+const stTag = s => `<span class="st ${s}">${esc(STATE_TR[s] || s)}</span>`;
+const offTag = o => `<span class="dot ${o}"></span>${esc(OFFICE[o]?.n || o)}`;
+const dueTxt = d => { if(!d) return "—"; const n = Math.round((D(d)-D(S.mode==="rehearsal"?rehearsal.clock:TODAY))/864e5); return fmt(d)+` <span class="mono">(${n<0?Math.abs(n)+" gün geçti":n===0?"bugün":n+" gün"})</span>`; };
+
+function renderChrome(){
+  const v = view(), n = actionable();
+  const count = k => k === "inbox" ? n.filter(x => x.view === "inbox").length : k === "isler" ? n.filter(x => x.view === "isler").length : k === "antrenman" ? n.filter(x => x.view === "antrenman").length : k === "yonetim" ? n.filter(x => x.view === "yonetim").length : null;
+  const link = ([k,l]) => { const c = count(k); return `<a href="#${k}" ${k===v?'aria-current="page"':""}><span>${l}</span>${c==null?"":`<span class="cnt" data-z="${c?0:1}">${c}</span>`}</a>`; };
+  $("#nav").innerHTML = VIEWS.map(link).join("");
+  $("#btabs").innerHTML = VIEWS.map(([k,l]) => `<a href="#${k}" ${k===v?'aria-current="page"':""}>${l}</a>`).join("");
+  $("#offsw").innerHTML = [["all","Tümü"],["okfilm","O.K. Film"],["institute","Enstitü"],["school","Okul"]].map(([k,l]) => `<button type="button" data-o="${k}" aria-pressed="${S.office===k}">${l}</button>`).join("");
+  const mb = $("#modebadge");
+  mb.className = "modebadge"+(S.mode==="rehearsal"?" sim":S.stale?" stale":"");
+  mb.innerHTML = S.mode === "rehearsal" ? `<b>PROVA MODU</b> · sentetik veri · saat ${esc(fmt(rehearsal.clock))}`
+    : S.mode === "live" ? (S.stale ? `<b>BAĞLANTI YOK</b> · durum eski` : `<b>CANLI</b> · çekirdek · imleç ${S.snap.cursor}`)
+    : `<b>KAYIT</b> · çekirdekten dışa aktarılan anlık görüntü · ${esc((S.lastSync||"").slice(0,16).replace("T"," "))} UTC`;
+  $("#banner").innerHTML = S.stale ? `<div class="notice">${S.staleWhy}</div>`
+    : S.mode === "rehearsal" ? `<div class="notice">Prova modundasın. Buradaki görevler, tarihler ve kararlar sentetiktir; çekirdeğe hiçbir komut gitmez, hiçbir ajan çalışmaz. <button class="btn sm" data-act="exit-sim" type="button">Provadan çık</button></div>` : "";
+}
+function render(){
+  renderChrome();
+  const v = view();
+  $("#view").innerHTML = ({portal:vPortal, inbox:vInbox, isler:vIsler, kadro:vKadro, operasyon:vOps, transfer:vTransfer, antrenman:vTraining, ajanda:vAjanda, yonetim:vBoard}[v])();
+  if(v === "ajanda") initInk();
+}
+
+function vPortal(){
+  const n = actionable(), ts = tasks();
+  const next = n[0];
+  const off = Object.keys(OFFICE).filter(o => S.office === "all" || o === S.office).map(o => {
+    const t = (S.snap.tasks||[]).filter(x => x.office === o);
+    const c = s => t.filter(x => x.state === s).length;
+    const run = t.filter(x => x.state === "running");
+    return `<section class="panel off-${o}"><div class="lbl">${esc(OFFICE[o].long)}</div><h2>${esc(OFFICE[o].n)}</h2>
+      <dl class="kv" style="margin-top:8px"><dt>İnceleme bekleyen</dt><dd class="mono">${c("awaiting_review")}</dd><dt>Çalışan koşu</dt><dd class="mono">${run.length}</dd>
+      <dt>Sırada</dt><dd class="mono">${c("queued")+c("draft")}</dd><dt>Başarısız</dt><dd class="mono">${c("failed")}</dd><dt>Kabul edilen</dt><dd class="mono">${c("accepted")}</dd></dl>
+      ${t.length ? "" : `<p class="empty">Bu ofiste henüz görev yok.</p>`}</section>`; }).join("");
+  const dl = ts.filter(t => t.due && !["accepted","cancelled"].includes(t.state)).sort((a,b) => a.due.localeCompare(b.due)).slice(0,6);
+  const ms = MILESTONES.map(([d,o,t]) => ({date:addDays(PLAN_START,d-1),o,t,d})).filter(m => m.date >= TODAY && (S.office==="all"||m.o===S.office)).slice(0,5);
+  return `<div class="grid">
+    <section class="panel"><div class="lbl">Sıradaki karar</div>
+      ${next ? `<div class="bigdec" style="margin-top:4px">${esc(next.t)}</div><p style="margin-top:6px">${n.length} bekleyen kalem var. <b>Devam Et</b> yalnızca sıradakine götürür; tarih ilerletmez, onay vermez, iş tamamlamaz.</p>
+        <div class="row-actions"><button class="btn go" data-act="devam" type="button">Devam Et</button></div>`
+      : `<div class="bigdec" style="margin-top:4px">Bekleyen karar yok</div><p style="margin-top:6px">Yeni iş eklemek için <a href="#isler">İşler</a>.</p>`}
+    </section>
+    <div class="grid g3">${off}</div>
+    <div class="grid g2">
+      <section class="panel"><h3>Gerçek teslim tarihleri (çekirdekteki görevler)</h3>
+        ${dl.length ? `<div class="tw"><table><tr><th>Teslim</th><th>Görev</th><th>Durum</th></tr>${dl.map(t => `<tr><td>${dueTxt(t.due)}</td><td>${offTag(t.office)} · ${esc(t.title)}</td><td>${stTag(t.state)}</td></tr>`).join("")}</table></div>` : `<p class="empty">Tarihli açık görev yok.</p>`}</section>
+      <section class="panel"><h3>Plan kilometre taşları · Gün 1 = ${fmt(PLAN_START)}</h3>
+        ${ms.length ? `<ul class="plain">${ms.map(m => `<li>${offTag(m.o)} · <span class="mono">G${m.d} · ${fmt(m.date)}</span> — ${esc(m.t)} <span class="tag">plan</span></li>`).join("")}</ul>` : `<p class="empty">Yaklaşan kilometre taşı yok.</p>`}
+        <p class="lbl" style="margin-top:8px">Bunlar plan kartlarıdır; çekirdekte görev değildir.</p></section>
+    </div></div>`;
+}
+
+function taskDetail(t){
+  const d = S.details[t.task_id] || {}, art = latestArt(t.task_id), rs = runsOf(t.task_id);
+  const body = art ? S.bodies[art.artifact_id] : null;
+  const ev = d.evidence || [], miss = ev.filter(e => e.kind === "missing_info");
+  const last = rs.slice(-1)[0];
+  const cnt = k => ev.filter(e => e.kind === k).length;
+  let actions = "";
+  if(t.state === "awaiting_review" && art){
+    actions = `<div class="row-actions"><button class="btn go" type="button" data-act="decide" data-d="accept" data-id="${esc(t.task_id)}">Kabul et</button>
+      <button class="btn no" type="button" data-act="decide" data-d="revise" data-id="${esc(t.task_id)}">Revizyon iste</button></div>
+      <p class="lbl" style="margin-top:6px">Karar bu sürüme bağlanır: sha256 ${esc(art.sha256.slice(0,16))}… — çıktı değişirse çekirdek kararı reddeder.</p>`;
+  } else if(t.state === "failed"){
+    actions = `<p>Koşu başarısız: <span class="mono">${esc(last?.error || "bilinmiyor")}</span>. Yeniden sıraya almak çekirdek CLI'sinden yapılır: <span class="mono">python3 -m offices queue ${esc(t.task_id)}</span></p>`;
+  }
+  return `<section class="panel off-${t.office}">
+    <div class="lbl">${offTag(t.office)} · ${esc(t.workflow)}</div><h2 style="margin-top:2px">${esc(t.title)}</h2>
+    <dl class="kv" style="margin-top:8px"><dt>Durum</dt><dd>${stTag(t.state)} <span class="mono">v${t.version}</span></dd><dt>Teslim</dt><dd>${dueTxt(t.due)}</dd>
+      ${last ? `<dt>Son koşu</dt><dd>${esc(last.agent)} · sağlayıcı <b>${esc(last.provider)}</b>${last.provider==="mock"?" (model çıkarımı YOK)":""} · model ${esc(last.model_served || "—")} · ${last.tool_calls} araç çağrısı, ${last.tool_denials} ret</dd>` : `<dt>Koşu</dt><dd>henüz yok</dd>`}
+      ${ev.length ? `<dt>Kanıt</dt><dd>${cnt("fact")+cnt("quote")} konumlu alıntı/olgu · ${cnt("interpretation")} yorum · ${cnt("hypothesis")} hipotez · ${miss.length} eksik bilgi</dd>` : ""}</dl>
+    ${miss.length ? `<h3 style="margin-top:12px">Ajanın sorduğu eksik bilgiler</h3><ul>${miss.map(m => `<li>${esc(m.note)}</li>`).join("")}</ul>` : ""}
+    ${actions}
+    ${art ? `<h3 style="margin-top:14px">Çıktı · ${esc(art.name)} v${art.version}</h3>${body != null ? `<pre class="art" tabindex="0">${esc(body)}</pre>` : `<p class="empty">Bu çıktının gövdesi sunum katmanına aktarılmadı${t.office==="school"?" (öğrenme kayıtları özel tutulur)":""}. İncelemek için: <span class="mono">python3 -m offices artifact ${esc(art.artifact_id)}</span></p>`}` : `<p class="empty" style="margin-top:10px">Henüz çıktı yok.</p>`}
+    ${ev.filter(e => e.kind !== "missing_info").length ? `<details style="margin-top:10px"><summary class="lbl">Kanıt kaydı (${ev.length - miss.length})</summary><div class="tw"><table><tr><th>Tür</th><th>Konum</th><th>Not</th></tr>${ev.filter(e => e.kind !== "missing_info").map(e => `<tr><td><span class="tag">${esc(e.kind)}</span></td><td class="mono">${esc(e.locator)}</td><td>${esc(e.note)}</td></tr>`).join("")}</table></div></details>` : ""}
+  </section>`;
+}
+function vInbox(){
+  const order = {awaiting_review:0,awaiting_approval:0,failed:1,running:2,queued:3,draft:4,accepted:5,cancelled:6};
+  const ts = tasks().slice().sort((a,b) => order[a.state]-order[b.state] || (a.due||"9").localeCompare(b.due||"9"));
+  if(!ts.length) return `<section class="panel"><h2>Gelen Kutusu</h2><p class="empty">Ajan raporu yok. Bir iş ekleyip çekirdekte çalıştırdığında raporu burada, kanıtlarıyla görürsün.</p></section>`;
+  const sel = ts.find(t => t.task_id === S.sel) || ts[0];
+  const subj = t => ({awaiting_review:"Rapor hazır — incelemeni bekliyor",awaiting_approval:"Onay isteği",failed:"Koşu başarısız oldu",running:"Çalışıyor",queued:"Sırada — henüz çalıştırılmadı",draft:"Taslak",accepted:"Kabul edildi",cancelled:"İptal edildi"}[t.state]);
+  return `<div class="split"><section class="panel"><h2>Gelen Kutusu</h2><div class="tw"><table><tr><th>Ofis</th><th>Konu</th><th>Durum</th></tr>
+    ${ts.map(t => `<tr class="row ${t.task_id===sel.task_id?"sel":""}" data-act="sel" data-id="${esc(t.task_id)}" tabindex="0"><td style="white-space:nowrap">${offTag(t.office)}</td><td><b>${esc(subj(t))}</b><br>${esc(t.title)}</td><td>${stTag(t.state)}</td></tr>`).join("")}
+    </table></div></section>${taskDetail(sel)}</div>`;
+}
+
+function vIsler(){
+  const asked = jobsAsked() === weekKey(TODAY);
+  const open = tasks().filter(t => !["accepted","cancelled"].includes(t.state)).sort((a,b) => (a.due||"9").localeCompare(b.due||"9"));
+  return `<div class="grid">
+    <section class="panel"><div class="lbl">${asked ? "Bu haftanın toplantısı yapıldı" : "Haftalık toplantı · "+fmt(weekKey(TODAY))+" haftası"}</div>
+      <h2>Açık editing ve shooting işleri neler, hangisinin teslimi önce?</h2>
+      <p style="margin-top:6px">Her iş, ilgili ofise bir <span class="mono">task.create</span> komutu olur. Çekirdek bağlı değilse komut giden kutusunda bekler; gönderilmiş gibi gösterilmez.</p>
+      <form class="f" id="jobForm" style="margin-top:8px">
+        <label>İş<input id="j-title" required maxlength="200" placeholder="örn. Palace — Aralık Reels kurgusu"></label>
+        <label>Ofis<select id="j-office"><option value="okfilm">O.K. Film</option><option value="institute">Enstitü</option></select></label>
+        <label>Tür<select id="j-kind"><option value="edit">Editing</option><option value="shoot">Shooting</option><option value="writing">Yazı</option><option value="research">Araştırma</option><option value="other">Diğer</option></select></label>
+        <label>Teslim tarihi<input id="j-due" type="date" min="${TODAY}"></label>
+        <label>Öncelik<select id="j-prio"><option value="top">Bu haftanın 1 numarası</option><option value="high">Yüksek</option><option value="normal" selected>Normal</option><option value="low">Düşük</option></select></label>
+        <button class="btn go" type="submit">İşi ekle</button>
+      </form>
+      <div class="row-actions"><button class="btn" type="button" data-act="intake-done">${asked ? "Toplantı kapalı" : "Bu haftalık liste tamam"}</button></div>
+    </section>
+    ${outbox.length ? `<section class="panel"><h3>Giden kutusu — çekirdeğe ulaşmamış komutlar</h3>
+      ${outbox.map((o,i) => `<div style="border-top:1px solid var(--line);padding:8px 0"><span class="st unsent">gönderilmedi</span> <b>${esc(o.label)}</b>
+        <pre class="cmd">${esc(cliFor(o.cmd))}</pre>
+        <div class="row-actions" style="margin-top:0"><button class="btn sm" type="button" data-act="copy" data-i="${i}">CLI komutunu kopyala</button><button class="btn sm" type="button" data-act="copyjson" data-i="${i}">JSON komut</button><button class="btn sm no" type="button" data-act="drop" data-i="${i}">Sil</button>${S.mode==="live"&&!S.stale?`<button class="btn sm go" type="button" data-act="resend" data-i="${i}">Şimdi gönder</button>`:""}</div></div>`).join("")}</section>` : ""}
+    <section class="panel"><h3>Çekirdekteki açık işler</h3>
+      ${open.length ? `<div class="tw"><table><tr><th>Teslim</th><th>İş</th><th>Tür</th><th>Öncelik</th><th>Durum</th></tr>${open.map(t => `<tr class="row" data-act="open" data-id="${esc(t.task_id)}" tabindex="0"><td>${dueTxt(t.due)}</td><td>${offTag(t.office)} · ${esc(t.title)}</td><td>${esc(t.kind||"—")}</td><td>${esc(t.priority||"—")}</td><td>${stTag(t.state)}</td></tr>`).join("")}</table></div>` : `<p class="empty">Açık iş yok.</p>`}</section></div>`;
+}
+
+function vKadro(){
+  const ags = (S.snap.agents||[]).filter(inOffice);
+  const rows = ags.map(a => { const rs = (S.snap.runs||[]).filter(r => r.agent === a.id);
+    const busy = rs.some(r => r.status === "running"), c = s => rs.filter(r => r.status === s).length;
+    const den = rs.reduce((n,r) => n+(r.tool_denials||0), 0), calls = rs.reduce((n,r) => n+(r.tool_calls||0), 0);
+    return `<tr><td><b>${esc(a.id)}</b><br>${offTag(a.office)}</td><td>${esc(a.role)}</td><td>${stTag(busy?"running":"idle").replace(">idle<",">boşta<")}</td>
+      <td class="mono" style="font-size:11.5px">${a.tools.map(esc).join(" · ")}</td><td class="num">${rs.length}</td><td class="num">${c("completed")}</td><td class="num">${c("failed")}</td><td class="num">${calls}</td><td class="num">${den}</td></tr>`; }).join("");
+  return `<div class="grid"><section class="panel"><h2>Kadro — ajanlar</h2>
+    <p style="margin-top:4px">Bir ofis bir izin ve iş akışı sınırıdır. Her ofiste tek sınırlı işçi var; araç izinleri promptta değil yürütücüde uygulanır.</p>
+    <div class="tw"><table><tr><th>Ajan</th><th>Rol</th><th>Durum</th><th>İzinli araçlar</th><th class="num">Koşu</th><th class="num">Tamam</th><th class="num">Başarısız</th><th class="num">Araç çağrısı</th><th class="num">Reddedilen</th></tr>${rows || `<tr><td colspan="9" class="empty">Ajan kaydı yok.</td></tr>`}</table></div>
+    <p class="lbl" style="margin-top:8px">Puan yok: adı ve tarihi olan bir değerlendirme verisi olmadan yetenek puanı gösterilmez. Sütunlar çekirdeğin koşu kayıtlarından sayılır.</p></section>
+    <section class="panel"><h3>Koordinasyon ajanları — tanım dosyaları (.claude/agents)</h3>
+      <div class="tw"><table><tr><th>Ad</th><th>Görev</th><th>Durum</th></tr>
+      <tr><td><b>hermes</b></td><td>Dağıtıcı: gelen işi ofise yönlendirme, teslim ve inceleme hatırlatmaları, haftalık brif. Çekirdek CLI'si üzerinden çalışır; onay veremez.</td><td><span class="tag o">tanımlı · çekirdekte koşu kaydı yok</span></td></tr>
+      <tr><td><b>rea</b></td><td>Ritim: özel rutinler modülündeki uyku, şekerleme, pomodoro ve durdurma kuralları. Operasyonel veriye erişmez.</td><td><span class="tag o">tanımlı · çekirdekte koşu kaydı yok</span></td></tr></table></div>
+      <p class="lbl" style="margin-top:8px">“Hermes” burada bir koordinatör adıdır; Nous Research çalışma zamanı ile ilişkisi doğrulanmadı.</p></section></div>`;
+}
+
+function vOps(){
+  const cols = ["draft","queued","running","awaiting_review","accepted","failed","cancelled"];
+  return `<div class="grid"><section class="panel"><h2>Operasyon — iş akışı aşamaları</h2>
+    <div class="tw" style="margin-top:8px"><div class="kan">${cols.map(c => { const ts = tasks().filter(t => t.state === c);
+      return `<div><div class="lbl">${esc(STATE_TR[c])} · <span class="mono">${ts.length}</span></div>${ts.map(t => `<div class="kcard ${t.office}">${esc(t.title)}<br><span class="mono" style="font-size:11px">${t.due?esc(t.due):"tarihsiz"}</span></div>`).join("")}</div>`; }).join("")}</div></div></section>
+    <div class="grid g2"><section class="panel"><h3>Geçiş kuralları (sözleşme v0.1)</h3><ul>
+      <li>Koşunun bitmesi ile senin kabulün ayrı olaylardır: <span class="mono">run.completed</span> ≠ <span class="mono">task.accepted</span>.</li>
+      <li>İptal bir istektir; çalışan işçi bir sonraki araç sınırında onaylayınca iptal olur.</li>
+      <li>Her komut beklenen sürümü taşır; eski sürümle gelen komut reddedilir.</li>
+      <li>Aynı idempotency anahtarı ikinci kez etki etmez.</li>
+      <li>Başarısız iş otomatik yeniden denenmez.</li></ul></section>
+    <section class="panel"><h3>Ofisler arası devir</h3><p>Ofisler birbirinin kaynak klasörünü okuyamaz. Ortak iş, açık bir <span class="mono">transfer.record</span> kaydıyla devredilir; kayıtlar kopyalanmaz.</p>
+      <h3 style="margin-top:10px">Bu ekran neyin sahibi değil</h3><p>Görev durumlarını bu arayüz değiştiremez; yalnızca komut gönderir. Arayüz kapalıyken ajanlar ve CLI çalışmaya devam eder.</p></section></div></div>`;
+}
+
+function vTransfer(){
+  return `<section class="panel"><h2>Transfer — aday beceri ve entegrasyonlar</h2>
+    <p style="margin-top:4px">Liste, önceki “AM Genie Scout 26” taramasından alındı. Hiçbiri bu sistemde etkin değildir; etkinleştirme lisans, bakım, izin ve maliyet incelemesinden sonra açıkça yapılır.</p>
+    <div class="tw"><table><tr><th>Beceri</th><th>İş</th><th>Birim (eski tarama)</th><th>Model (eski tarama)</th><th class="num">Çağrı</th><th class="num">CA*</th><th class="num">PA*</th><th>Durum</th></tr>
+    ${CANDIDATES.map(c => `<tr><td class="mono" style="font-size:12px">${esc(c.skill)}</td><td>${esc(c.is)}</td><td>${esc(c.club)}</td><td>${esc(c.model)}</td><td class="num">${c.calls ?? "—"}</td><td class="num">${c.ca}</td><td class="num">${c.pa}</td><td><span class="tag">aday · etkin değil</span></td></tr>`).join("")}</table></div>
+    <p class="lbl" style="margin-top:8px">* CA/PA önceki taramanın doğrulanmamış tahminleridir; ölçülmüş bir değerlendirme sonucu değildir. “Çağrı” o taramanın transkript sayımıdır.</p></section>`;
+}
+
+function vTraining(){
+  const i = sentenceIdx(), c = DECK[i], done = LS.get("sentence:"+TODAY, null);
+  const R = LS.get("routines", {on:false, ok:{}});
+  return `<div class="grid">
+    <section class="panel off-school"><div class="lbl">Okul · My Learning · Satz-Trainer — Fokus 4 · Neue Arbeit · kart ${i+1}/${DECK.length}</div>
+      <h2 style="margin-top:2px;text-transform:none;font-family:var(--f-paper);font-weight:500;font-size:22px">${esc(c[0])}</h2>
+      <form id="sentForm" style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><input id="sent-in" style="flex:1 1 260px" placeholder="Almancasını yaz (ae/oe/ue/ss kabul)" autocomplete="off" ${done?"disabled":""} value="${esc(done?.a||"")}">
+        <button class="btn go" type="submit" ${done?"disabled":""}>Kontrol et</button><button class="btn" type="button" data-act="sent-hint" ${done?"disabled":""}>İpucu</button></form>
+      <div id="sent-out" style="margin-top:8px">${done ? `<p><span class="tag ${done.ok?"v":"x"}">${done.ok?"eşleşti":"eşleşmedi"}</span> <span style="font-family:var(--f-paper);font-size:17px">${esc(c[1])}</span></p><p class="lbl">${esc(c[2])}</p>` : ""}</div>
+      <p class="lbl" style="margin-top:6px">Bu kart yerel bir alıştırmadır ve yalnızca bu cihazda tutulur. Kayıtlı, ipuçlu ders ve sonraki tekrar önerisi Okul ofisinin <span class="mono">school.lesson</span> akışıdır. Ünite ayarı: 4.</p></section>
+    <section class="panel"><h3>Ajan değerlendirmeleri</h3><p class="empty">Henüz adlandırılmış bir değerlendirme koşusu yok. Önerilen deney: ofis başına 10, toplam 30 temsilî görev; ölçüt, bütçe ve geri alma kuralı deneyden önce yazılır.</p></section>
+    <section class="panel"><div class="lbl">Özel modül · yalnızca bu cihazda · varsayılan kapalı</div><h2>Ritim, spor ve duruş</h2>
+      <label class="chk" style="margin-top:8px"><input type="checkbox" id="r-on" ${R.on?"checked":""} style="width:auto"> <span>Kişisel rutinleri ajandamda göster</span></label>
+      ${R.on ? `<p style="margin-top:8px">Aşağıdakiler belgelerinden alınmış önerilerdir; hiçbiri sen onaylamadan ajandaya yazılmaz.</p>
+      <div class="tw"><table><tr><th>Onay</th><th>Saat</th><th>Rutin</th><th>Kaynak</th></tr>${ROUTINES.map(r => `<tr><td><input type="checkbox" data-act="r-ok" data-id="${r.id}" ${R.ok[r.id]?"checked":""} style="width:auto" aria-label="${esc(r.e)} onayla"></td><td class="mono">${esc(r.t)}</td><td>${esc(r.e)}</td><td class="lbl">${esc(r.src)}</td></tr>`).join("")}</table></div>
+      <h3 style="margin-top:14px">Analiz — neye dayanıyor</h3>
+      <ul>
+        <li><b>Sirkadiyen çapa.</b> Sabit uyanma saati, sabah parlak ışık ve akşam loş ışık Kış belgesinin omurgası. <span class="tag">SELF-REPORTED</span> Belgede atıf yapılan çalışmalar bu oturumda yeniden kontrol edilmedi. <span class="tag o">OPEN</span></li>
+        <li><b>Pomodoro 27+3.</b> Senin kendi düzenin (3 × 27+3, ardından uzun mola). Süre seçiminin üstünlüğüne dair bir kanıt aramadım; molayı duruş egzersizine bağlamak benim önerim. <span class="tag">INFERRED</span></li>
+        <li><b>Üç fazlı uyku.</b> Belgendeki hali çekirdek uykuyu 7 saatin altına indirmeyen, isteğe bağlı iki şekerlemeli bir denemedir ve dört durdurma kuralı vardır. Çekirdek uykuyu kısaltan polifazik düzenleri önermiyorum; bunun için güvenilir bir dayanak sunamam. <span class="tag">INFERRED</span></li>
+        <li><b>Otohipnoz.</b> Burada 10 dakikalık bir gevşeme ve uykuya geçiş alıştırması olarak yer alıyor: sabit bir noktaya bakış ve yavaş nefes → 10'dan geriye sayarak derinleşme → tek, olumlu ve şimdiki zamanda bir telkin cümlesi → 1'den 5'e sayarak çıkış. Etkisine dair kaynak taraması yapmadım; tedavi yerine geçmez. <span class="tag o">OPEN</span></li>
+        <li><b>Bel fıtığı.</b> Evde: yürüyüş, bird-dog, dead bug, yan plank, kalça menteşesi çalışması; tai chi kısa form. Yük altında bel fleksiyonu ve ağrı veren açılar listede yok. Bu set fizyoterapistinle netleştirilmeli; ben teşhis ya da tedavi öneremem. <span class="tag">INFERRED</span></li>
+        <li><b>Salona dönüş.</b> Belgendeki kural: ilk iki hafta önceki yüklerin yaklaşık %60'ı, 8–12 tekrar. Kayıt WORKOUT defterinde tutulur. <span class="tag">SELF-REPORTED</span></li>
+        <li>Ruh hali birkaç hafta üst üste düşük seyrederse bu, planın değil hekimin konusudur.</li></ul>` : `<p class="empty">Kapalı. Açarsan uyku, şekerleme, pomodoro, otohipnoz, salon, tai chi ve duruş egzersizleri öneri olarak listelenir.</p>`}
+    </section></div>`;
+}
+
+/* ----- agenda ----- */
+let agDay = TODAY < PLAN_START ? PLAN_START : TODAY, inkMode = "pen", penOnly = LS.get("penOnly", false);
+function dayEntries(s){
+  const out = [], dow = D(s).getDay(), R = LS.get("routines", {on:false, ok:{}});
+  for(const t of (S.snap.tasks||[])) if(t.due === s) out.push({t:"teslim", e:`${OFFICE[t.office].n} · ${t.title}`, o:t.office, tag:STATE_TR[t.state]});
+  for(const [d,o,t] of MILESTONES) if(addDays(PLAN_START,d-1) === s) out.push({t:"plan", e:t, o, tag:"kilometre taşı"});
+  for(const g of goals()) if(g.next && g.next.date === s) out.push({t:"hedef", e:g.t+" — "+g.next.step, o:g.office, tag:"sonraki adım"});
+  for(const [d,t] of DEADLINES) if(d === s) out.push({t:"dış", e:t, tag:d < TODAY ? "süresi doldu" : "son gün"});
+  if(R.on) for(const r of ROUTINES) if(R.ok[r.id] && r.days.includes(dow)) out.push({t:r.t, e:r.e, tag:"özel"});
+  return out;
+}
+function vAjanda(){
+  const d = D(agDay), n = dayNo(agDay), es = dayEntries(agDay), note = LS.get("note:"+agDay, "");
+  const first = new Date(d.getFullYear(), d.getMonth(), 1), lead = (first.getDay()+6)%7;
+  const cells = []; for(let i=0;i<42;i++){ const c = new Date(first); c.setDate(1-lead+i); cells.push(iso(c)); }
+  const inRange = s => s >= "2026-11-17" && s <= "2027-12-31";
+  return `<div class="split"><section class="book">
+      <div class="sub">${n>=1&&n<=90 ? "Gün "+n+" / 90 · " : ""}${TRD[d.getDay()]}</div><h2>${fmt(agDay)}</h2>
+      <div class="row-actions" style="margin:8px 0 10px"><button class="btn" type="button" data-act="ag" data-n="-1" aria-label="Önceki gün">‹</button><button class="btn" type="button" data-act="ag-today">Bugün</button><button class="btn" type="button" data-act="ag" data-n="1" aria-label="Sonraki gün">›</button></div>
+      <div class="ruled">${es.length ? es.map(e => `<div class="tl"><span class="t">${esc(e.t)}</span><span class="e">${e.o?`<span class="dot ${e.o}"></span>`:""}${esc(e.e)} <i style="color:#6a6456;font-size:13px">· ${esc(e.tag)}</i></span></div>`).join("") : `<div class="tl"><span class="t">—</span><span class="e" style="color:#6a6456;font-style:italic">Bu güne yazılı bir şey yok.</span></div>`}
+        <textarea id="ag-note" aria-label="Günün notu" placeholder="Not…">${esc(note)}</textarea></div>
+      <div class="row-actions" style="margin-top:8px"><button class="btn" type="button" data-act="ink" data-m="pen" aria-pressed="${inkMode==="pen"}">Kalem</button><button class="btn" type="button" data-act="ink" data-m="era" aria-pressed="${inkMode==="era"}">Silgi</button><button class="btn" type="button" data-act="ink-clear">Sayfayı temizle</button><button class="btn" type="button" data-act="penonly" aria-pressed="${penOnly}">Yalnızca S Pen</button></div>
+      <div class="inkwrap"><canvas id="ink" aria-label="El yazısı alanı"></canvas></div>
+      <div class="sub" style="margin-top:6px">Mürekkep ve notlar yalnızca bu cihazda saklanır. S Pen basıncı ve avuç içi reddi gerçek cihazda denenmedi.</div>
+    </section>
+    <section class="book"><h2 style="font-size:21px">${TRM[d.getMonth()]} ${d.getFullYear()}</h2>
+      <div class="row-actions" style="margin:6px 0"><button class="btn" type="button" data-act="ag-m" data-n="-1" aria-label="Önceki ay">‹ ay</button><button class="btn" type="button" data-act="ag-m" data-n="1" aria-label="Sonraki ay">ay ›</button></div>
+      <div class="mgrid">${["Pt","Sa","Ça","Pe","Cu","Ct","Pz"].map(x => `<div class="t" style="font-family:var(--f-mono);font-size:11px;color:#6a6456;text-align:center">${x}</div>`).join("")}
+      ${cells.map(s => { const es = inRange(s) ? dayEntries(s).filter(e => e.tag !== "özel") : []; const cls = [D(s).getMonth()!==d.getMonth()||!inRange(s)?"out":"", s===TODAY?"today":"", s===agDay?"sel":""].join(" ");
+        return `<button type="button" class="${cls}" data-act="ag-go" data-d="${s}" ${inRange(s)?"":"disabled"} aria-label="${fmt(s)}${es.length?", "+es.length+" kayıt":""}"><span>${D(s).getDate()}</span>${es.slice(0,3).map(e => `<i style="background:${e.o?`var(--${e.o})`:"#8a8371"}"></i>`).join("")}</button>`; }).join("")}</div>
+      <div class="sub" style="margin-top:8px">Ajanda 17 Kasım 2026 – 31 Aralık 2027 arasını kapsar. Renkli çizgi: ofis; gri: dış son tarih.</div>
+      <h2 style="font-size:19px;margin-top:14px">Bu hafta</h2>
+      <div class="ruled">${[...Array(7)].map((_,i) => addDays(weekKey(agDay),i)).map(s => { const es = dayEntries(s).filter(e => e.tag !== "özel"); return `<div class="tl"><span class="t">${TRD[D(s).getDay()].slice(0,3)} ${D(s).getDate()}</span><span class="e">${es.length ? es.map(e => esc(e.e)).join(" · ") : "—"}</span></div>`; }).join("")}</div>
+    </section></div>`;
+}
+function initInk(){
+  const cv = $("#ink"); if(!cv) return;
+  const ctx = cv.getContext("2d"), dpr = Math.min(2, devicePixelRatio||1), r = cv.getBoundingClientRect();
+  cv.width = Math.max(1, r.width*dpr); cv.height = Math.max(1, r.height*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.lineCap = ctx.lineJoin = "round";
+  const saved = LS.get("ink:"+agDay, null);
+  if(saved){ const im = new Image(); im.onload = () => ctx.drawImage(im, 0, 0, r.width, r.height); im.src = saved; }
+  let drawing = false, last = null;
+  const pos = e => { const b = cv.getBoundingClientRect(); return {x:e.clientX-b.left, y:e.clientY-b.top}; };
+  cv.onpointerdown = e => { if(penOnly && e.pointerType !== "pen") return; drawing = true; last = pos(e); cv.setPointerCapture(e.pointerId); e.preventDefault(); };
+  cv.onpointermove = e => { if(!drawing) return; const p = pos(e), pr = e.pressure > 0 ? e.pressure : .5;
+    const era = inkMode === "era" || e.buttons === 32; // 32 = stylus eraser button
+    ctx.globalCompositeOperation = era ? "destination-out" : "source-over"; ctx.strokeStyle = "#1d2a44"; ctx.lineWidth = era ? 18 : Math.max(.7, pr*3.2);
+    ctx.beginPath(); ctx.moveTo(last.x,last.y); ctx.lineTo(p.x,p.y); ctx.stroke(); last = p; };
+  const end = () => { if(!drawing) return; drawing = false; if(!LS.set("ink:"+agDay, cv.toDataURL("image/png"))) toast("Mürekkep kaydedilemedi: tarayıcı depolaması dolu ya da kapalı."); };
+  cv.onpointerup = end; cv.onpointercancel = end;
+}
+
+function vBoard(){
+  const gs = goals().filter(g => S.office === "all" || g.office === S.office);
+  const acc = (S.snap.tasks||[]).filter(t => t.state === "accepted");
+  const cost = (S.snap.runs||[]).reduce((n,r) => n + (r.usage?.total_cost_usd_estimate || 0), 0);
+  const liveRuns = (S.snap.runs||[]).filter(r => r.provider === "claude").length;
+  return `<div class="grid">
+    <div class="grid g3">
+      <section class="panel"><div class="lbl">XP</div><div class="bigdec mono">${xp()}</div><p class="lbl" style="margin-top:4px">Kural: çekirdekte senin kabul ettiğin her görev 10 XP. Başka hiçbir şey XP vermez. Para, akademik kalite ya da sağlık ölçüsü değildir. Seri ya da ceza yok.</p></section>
+      <section class="panel"><div class="lbl">Kabul edilen sonuç</div><div class="bigdec mono">${acc.length}</div><p class="lbl" style="margin-top:4px">${(S.snap.tasks||[]).filter(t => t.state === "awaiting_review").length} sonuç incelemeni bekliyor.</p></section>
+      <section class="panel"><div class="lbl">Çalışma zamanı kullanım tahmini</div><div class="bigdec mono">${liveRuns ? "$"+cost.toFixed(2) : "—"}</div><p class="lbl" style="margin-top:4px">${liveRuns} canlı model koşusunun SDK'nın bildirdiği tahmini toplamı; fatura değildir.</p></section>
+    </div>
+    <section class="panel"><h2>Hedefler — akademik ve sanatsal</h2><p style="margin-top:4px">Her hedefin bir teslim birimi ve bir tarihi var. Tarihler, önceki 90 günlük planın gün sayıları korunarak ${fmt(PLAN_START)} tarihine yeniden bağlandı. Bunlar plan kartlarıdır; “Göreve çevir” ilgili ofise komut hazırlar.</p>
+      <div class="tw"><table><tr><th>Hedef</th><th>Ölçülebilir teslim</th><th>Tarih</th><th></th></tr>
+      ${gs.map(g => { const date = g.day ? addDays(PLAN_START, g.day-1) : null;
+        return `<tr><td>${offTag(g.office)}<br><b>${esc(g.t)}</b></td><td>${esc(g.unit)}</td>
+          <td>${date ? `<span class="mono">G${g.day}</span> · ${fmt(date)}` : g.next ? `${fmt(g.next.date)}<br><span class="lbl">${esc(g.next.step)}</span>` : `<span class="tag o">Vizyon · tarihsiz</span>${g.note?`<br><span class="lbl">${esc(g.note)}</span>`:""}`}</td>
+          <td style="white-space:nowrap">${date || g.next ? `<button class="btn sm" type="button" data-act="goal-task" data-id="${g.id}">Göreve çevir</button>` : `<button class="btn sm" type="button" data-act="goal-date" data-id="${g.id}">Tarihli adım yaz</button>`}</td></tr>`; }).join("")}</table></div>
+      <div id="goalForm"></div></section>
+    <section class="panel"><h3>Dış son tarihler — tarihsel kayıt</h3>
+      <div class="tw"><table><tr><th>Tarih</th><th>Başvuru</th><th>Durum</th></tr>${DEADLINES.map(([d,t,approx]) => `<tr><td class="mono">${d ? fmt(d) : esc(approx)}</td><td>${esc(t)}</td><td>${d ? (d < TODAY ? `<span class="tag x">süresi doldu</span> <span class="lbl">yeni dönem doğrulanmadı</span>` : `<span class="tag o">önceki takvimden · doğrulanmadı</span>`) : `<span class="tag o">tahminî pencere · doğrulanmadı</span>`}</td></tr>`).join("")}</table></div>
+      <p class="lbl" style="margin-top:8px">Geçmiş tarihler değiştirilmedi. Süresi dolan başvurular, yeni dönemin tarihi kaynağından doğrulanıp kaydedilene kadar “süresi doldu” olarak kalır.</p></section>
+    <section class="panel"><h3>Karar günlüğü</h3><p>Mimari kararlar, reddedilen seçenekler ve deney sonuçları depodaki <span class="mono">docs/decision-log.md</span> dosyasında tutulur. Bu ekran onların sahibi değildir.</p>
+      <div class="row-actions"><button class="btn" type="button" data-act="enter-sim">${S.mode==="rehearsal"?"Prova modundasın":"Prova modunu aç (sentetik)"}</button></div></section></div>`;
+}
+
+/* ---------- events ---------- */
+function norm(s){ return s.toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").match(/[a-z0-9']+/g)?.join(" ") || ""; }
+document.addEventListener("click", async e => {
+  const b = e.target.closest("[data-act],[data-o]"); if(!b) return;
+  if(b.dataset.o){ S.office = b.dataset.o; S.sel = null; render(); return; }
+  const a = b.dataset.act, id = b.dataset.id;
+  if(a === "devam") return devam();
+  if(a === "sel"){ S.sel = id; render(); return; }
+  if(a === "open"){ S.sel = id; location.hash = "inbox"; render(); return; }
+  if(a === "decide"){
+    const t = S.snap.tasks.find(x => x.task_id === id), art = latestArt(id);
+    const cmd = buildCommand(t.office, "approval.decide", {task_id:id, subject:"review", decision:b.dataset.d, artifact_sha256:art.sha256}, t.version);
+    return submit(cmd, (b.dataset.d === "accept" ? "Kabul: " : "Revizyon: ")+t.title);
+  }
+  if(a === "intake-done"){ LS.set("intakeWeek", weekKey(TODAY)); toast("Bu haftanın toplantısı kapatıldı."); return render(); }
+  if(a === "copy" || a === "copyjson"){ const o = outbox[+b.dataset.i]; const txt = a === "copy" ? cliFor(o.cmd) : JSON.stringify(o.cmd, null, 2);
+    try{ await navigator.clipboard.writeText(txt); toast("Kopyalandı."); }catch(_){ toast("Kopyalanamadı; metni elle seç."); } return; }
+  if(a === "drop"){ outbox.splice(+b.dataset.i, 1); LS.set("outbox", outbox); return render(); }
+  if(a === "resend"){ const o = outbox.splice(+b.dataset.i, 1)[0]; LS.set("outbox", outbox); return submit(o.cmd, o.label); }
+  if(a === "sent-hint"){ $("#sent-out").innerHTML = `<p class="lbl">${esc(DECK[sentenceIdx()][2])}</p>`; return; }
+  if(a === "r-ok"){ const R = LS.get("routines", {on:true, ok:{}}); R.ok[id] = b.checked; LS.set("routines", R); return; }
+  if(a === "ag"){ agDay = addDays(agDay, +b.dataset.n); if(agDay < "2026-11-17") agDay = "2026-11-17"; if(agDay > "2027-12-31") agDay = "2027-12-31"; return render(); }
+  if(a === "ag-today"){ agDay = TODAY < PLAN_START ? PLAN_START : TODAY; return render(); }
+  if(a === "ag-go"){ agDay = b.dataset.d; return render(); }
+  if(a === "ag-m"){ const d = D(agDay); d.setDate(1); d.setMonth(d.getMonth()+ +b.dataset.n); agDay = iso(d); if(agDay < "2026-11-17") agDay = "2026-11-17"; if(agDay > "2027-12-31") agDay = "2027-12-01"; return render(); }
+  if(a === "ink"){ inkMode = b.dataset.m; return render(); }
+  if(a === "ink-clear"){ LS.del("ink:"+agDay); return render(); }
+  if(a === "penonly"){ penOnly = !penOnly; LS.set("penOnly", penOnly); return render(); }
+  if(a === "goal-task"){ const g = goals().find(x => x.id === id); const due = g.day ? addDays(PLAN_START, g.day-1) : g.next.date;
+    if(g.office === "school") return toast("Okul hedefleri ders akışıyla ilerler; görev komutu hazırlanmadı.");
+    return submit(buildCommand(g.office, "task.create", {title:g.t, workflow:WORKFLOWS[g.office], due, kind:"research", priority:"normal"}), "Yeni görev: "+g.t); }
+  if(a === "goal-date"){ $("#goalForm").innerHTML = `<form class="f" id="gForm" data-id="${id}" style="margin-top:10px"><label>Sonraki somut adım<input id="g-step" required maxlength="160"></label><label>Tarih<input id="g-date" type="date" required min="${TODAY}"></label><button class="btn go" type="submit">Kaydet</button></form>`; $("#g-step").focus(); return; }
+  if(a === "enter-sim"){ if(S.mode !== "rehearsal") setMode("rehearsal"); return; }
+  if(a === "exit-sim"){ return setMode("fixture"); }
+});
+document.addEventListener("submit", e => {
+  e.preventDefault();
+  if(e.target.id === "jobForm"){
+    const office = $("#j-office").value, p = {title:$("#j-title").value.trim(), workflow:WORKFLOWS[office], kind:$("#j-kind").value, priority:$("#j-prio").value};
+    if($("#j-due").value) p.due = $("#j-due").value;
+    if(!p.title) return;
+    submit(buildCommand(office, "task.create", p), "Yeni iş: "+p.title);
+  }
+  if(e.target.id === "sentForm"){ const c = DECK[sentenceIdx()], a = $("#sent-in").value; if(!a.trim()) return;
+    LS.set("sentence:"+TODAY, {a, ok:norm(a) === norm(c[1])}); render(); }
+  if(e.target.id === "gForm"){ const gs = goals(), g = gs.find(x => x.id === e.target.dataset.id);
+    g.next = {step:$("#g-step").value.trim(), date:$("#g-date").value}; LS.set("goals", gs); render(); }
+  if(e.target.id === "connForm"){ S.live.url = $("#c-url").value.trim().replace(/\/$/,""); S.live.token = $("#c-token").value; setMode("live"); }
+});
+document.addEventListener("change", e => {
+  if(e.target.id === "r-on"){ const R = LS.get("routines", {on:false, ok:{}}); R.on = e.target.checked; LS.set("routines", R); render(); }
+});
+document.addEventListener("input", e => { if(e.target.id === "ag-note") LS.set("note:"+agDay, e.target.value); });
+document.addEventListener("keydown", e => {
+  const tag = e.target.tagName, typing = tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || e.target.isContentEditable;
+  if(e.code === "Space" && !typing && tag !== "BUTTON" && tag !== "A" && tag !== "SUMMARY"){ e.preventDefault(); devam(); }
+  if(e.key === "Enter" && e.target.matches("tr.row")) e.target.click();
+  if(!typing && (e.key === "ArrowRight" || e.key === "ArrowLeft") && !e.target.closest("canvas")){
+    const i = VIEWS.findIndex(v => v[0] === view()); location.hash = VIEWS[(i + (e.key === "ArrowRight" ? 1 : VIEWS.length-1)) % VIEWS.length][0]; }
+});
+$("#devam").onclick = devam; $("#devam2").onclick = devam;
+$("#themeBtn").onclick = () => { const cur = document.documentElement.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+  const n = cur === "dark" ? "light" : "dark"; document.documentElement.setAttribute("data-theme", n); LS.set("theme", n); };
+$("#modeBtn").onclick = () => {
+  $("#banner").innerHTML = `<div class="panel"><h3>Veri kaynağı</h3>
+    <p>Şu an: <b>${S.mode === "live" ? "canlı çekirdek" : S.mode === "rehearsal" ? "prova (sentetik)" : "kayıt (çekirdekten dışa aktarılmış anlık görüntü)"}</b>. Canlı bağlantı yalnızca bu sayfa çekirdekle aynı bilgisayarda yerel olarak açıldığında çalışır; claude.ai üzerinde yayınlanan kopya yerel ağına ulaşamaz.</p>
+    <form class="f" id="connForm"><label>Çekirdek adresi<input id="c-url" value="${esc(S.live.url)}"></label><label>Belirteç (yalnızca bu oturumda tutulur)<input id="c-token" type="password" autocomplete="off"></label><button class="btn go" type="submit">Canlı bağlan</button></form>
+    <div class="row-actions"><button class="btn" type="button" data-act="exit-sim">Kayda dön</button><button class="btn" type="button" data-act="enter-sim">Prova modu</button></div></div>`;
+};
+window.addEventListener("hashchange", () => { render(); $("#view").focus({preventScroll:true}); });
+(function boot(){
+  const th = LS.get("theme", null); if(th) document.documentElement.setAttribute("data-theme", th);
+  S.snap = emptySnap(); render(); reload();
+  try{ if("serviceWorker" in navigator && /^https?:$/.test(location.protocol) && !/claude/.test(location.hostname)) navigator.serviceWorker.register("sw.js").catch(() => {}); }catch(e){}
+  setInterval(() => { if(S.mode === "live") reload(); }, 15000);
+})();
+</script>
+
+</body></html>

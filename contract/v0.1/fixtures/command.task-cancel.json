@@ -1,0 +1,2 @@
+{"command_id":"cmd_fixture_0003","idempotency_key":"fixture-cancel-0003","actor":{"id":"owner"},"scope":{"office":"institute"},
+ "expected_version":3,"action":"task.cancel","params":{"task_id":"task_0000000000000001"}}

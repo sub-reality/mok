@@ -1,0 +1,8 @@
+[
+ {"id":"f4-1","prompt":"TR → DE: İlk iş günümde doldurmam gereken çok form var.","answer":"Am ersten Arbeitstag habe ich viele Formulare auszufüllen.","hints":["Hangi yapı 'müssen' yerine geçer? haben + zu + Infinitiv.","Ayrılabilir fiilde 'zu' nereye girer? aus…füllen.","Cümle 'Am ersten Arbeitstag' ile başlıyor; fiil ikinci sırada."]},
+ {"id":"f4-2","prompt":"TR → DE: Stüdyodaki güvenlik kurallarına uymanız gerekir.","answer":"Sie haben die Sicherheitsregeln im Studio zu beachten.","hints":["Resmî talimat dili: Sie haben … zu + Infinitiv.","'uymak, dikkate almak' = beachten."]},
+ {"id":"f4-3","prompt":"TR → DE: Objektifimi tamir ettiriyorum.","answer":"Ich lasse mein Objektiv reparieren.","hints":["Başkasına yaptırmak = lassen + Infinitiv.","Infinitiv cümlenin sonunda."]},
+ {"id":"f4-4","prompt":"TR → DE: Yapımcı müziği kendim seçmeme izin veriyor.","answer":"Der Produzent lässt mich die Musik selbst auswählen.","hints":["lassen burada 'izin vermek': lassen + Akkusativ + Infinitiv.","3. tekil: lässt."]},
+ {"id":"f4-5","prompt":"TR → DE: Kamerayı kiralama şirketinden getirttim.","answer":"Ich habe mir die Kamera vom Verleih liefern lassen.","hints":["Perfekt'te lassen Infinitiv kalır (gelassen değil).","sich etwas liefern lassen — 'mir'."]},
+ {"id":"f4-6","prompt":"TR → DE: Harddiskleri nereye teslim etmem gerektiğini gösterebilir misiniz?","answer":"Könnten Sie mir zeigen, wo ich die Festplatten abgeben soll?","hints":["Kibar soru: Könnten Sie …","Dolaylı soruda fiil sona: … abgeben soll."]}
+]

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sub-reality.example/contract/v0.1/snapshot.schema.json",
+  "title": "Snapshot read model v0.1",
+  "description": "What a presentation client may see. No source paths, credentials, learner answers or client contact details.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at", "cursor", "simulation", "offices", "agents", "tasks", "runs", "artifacts"],
+  "properties": {
+    "schema_version": {"const": "0.1"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "cursor": {"type": "integer", "minimum": 0},
+    "oldest_cursor": {"type": "integer", "minimum": 0},
+    "simulation": {"type": "boolean"},
+    "offices": {"type": "array", "items": {"type": "object", "required": ["id", "name"], "properties": {
+      "id": {"type": "string"}, "name": {"type": "string"}, "workflows": {"type": "array", "items": {"type": "string"}}}}},
+    "agents": {"type": "array", "items": {"type": "object", "required": ["id", "office", "role", "tools"], "properties": {
+      "id": {"type": "string"}, "office": {"type": "string"}, "role": {"type": "string"},
+      "tools": {"type": "array", "items": {"type": "string"}}, "runtime": {"type": "string"}}}},
+    "tasks": {"type": "array", "items": {"type": "object",
+      "required": ["task_id", "office", "title", "workflow", "state", "version", "created_at", "updated_at"],
+      "properties": {
+        "task_id": {"type": "string"}, "office": {"type": "string"}, "project": {"type": ["string", "null"]},
+        "title": {"type": "string"}, "workflow": {"type": "string"},
+        "state": {"enum": ["draft", "queued", "running", "awaiting_approval", "awaiting_review", "accepted", "failed", "cancelled"]},
+        "version": {"type": "integer"}, "due": {"type": ["string", "null"]}, "priority": {"type": ["string", "null"]},
+        "kind": {"type": ["string", "null"]}, "cancel_requested": {"type": "boolean"},
+        "created_at": {"type": "string"}, "updated_at": {"type": "string"}}}},
+    "runs": {"type": "array", "items": {"type": "object",
+      "required": ["run_id", "task_id", "agent", "provider", "status"],
+      "properties": {
+        "run_id": {"type": "string"}, "task_id": {"type": "string"}, "agent": {"type": "string"},
+        "provider": {"enum": ["mock", "claude", "interactive"]},
+        "model_requested": {"type": ["string", "null"]}, "model_served": {"type": ["string", "null"]},
+        "status": {"enum": ["running", "completed", "failed", "cancelled"]},
+        "started_at": {"type": "string"}, "ended_at": {"type": ["string", "null"]},
+        "tool_calls": {"type": "integer"}, "tool_denials": {"type": "integer"},
+        "usage": {"type": ["object", "null"]}, "error": {"type": ["string", "null"]}}}},
+    "artifacts": {"type": "array", "items": {"type": "object",
+      "required": ["artifact_id", "task_id", "name", "sha256", "version"],
+      "properties": {
+        "artifact_id": {"type": "string"}, "task_id": {"type": "string"}, "run_id": {"type": ["string", "null"]},
+        "name": {"type": "string"}, "sha256": {"type": "string"}, "version": {"type": "integer"},
+        "bytes": {"type": "integer"}, "created_at": {"type": "string"}}}}
+  }
+}

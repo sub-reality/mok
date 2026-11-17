@@ -1,0 +1,9 @@
+task,owner,estimate_hours,depends_on
+Çekim planı ve shot list,Ozan,3,
+Çekim günü,Ozan,8,Çekim planı ve shot list
+Medya yedekleme ve proxy,Ozan,2,Çekim günü
+Kaba kurgu 60 sn,Ozan,6,Medya yedekleme ve proxy
+Renk ve ses,Ozan,4,Kaba kurgu 60 sn
+Almanca altyazı,Ozan,2,Kaba kurgu 60 sn
+Reels 9:16 kesimleri (3 adet),Ozan,3,Renk ve ses
+Teslim QC ve export,Ozan,2,Reels 9:16 kesimleri (3 adet)

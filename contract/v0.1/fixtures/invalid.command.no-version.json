@@ -1,0 +1,2 @@
+{"command_id":"cmd_fixture_0004","idempotency_key":"fixture-bad-0004","actor":{"id":"owner"},"scope":{"office":"okfilm"},
+ "action":"task.cancel","params":{"task_id":"task_0000000000000001"}}

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sub-reality.example/contract/v0.1/command.schema.json",
+  "title": "Command v0.1",
+  "description": "A request from a client to the Agentic AI core. The server derives effective permissions from authentication; 'actor' and 'scope' are claims to be checked, never authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["command_id", "idempotency_key", "actor", "scope", "action", "params"],
+  "properties": {
+    "command_id": {"type": "string", "minLength": 8, "maxLength": 64},
+    "idempotency_key": {"type": "string", "minLength": 8, "maxLength": 128},
+    "actor": {
+      "type": "object", "additionalProperties": false, "required": ["id"],
+      "properties": {"id": {"type": "string", "maxLength": 64}, "client": {"type": "string", "maxLength": 64}}
+    },
+    "scope": {
+      "type": "object", "additionalProperties": false, "required": ["office"],
+      "properties": {
+        "office": {"enum": ["okfilm", "institute", "school"]},
+        "project": {"type": "string", "maxLength": 80}
+      }
+    },
+    "expected_version": {"type": "integer", "minimum": 0},
+    "action": {"enum": ["task.create", "task.queue", "approval.decide", "task.cancel", "lesson.attempt", "lesson.finish", "transfer.record"]},
+    "params": {"type": "object"}
+  },
+  "allOf": [
+    {"if": {"properties": {"action": {"const": "task.create"}}},
+     "then": {"properties": {"params": {"type": "object", "required": ["title", "workflow"],
+        "properties": {
+          "title": {"type": "string", "minLength": 1, "maxLength": 200},
+          "workflow": {"enum": ["okfilm.production_plan", "institute.claim_evidence_map", "school.lesson"]},
+          "due": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+          "priority": {"enum": ["low", "normal", "high", "top"]},
+          "kind": {"enum": ["edit", "shoot", "research", "writing", "lesson", "other"]},
+          "source_packet": {"type": "string", "pattern": "^[A-Za-z0-9._-]{1,80}$"},
+          "queue": {"type": "boolean"},
+          "options": {"type": "object"}
+        }}}}},
+    {"if": {"properties": {"action": {"enum": ["task.queue", "task.cancel", "lesson.finish"]}}},
+     "then": {"required": ["expected_version"], "properties": {"params": {"required": ["task_id"]}}}},
+    {"if": {"properties": {"action": {"const": "approval.decide"}}},
+     "then": {"required": ["expected_version"], "properties": {"params": {"type": "object",
+        "required": ["task_id", "subject", "decision", "artifact_sha256"],
+        "properties": {
+          "task_id": {"type": "string"},
+          "subject": {"enum": ["review", "action"]},
+          "decision": {"enum": ["accept", "revise", "approve", "reject"]},
+          "artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "destination": {"type": "string", "maxLength": 200},
+          "note": {"type": "string", "maxLength": 2000}
+        }}}}},
+    {"if": {"properties": {"action": {"const": "lesson.attempt"}}},
+     "then": {"properties": {"params": {"type": "object", "required": ["task_id", "card_id"],
+        "properties": {"task_id": {"type": "string"}, "card_id": {"type": "string"},
+                       "answer": {"type": "string", "maxLength": 1000}, "hint": {"type": "boolean"}}}}}}
+  ]
+}

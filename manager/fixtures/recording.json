@@ -1,0 +1,3738 @@
+{
+ "snapshot": {
+  "schema_version": "0.1",
+  "generated_at": "2026-11-17T03:51:18+00:00",
+  "cursor": 191,
+  "oldest_cursor": 1,
+  "simulation": false,
+  "offices": [
+   {
+    "id": "okfilm",
+    "name": "O.K. Film — Production Company / Agency",
+    "workflows": [
+     "okfilm.production_plan"
+    ]
+   },
+   {
+    "id": "institute",
+    "name": "Academic & Art — Subrealism Institute",
+    "workflows": [
+     "institute.claim_evidence_map"
+    ]
+   },
+   {
+    "id": "school",
+    "name": "Education — School",
+    "workflows": [
+     "school.lesson"
+    ]
+   }
+  ],
+  "agents": [
+   {
+    "id": "okfilm-worker",
+    "office": "okfilm",
+    "role": "Production planner",
+    "tools": [
+     "list_sources",
+     "read_source",
+     "write_artifact",
+     "record_evidence",
+     "report_missing",
+     "date_math"
+    ],
+    "runtime": "claude-agent-sdk | mock"
+   },
+   {
+    "id": "institute-worker",
+    "office": "institute",
+    "role": "Source reader / claim-evidence mapper",
+    "tools": [
+     "list_sources",
+     "read_source",
+     "write_artifact",
+     "record_evidence",
+     "report_missing"
+    ],
+    "runtime": "claude-agent-sdk | mock"
+   },
+   {
+    "id": "school-worker",
+    "office": "school",
+    "role": "Lesson reviewer / next-task proposer",
+    "tools": [
+     "list_sources",
+     "read_source",
+     "write_artifact",
+     "record_evidence",
+     "report_missing"
+    ],
+    "runtime": "claude-agent-sdk | mock"
+   }
+  ],
+  "tasks": [
+   {
+    "task_id": "task_42a3474dd53c47f1",
+    "office": "okfilm",
+    "project": null,
+    "title": "Örnek Restoran tanıtım filmi — üretim planı (sentetik brif)",
+    "workflow": "okfilm.production_plan",
+    "state": "awaiting_review",
+    "version": 7,
+    "due": "2026-12-04",
+    "priority": "top",
+    "kind": "edit",
+    "cancel_requested": false,
+    "created_at": "2026-11-17T03:42:21+00:00",
+    "updated_at": "2026-11-17T03:45:03+00:00"
+   },
+   {
+    "task_id": "task_05cc0774ac264d93",
+    "office": "institute",
+    "project": null,
+    "title": "Sub-Realism, Part IX — iddia-kanıt haritası",
+    "workflow": "institute.claim_evidence_map",
+    "state": "awaiting_review",
+    "version": 4,
+    "due": null,
+    "priority": null,
+    "kind": "research",
+    "cancel_requested": false,
+    "created_at": "2026-11-17T03:45:20+00:00",
+    "updated_at": "2026-11-17T03:46:47+00:00"
+   },
+   {
+    "task_id": "task_4ff881e0da4a47fb",
+    "office": "school",
+    "project": null,
+    "title": "Fokus 4 · Neue Arbeit — günlük cümle (test oturumu, cevaplar Claude tarafından girildi)",
+    "workflow": "school.lesson",
+    "state": "awaiting_review",
+    "version": 6,
+    "due": null,
+    "priority": null,
+    "kind": "lesson",
+    "cancel_requested": false,
+    "created_at": "2026-11-17T03:46:47+00:00",
+    "updated_at": "2026-11-17T03:47:28+00:00"
+   }
+  ],
+  "runs": [
+   {
+    "run_id": "run_de72c3a161734d80",
+    "task_id": "task_42a3474dd53c47f1",
+    "agent": "okfilm-worker",
+    "provider": "claude",
+    "model_requested": "claude-fable-5-2",
+    "model_served": "claude-fable-5-2",
+    "status": "failed",
+    "started_at": "2026-11-17T03:42:26+00:00",
+    "ended_at": "2026-11-17T03:43:25+00:00",
+    "tool_calls": 30,
+    "tool_denials": 0,
+    "usage": {
+     "num_turns": 41,
+     "duration_ms": 57189,
+     "total_cost_usd_estimate": 0.28433949999999997,
+     "tokens": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 11329,
+      "cache_read_input_tokens": 8319,
+      "output_tokens": 6674,
+      "output_tokens_details": {
+       "thinking_tokens": 1473
+      },
+      "server_tool_use": {
+       "web_search_requests": 0,
+       "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+       "ephemeral_1h_input_tokens": 11329,
+       "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "global",
+      "iterations": [
+       {
+        "input_tokens": 2,
+        "output_tokens": 106,
+        "cache_read_input_tokens": 3369,
+        "cache_creation_input_tokens": 7960,
+        "cache_creation": {
+         "ephemeral_5m_input_tokens": 0,
+         "ephemeral_1h_input_tokens": 7960
+        },
+        "type": "message"
+       }
+      ],
+      "speed": "standard",
+      "fallback_credit": null
+     }
+    },
+    "error": "budget_exhausted"
+   },
+   {
+    "run_id": "run_c4fafac241cf4ee8",
+    "task_id": "task_42a3474dd53c47f1",
+    "agent": "okfilm-worker",
+    "provider": "claude",
+    "model_requested": "claude-fable-5-2",
+    "model_served": "claude-fable-5-2",
+    "status": "completed",
+    "started_at": "2026-11-17T03:43:32+00:00",
+    "ended_at": "2026-11-17T03:45:03+00:00",
+    "tool_calls": 40,
+    "tool_denials": 0,
+    "usage": {
+     "num_turns": 41,
+     "duration_ms": 89505,
+     "total_cost_usd_estimate": 0.4073125,
+     "tokens": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 12815,
+      "cache_read_input_tokens": 21775,
+      "output_tokens": 10729,
+      "output_tokens_details": {
+       "thinking_tokens": 1557
+      },
+      "server_tool_use": {
+       "web_search_requests": 0,
+       "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+       "ephemeral_1h_input_tokens": 12815,
+       "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "global",
+      "iterations": [
+       {
+        "input_tokens": 2,
+        "output_tokens": 82,
+        "cache_read_input_tokens": 11010,
+        "cache_creation_input_tokens": 4237,
+        "cache_creation": {
+         "ephemeral_5m_input_tokens": 0,
+         "ephemeral_1h_input_tokens": 4237
+        },
+        "type": "message"
+       }
+      ],
+      "speed": "standard",
+      "fallback_credit": null
+     }
+    },
+    "error": null
+   },
+   {
+    "run_id": "run_fc518d70d38346c1",
+    "task_id": "task_05cc0774ac264d93",
+    "agent": "institute-worker",
+    "provider": "claude",
+    "model_requested": "claude-fable-5-2",
+    "model_served": "claude-fable-5-2",
+    "status": "completed",
+    "started_at": "2026-11-17T03:45:20+00:00",
+    "ended_at": "2026-11-17T03:46:47+00:00",
+    "tool_calls": 27,
+    "tool_denials": 0,
+    "usage": {
+     "num_turns": 28,
+     "duration_ms": 85289,
+     "total_cost_usd_estimate": 0.4670495,
+     "tokens": {
+      "input_tokens": 10,
+      "cache_creation_input_tokens": 21247,
+      "cache_read_input_tokens": 33059,
+      "output_tokens": 9520,
+      "output_tokens_details": {
+       "thinking_tokens": 1972
+      },
+      "server_tool_use": {
+       "web_search_requests": 0,
+       "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+       "ephemeral_1h_input_tokens": 21247,
+       "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "global",
+      "iterations": [
+       {
+        "input_tokens": 2,
+        "output_tokens": 67,
+        "cache_read_input_tokens": 17270,
+        "cache_creation_input_tokens": 3977,
+        "cache_creation": {
+         "ephemeral_5m_input_tokens": 0,
+         "ephemeral_1h_input_tokens": 3977
+        },
+        "type": "message"
+       }
+      ],
+      "speed": "standard",
+      "fallback_credit": null
+     }
+    },
+    "error": null
+   },
+   {
+    "run_id": "run_b4cd40ea14714ea7",
+    "task_id": "task_4ff881e0da4a47fb",
+    "agent": "learner",
+    "provider": "interactive",
+    "model_requested": null,
+    "model_served": null,
+    "status": "completed",
+    "started_at": "2026-11-17T03:46:48+00:00",
+    "ended_at": "2026-11-17T03:46:48+00:00",
+    "tool_calls": 0,
+    "tool_denials": 0,
+    "usage": null,
+    "error": null
+   },
+   {
+    "run_id": "run_638eb51ae2ad486e",
+    "task_id": "task_4ff881e0da4a47fb",
+    "agent": "school-worker",
+    "provider": "claude",
+    "model_requested": "claude-fable-5-2",
+    "model_served": "claude-fable-5-2",
+    "status": "completed",
+    "started_at": "2026-11-17T03:46:48+00:00",
+    "ended_at": "2026-11-17T03:47:28+00:00",
+    "tool_calls": 9,
+    "tool_denials": 0,
+    "usage": {
+     "num_turns": 10,
+     "duration_ms": 39112,
+     "total_cost_usd_estimate": 0.18013449999999998,
+     "tokens": {
+      "input_tokens": 8,
+      "cache_creation_input_tokens": 7019,
+      "cache_read_input_tokens": 9109,
+      "output_tokens": 4214,
+      "output_tokens_details": {
+       "thinking_tokens": 997
+      },
+      "server_tool_use": {
+       "web_search_requests": 0,
+       "web_fetch_requests": 0
+      },
+      "service_tier": "standard",
+      "cache_creation": {
+       "ephemeral_1h_input_tokens": 7019,
+       "ephemeral_5m_input_tokens": 0
+      },
+      "inference_geo": "global",
+      "iterations": [
+       {
+        "input_tokens": 2,
+        "output_tokens": 68,
+        "cache_read_input_tokens": 3627,
+        "cache_creation_input_tokens": 4279,
+        "cache_creation": {
+         "ephemeral_5m_input_tokens": 0,
+         "ephemeral_1h_input_tokens": 4279
+        },
+        "type": "message"
+       }
+      ],
+      "speed": "standard",
+      "fallback_credit": null
+     }
+    },
+    "error": null
+   }
+  ],
+  "artifacts": [
+   {
+    "artifact_id": "art_94280738e8a54b83",
+    "task_id": "task_42a3474dd53c47f1",
+    "run_id": "run_c4fafac241cf4ee8",
+    "name": "production-plan.md",
+    "sha256": "03e7d048408ef051e5566a3b194cf216c2ae774cd8af72296a0b16c06571ce9d",
+    "version": 1,
+    "bytes": 7509,
+    "created_at": "2026-11-17T03:45:02+00:00"
+   },
+   {
+    "artifact_id": "art_bd7fda1f1b38432c",
+    "task_id": "task_05cc0774ac264d93",
+    "run_id": "run_fc518d70d38346c1",
+    "name": "claim-evidence-map.md",
+    "sha256": "5bcc827b5f42702faf485c798efe0e7baf89419f9f6ab946cdf49c1a98492667",
+    "version": 1,
+    "bytes": 10531,
+    "created_at": "2026-11-17T03:46:45+00:00"
+   },
+   {
+    "artifact_id": "art_9d832c06f27c4f7c",
+    "task_id": "task_4ff881e0da4a47fb",
+    "run_id": "run_638eb51ae2ad486e",
+    "name": "next-retrieval.md",
+    "sha256": "49bc248458249f7a27ac97299adc60c00cfa65ff69a82b3e3c4175dda37d1cf0",
+    "version": 1,
+    "bytes": 4086,
+    "created_at": "2026-11-17T03:47:27+00:00"
+   }
+  ]
+ },
+ "events": [
+  {
+   "event_id": "evt_41724250f8ea4445",
+   "schema_version": "0.1",
+   "cursor": 1,
+   "ts": "2026-11-17T03:42:21+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": null,
+   "type": "task.created",
+   "simulation": false,
+   "payload": {
+    "title": "Örnek Restoran tanıtım filmi — üretim planı (sentetik brif)",
+    "workflow": "okfilm.production_plan",
+    "due": "2026-12-04",
+    "priority": "top",
+    "kind": "edit",
+    "by": "owner"
+   }
+  },
+  {
+   "event_id": "evt_2480a3ad80fa4d54",
+   "schema_version": "0.1",
+   "cursor": 2,
+   "ts": "2026-11-17T03:42:21+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": null,
+   "type": "task.queued",
+   "simulation": false,
+   "payload": {}
+  },
+  {
+   "event_id": "evt_b3482296df1042e0",
+   "schema_version": "0.1",
+   "cursor": 3,
+   "ts": "2026-11-17T03:42:26+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "run.started",
+   "simulation": false,
+   "payload": {
+    "agent": "okfilm-worker",
+    "provider": "claude",
+    "model_requested": "claude-fable-5-2"
+   }
+  },
+  {
+   "event_id": "evt_65627fb5fff94cf3",
+   "schema_version": "0.1",
+   "cursor": 4,
+   "ts": "2026-11-17T03:42:29+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "list_sources",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_527e966eb8074d54",
+   "schema_version": "0.1",
+   "cursor": 5,
+   "ts": "2026-11-17T03:42:30+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "read_source",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_7ac5d5d5ece74e2b",
+   "schema_version": "0.1",
+   "cursor": 6,
+   "ts": "2026-11-17T03:42:30+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "read_source",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_bc6629d204e342e2",
+   "schema_version": "0.1",
+   "cursor": 7,
+   "ts": "2026-11-17T03:42:47+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_f3550ba14df54636",
+   "schema_version": "0.1",
+   "cursor": 8,
+   "ts": "2026-11-17T03:42:48+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_78176b6100584d1b",
+   "schema_version": "0.1",
+   "cursor": 9,
+   "ts": "2026-11-17T03:42:48+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_5439be5fae63490b",
+   "schema_version": "0.1",
+   "cursor": 10,
+   "ts": "2026-11-17T03:42:49+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_9e7031a252af49d4",
+   "schema_version": "0.1",
+   "cursor": 11,
+   "ts": "2026-11-17T03:42:50+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_821d8f2a7efd48f4",
+   "schema_version": "0.1",
+   "cursor": 12,
+   "ts": "2026-11-17T03:42:51+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_59ef9c55eeb547f2",
+   "schema_version": "0.1",
+   "cursor": 13,
+   "ts": "2026-11-17T03:42:52+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_8088f112e9964172",
+   "schema_version": "0.1",
+   "cursor": 14,
+   "ts": "2026-11-17T03:42:52+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_f9be919dfc2a49f6",
+   "schema_version": "0.1",
+   "cursor": 15,
+   "ts": "2026-11-17T03:42:53+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_9685c74f1226448a",
+   "schema_version": "0.1",
+   "cursor": 16,
+   "ts": "2026-11-17T03:42:54+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_18abdcd70ac74aca",
+   "schema_version": "0.1",
+   "cursor": 17,
+   "ts": "2026-11-17T03:42:55+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_48bc1c5c748b4123",
+   "schema_version": "0.1",
+   "cursor": 18,
+   "ts": "2026-11-17T03:42:56+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_89c2cc1fc38b4c3d",
+   "schema_version": "0.1",
+   "cursor": 19,
+   "ts": "2026-11-17T03:42:57+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_45db5fc87c404339",
+   "schema_version": "0.1",
+   "cursor": 20,
+   "ts": "2026-11-17T03:42:57+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_5f04f881b99d4b60",
+   "schema_version": "0.1",
+   "cursor": 21,
+   "ts": "2026-11-17T03:42:58+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_87db947ac39847f0",
+   "schema_version": "0.1",
+   "cursor": 22,
+   "ts": "2026-11-17T03:42:59+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_dd397d9dbd964011",
+   "schema_version": "0.1",
+   "cursor": 23,
+   "ts": "2026-11-17T03:43:00+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_bc427a7972a94881",
+   "schema_version": "0.1",
+   "cursor": 24,
+   "ts": "2026-11-17T03:43:01+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_4cbd4bdc979f4154",
+   "schema_version": "0.1",
+   "cursor": 25,
+   "ts": "2026-11-17T03:43:02+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:4"
+   }
+  },
+  {
+   "event_id": "evt_b2664e9e5daf4d5a",
+   "schema_version": "0.1",
+   "cursor": 26,
+   "ts": "2026-11-17T03:43:02+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_2f90f6f6ca954dbd",
+   "schema_version": "0.1",
+   "cursor": 27,
+   "ts": "2026-11-17T03:43:03+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:5"
+   }
+  },
+  {
+   "event_id": "evt_ce707df75b334ee5",
+   "schema_version": "0.1",
+   "cursor": 28,
+   "ts": "2026-11-17T03:43:03+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_c970f38bfbd041dc",
+   "schema_version": "0.1",
+   "cursor": 29,
+   "ts": "2026-11-17T03:43:03+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:6"
+   }
+  },
+  {
+   "event_id": "evt_7fd516fafcbd477d",
+   "schema_version": "0.1",
+   "cursor": 30,
+   "ts": "2026-11-17T03:43:03+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_0e2ec59d1b2049d7",
+   "schema_version": "0.1",
+   "cursor": 31,
+   "ts": "2026-11-17T03:43:04+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:7"
+   }
+  },
+  {
+   "event_id": "evt_d50b59ad76e548f1",
+   "schema_version": "0.1",
+   "cursor": 32,
+   "ts": "2026-11-17T03:43:04+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_1930ab15b89f4550",
+   "schema_version": "0.1",
+   "cursor": 33,
+   "ts": "2026-11-17T03:43:05+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:8"
+   }
+  },
+  {
+   "event_id": "evt_8d54fd02cbab45c7",
+   "schema_version": "0.1",
+   "cursor": 34,
+   "ts": "2026-11-17T03:43:05+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_3f39563627af449c",
+   "schema_version": "0.1",
+   "cursor": 35,
+   "ts": "2026-11-17T03:43:06+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:9"
+   }
+  },
+  {
+   "event_id": "evt_2aef147a18a04881",
+   "schema_version": "0.1",
+   "cursor": 36,
+   "ts": "2026-11-17T03:43:06+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_a2d072351cdc46bb",
+   "schema_version": "0.1",
+   "cursor": 37,
+   "ts": "2026-11-17T03:43:07+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:10"
+   }
+  },
+  {
+   "event_id": "evt_e3dd17d788ee4a6f",
+   "schema_version": "0.1",
+   "cursor": 38,
+   "ts": "2026-11-17T03:43:07+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_dc492546ab0c47ae",
+   "schema_version": "0.1",
+   "cursor": 39,
+   "ts": "2026-11-17T03:43:09+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "tasks.csv:2"
+   }
+  },
+  {
+   "event_id": "evt_9dffa82e9e9944d1",
+   "schema_version": "0.1",
+   "cursor": 40,
+   "ts": "2026-11-17T03:43:09+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_8f7f10b8dc444658",
+   "schema_version": "0.1",
+   "cursor": 41,
+   "ts": "2026-11-17T03:43:11+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "interpretation",
+    "locator": "brief.md:7"
+   }
+  },
+  {
+   "event_id": "evt_a544c0694a9d4f04",
+   "schema_version": "0.1",
+   "cursor": 42,
+   "ts": "2026-11-17T03:43:11+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_137cab7da3fe47de",
+   "schema_version": "0.1",
+   "cursor": 43,
+   "ts": "2026-11-17T03:43:25+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_de72c3a161734d80",
+   "type": "run.failed",
+   "simulation": false,
+   "payload": {
+    "error": "budget_exhausted",
+    "provider": "claude"
+   }
+  },
+  {
+   "event_id": "evt_d36d3658436543c4",
+   "schema_version": "0.1",
+   "cursor": 44,
+   "ts": "2026-11-17T03:43:32+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": null,
+   "type": "task.queued",
+   "simulation": false,
+   "payload": {
+    "from": "failed"
+   }
+  },
+  {
+   "event_id": "evt_5388600ae6c74d86",
+   "schema_version": "0.1",
+   "cursor": 45,
+   "ts": "2026-11-17T03:43:32+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "run.started",
+   "simulation": false,
+   "payload": {
+    "agent": "okfilm-worker",
+    "provider": "claude",
+    "model_requested": "claude-fable-5-2"
+   }
+  },
+  {
+   "event_id": "evt_f0ee7c61c8464884",
+   "schema_version": "0.1",
+   "cursor": 46,
+   "ts": "2026-11-17T03:43:34+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "list_sources",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_7ace50cd61d84025",
+   "schema_version": "0.1",
+   "cursor": 47,
+   "ts": "2026-11-17T03:43:35+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "read_source",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_8620aee4a7c54968",
+   "schema_version": "0.1",
+   "cursor": 48,
+   "ts": "2026-11-17T03:43:36+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "read_source",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_1135abab86434491",
+   "schema_version": "0.1",
+   "cursor": 49,
+   "ts": "2026-11-17T03:43:51+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_d165ca8926e344e7",
+   "schema_version": "0.1",
+   "cursor": 50,
+   "ts": "2026-11-17T03:43:52+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_a4447c9e8c6c482d",
+   "schema_version": "0.1",
+   "cursor": 51,
+   "ts": "2026-11-17T03:43:53+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_deda18abbc4f4d0c",
+   "schema_version": "0.1",
+   "cursor": 52,
+   "ts": "2026-11-17T03:43:54+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_b1f8b599e6724e46",
+   "schema_version": "0.1",
+   "cursor": 53,
+   "ts": "2026-11-17T03:43:55+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_317d5e8e26a14cfe",
+   "schema_version": "0.1",
+   "cursor": 54,
+   "ts": "2026-11-17T03:43:56+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_0c974a754c604dfb",
+   "schema_version": "0.1",
+   "cursor": 55,
+   "ts": "2026-11-17T03:43:56+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_56a6c709d1734e75",
+   "schema_version": "0.1",
+   "cursor": 56,
+   "ts": "2026-11-17T03:43:57+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_48489c62296b401e",
+   "schema_version": "0.1",
+   "cursor": 57,
+   "ts": "2026-11-17T03:43:58+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_746d36604f8d4a0f",
+   "schema_version": "0.1",
+   "cursor": 58,
+   "ts": "2026-11-17T03:43:59+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_c22c3e645596482b",
+   "schema_version": "0.1",
+   "cursor": 59,
+   "ts": "2026-11-17T03:44:00+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_b3533e8147154d19",
+   "schema_version": "0.1",
+   "cursor": 60,
+   "ts": "2026-11-17T03:44:00+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_799fd24862064772",
+   "schema_version": "0.1",
+   "cursor": 61,
+   "ts": "2026-11-17T03:44:01+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_127f9f2ac3514835",
+   "schema_version": "0.1",
+   "cursor": 62,
+   "ts": "2026-11-17T03:44:02+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_b4ea673a79084293",
+   "schema_version": "0.1",
+   "cursor": 63,
+   "ts": "2026-11-17T03:44:03+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_d5d19637fba8440a",
+   "schema_version": "0.1",
+   "cursor": 64,
+   "ts": "2026-11-17T03:44:04+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_0e5232254472418b",
+   "schema_version": "0.1",
+   "cursor": 65,
+   "ts": "2026-11-17T03:44:05+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_d1c078b38ea74d0a",
+   "schema_version": "0.1",
+   "cursor": 66,
+   "ts": "2026-11-17T03:44:05+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "date_math",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_d2f0539d63ac4a62",
+   "schema_version": "0.1",
+   "cursor": 67,
+   "ts": "2026-11-17T03:44:06+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:4"
+   }
+  },
+  {
+   "event_id": "evt_ac19e85f2aa2469d",
+   "schema_version": "0.1",
+   "cursor": 68,
+   "ts": "2026-11-17T03:44:06+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_a79f827ffe8f4b85",
+   "schema_version": "0.1",
+   "cursor": 69,
+   "ts": "2026-11-17T03:44:07+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:5"
+   }
+  },
+  {
+   "event_id": "evt_40c52dc7b2684e22",
+   "schema_version": "0.1",
+   "cursor": 70,
+   "ts": "2026-11-17T03:44:07+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_43bf141e6fcb44a0",
+   "schema_version": "0.1",
+   "cursor": 71,
+   "ts": "2026-11-17T03:44:08+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:6"
+   }
+  },
+  {
+   "event_id": "evt_0c6df88a02474100",
+   "schema_version": "0.1",
+   "cursor": 72,
+   "ts": "2026-11-17T03:44:08+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_ae90ce00a18a4598",
+   "schema_version": "0.1",
+   "cursor": 73,
+   "ts": "2026-11-17T03:44:09+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:7"
+   }
+  },
+  {
+   "event_id": "evt_e4b6cc253b8946f4",
+   "schema_version": "0.1",
+   "cursor": 74,
+   "ts": "2026-11-17T03:44:09+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_7bb8c54db4d640f7",
+   "schema_version": "0.1",
+   "cursor": 75,
+   "ts": "2026-11-17T03:44:10+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:8"
+   }
+  },
+  {
+   "event_id": "evt_c606aac1c5284a58",
+   "schema_version": "0.1",
+   "cursor": 76,
+   "ts": "2026-11-17T03:44:10+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_4cb4dc3adeb84d42",
+   "schema_version": "0.1",
+   "cursor": 77,
+   "ts": "2026-11-17T03:44:11+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:9"
+   }
+  },
+  {
+   "event_id": "evt_e38f9466281e4777",
+   "schema_version": "0.1",
+   "cursor": 78,
+   "ts": "2026-11-17T03:44:11+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_e8db01f2938547f5",
+   "schema_version": "0.1",
+   "cursor": 79,
+   "ts": "2026-11-17T03:44:12+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "brief.md:10"
+   }
+  },
+  {
+   "event_id": "evt_17f3113046884869",
+   "schema_version": "0.1",
+   "cursor": 80,
+   "ts": "2026-11-17T03:44:12+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_a41b283c6f7c44b5",
+   "schema_version": "0.1",
+   "cursor": 81,
+   "ts": "2026-11-17T03:44:13+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "tasks.csv:2"
+   }
+  },
+  {
+   "event_id": "evt_9c719fee88084184",
+   "schema_version": "0.1",
+   "cursor": 82,
+   "ts": "2026-11-17T03:44:13+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_7e3028f08c8c4a72",
+   "schema_version": "0.1",
+   "cursor": 83,
+   "ts": "2026-11-17T03:44:15+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_98aec574aff44d2f",
+   "schema_version": "0.1",
+   "cursor": 84,
+   "ts": "2026-11-17T03:44:15+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_71b81f465d474265",
+   "schema_version": "0.1",
+   "cursor": 85,
+   "ts": "2026-11-17T03:44:16+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_d58d41d71e9c4da7",
+   "schema_version": "0.1",
+   "cursor": 86,
+   "ts": "2026-11-17T03:44:16+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_6e11f08f7a9e41f1",
+   "schema_version": "0.1",
+   "cursor": 87,
+   "ts": "2026-11-17T03:44:17+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_7c294302bd9d4ea5",
+   "schema_version": "0.1",
+   "cursor": 88,
+   "ts": "2026-11-17T03:44:17+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_b8407e6907c9440d",
+   "schema_version": "0.1",
+   "cursor": 89,
+   "ts": "2026-11-17T03:44:19+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_738c7e24d08f4636",
+   "schema_version": "0.1",
+   "cursor": 90,
+   "ts": "2026-11-17T03:44:19+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_27228f7e92cc43b7",
+   "schema_version": "0.1",
+   "cursor": 91,
+   "ts": "2026-11-17T03:44:20+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_ffcaeb42a5b74fd3",
+   "schema_version": "0.1",
+   "cursor": 92,
+   "ts": "2026-11-17T03:44:20+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_72b9a158757a4f62",
+   "schema_version": "0.1",
+   "cursor": 93,
+   "ts": "2026-11-17T03:44:22+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_6b29c12aadc14911",
+   "schema_version": "0.1",
+   "cursor": 94,
+   "ts": "2026-11-17T03:44:22+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_4c17f5f748c14da1",
+   "schema_version": "0.1",
+   "cursor": 95,
+   "ts": "2026-11-17T03:44:23+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_8c6da30a99f141c8",
+   "schema_version": "0.1",
+   "cursor": 96,
+   "ts": "2026-11-17T03:44:23+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_1c6481b5d6e048fe",
+   "schema_version": "0.1",
+   "cursor": 97,
+   "ts": "2026-11-17T03:44:25+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_d471ac4d43d141ed",
+   "schema_version": "0.1",
+   "cursor": 98,
+   "ts": "2026-11-17T03:44:25+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_3bec73d1e75c4fd3",
+   "schema_version": "0.1",
+   "cursor": 99,
+   "ts": "2026-11-17T03:44:26+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_6d7eeebd1c074d9d",
+   "schema_version": "0.1",
+   "cursor": 100,
+   "ts": "2026-11-17T03:44:26+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_c890ddcee7b94318",
+   "schema_version": "0.1",
+   "cursor": 101,
+   "ts": "2026-11-17T03:44:27+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_a4926a67f89540f3",
+   "schema_version": "0.1",
+   "cursor": 102,
+   "ts": "2026-11-17T03:44:27+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_5ecf71b7c425445b",
+   "schema_version": "0.1",
+   "cursor": 103,
+   "ts": "2026-11-17T03:45:02+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "artifact.written",
+   "simulation": false,
+   "payload": {
+    "name": "production-plan.md",
+    "version": 1,
+    "bytes": 7509
+   },
+   "artifact_ref": {
+    "artifact_id": "art_94280738e8a54b83",
+    "sha256": "03e7d048408ef051e5566a3b194cf216c2ae774cd8af72296a0b16c06571ce9d"
+   }
+  },
+  {
+   "event_id": "evt_bc1ec872fe0349e1",
+   "schema_version": "0.1",
+   "cursor": 104,
+   "ts": "2026-11-17T03:45:02+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "write_artifact",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_a9c9ab24fde24fd7",
+   "schema_version": "0.1",
+   "cursor": 105,
+   "ts": "2026-11-17T03:45:03+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "run.completed",
+   "simulation": false,
+   "payload": {
+    "provider": "claude",
+    "model_served": "claude-fable-5-2"
+   },
+   "artifact_ref": {
+    "artifact_id": "art_94280738e8a54b83",
+    "sha256": "03e7d048408ef051e5566a3b194cf216c2ae774cd8af72296a0b16c06571ce9d"
+   }
+  },
+  {
+   "event_id": "evt_936169f598c9470f",
+   "schema_version": "0.1",
+   "cursor": 106,
+   "ts": "2026-11-17T03:45:03+00:00",
+   "office": "okfilm",
+   "project": null,
+   "task_id": "task_42a3474dd53c47f1",
+   "run_id": "run_c4fafac241cf4ee8",
+   "type": "task.awaiting_review",
+   "simulation": false,
+   "payload": {},
+   "artifact_ref": {
+    "artifact_id": "art_94280738e8a54b83",
+    "sha256": "03e7d048408ef051e5566a3b194cf216c2ae774cd8af72296a0b16c06571ce9d"
+   }
+  },
+  {
+   "event_id": "evt_8dd9319c02464afc",
+   "schema_version": "0.1",
+   "cursor": 107,
+   "ts": "2026-11-17T03:45:20+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": null,
+   "type": "task.created",
+   "simulation": false,
+   "payload": {
+    "title": "Sub-Realism, Part IX — iddia-kanıt haritası",
+    "workflow": "institute.claim_evidence_map",
+    "due": null,
+    "priority": null,
+    "kind": "research",
+    "by": "owner"
+   }
+  },
+  {
+   "event_id": "evt_ff6c38382581401c",
+   "schema_version": "0.1",
+   "cursor": 108,
+   "ts": "2026-11-17T03:45:20+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": null,
+   "type": "task.queued",
+   "simulation": false,
+   "payload": {}
+  },
+  {
+   "event_id": "evt_2fd1e24067564809",
+   "schema_version": "0.1",
+   "cursor": 109,
+   "ts": "2026-11-17T03:45:20+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "run.started",
+   "simulation": false,
+   "payload": {
+    "agent": "institute-worker",
+    "provider": "claude",
+    "model_requested": "claude-fable-5-2"
+   }
+  },
+  {
+   "event_id": "evt_cb1e916693e147ac",
+   "schema_version": "0.1",
+   "cursor": 110,
+   "ts": "2026-11-17T03:45:22+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "list_sources",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_1ecfb32050254e7e",
+   "schema_version": "0.1",
+   "cursor": 111,
+   "ts": "2026-11-17T03:45:23+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "read_source",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_4643b0118fcb42d5",
+   "schema_version": "0.1",
+   "cursor": 112,
+   "ts": "2026-11-17T03:45:23+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "read_source",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_03b73fe448a946a1",
+   "schema_version": "0.1",
+   "cursor": 113,
+   "ts": "2026-11-17T03:45:44+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:15"
+   }
+  },
+  {
+   "event_id": "evt_899aaedabfa3497e",
+   "schema_version": "0.1",
+   "cursor": 114,
+   "ts": "2026-11-17T03:45:44+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_cc93daa9cb644f03",
+   "schema_version": "0.1",
+   "cursor": 115,
+   "ts": "2026-11-17T03:45:45+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:17"
+   }
+  },
+  {
+   "event_id": "evt_f1dc6b493cfc426e",
+   "schema_version": "0.1",
+   "cursor": 116,
+   "ts": "2026-11-17T03:45:45+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_54cc7e63d71945ff",
+   "schema_version": "0.1",
+   "cursor": 117,
+   "ts": "2026-11-17T03:45:45+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:25"
+   }
+  },
+  {
+   "event_id": "evt_a7ab1e54b0904c87",
+   "schema_version": "0.1",
+   "cursor": 118,
+   "ts": "2026-11-17T03:45:45+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_f1f1cb91f4934d00",
+   "schema_version": "0.1",
+   "cursor": 119,
+   "ts": "2026-11-17T03:45:46+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:25"
+   }
+  },
+  {
+   "event_id": "evt_261a9b5ef6814be9",
+   "schema_version": "0.1",
+   "cursor": 120,
+   "ts": "2026-11-17T03:45:46+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_6193495a61d74f84",
+   "schema_version": "0.1",
+   "cursor": 121,
+   "ts": "2026-11-17T03:45:47+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:28"
+   }
+  },
+  {
+   "event_id": "evt_456f5b1137a146a7",
+   "schema_version": "0.1",
+   "cursor": 122,
+   "ts": "2026-11-17T03:45:47+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_5874a0e4e3574a38",
+   "schema_version": "0.1",
+   "cursor": 123,
+   "ts": "2026-11-17T03:45:48+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:39"
+   }
+  },
+  {
+   "event_id": "evt_df3942ccad7c4871",
+   "schema_version": "0.1",
+   "cursor": 124,
+   "ts": "2026-11-17T03:45:48+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_ff61a2144a8b4073",
+   "schema_version": "0.1",
+   "cursor": 125,
+   "ts": "2026-11-17T03:45:49+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:40"
+   }
+  },
+  {
+   "event_id": "evt_8ad2dbc3716146f8",
+   "schema_version": "0.1",
+   "cursor": 126,
+   "ts": "2026-11-17T03:45:49+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_b12c9cda282849a6",
+   "schema_version": "0.1",
+   "cursor": 127,
+   "ts": "2026-11-17T03:45:50+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:78"
+   }
+  },
+  {
+   "event_id": "evt_dd805da48609473e",
+   "schema_version": "0.1",
+   "cursor": 128,
+   "ts": "2026-11-17T03:45:50+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_0d713eaa9c0f49d6",
+   "schema_version": "0.1",
+   "cursor": 129,
+   "ts": "2026-11-17T03:45:51+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:54"
+   }
+  },
+  {
+   "event_id": "evt_100a6c1313f7449d",
+   "schema_version": "0.1",
+   "cursor": 130,
+   "ts": "2026-11-17T03:45:51+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_e198a67243254a26",
+   "schema_version": "0.1",
+   "cursor": 131,
+   "ts": "2026-11-17T03:45:52+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:86"
+   }
+  },
+  {
+   "event_id": "evt_b843d6c0f7a2429f",
+   "schema_version": "0.1",
+   "cursor": 132,
+   "ts": "2026-11-17T03:45:52+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_a53fdb97abd549a1",
+   "schema_version": "0.1",
+   "cursor": 133,
+   "ts": "2026-11-17T03:45:53+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:62"
+   }
+  },
+  {
+   "event_id": "evt_9212d5a51f0f4d08",
+   "schema_version": "0.1",
+   "cursor": 134,
+   "ts": "2026-11-17T03:45:53+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_a60bd948ed1d4f50",
+   "schema_version": "0.1",
+   "cursor": 135,
+   "ts": "2026-11-17T03:45:54+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:60"
+   }
+  },
+  {
+   "event_id": "evt_7cd4a71f08234c9f",
+   "schema_version": "0.1",
+   "cursor": 136,
+   "ts": "2026-11-17T03:45:54+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_20b523a79f824c84",
+   "schema_version": "0.1",
+   "cursor": 137,
+   "ts": "2026-11-17T03:45:55+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "quote",
+    "locator": "sub-realism-part-ix.txt:84"
+   }
+  },
+  {
+   "event_id": "evt_c1d8486ee3cd44a0",
+   "schema_version": "0.1",
+   "cursor": 138,
+   "ts": "2026-11-17T03:45:55+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_031a560b7e884e80",
+   "schema_version": "0.1",
+   "cursor": 139,
+   "ts": "2026-11-17T03:45:56+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "sub-realism-part-ix.txt:34"
+   }
+  },
+  {
+   "event_id": "evt_ea2ac0ac8f7b478a",
+   "schema_version": "0.1",
+   "cursor": 140,
+   "ts": "2026-11-17T03:45:56+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_c8525eb9945e40bf",
+   "schema_version": "0.1",
+   "cursor": 141,
+   "ts": "2026-11-17T03:45:58+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "sub-realism-part-ix.txt:87"
+   }
+  },
+  {
+   "event_id": "evt_54e8f72cbdc34d1f",
+   "schema_version": "0.1",
+   "cursor": 142,
+   "ts": "2026-11-17T03:45:58+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_ca8309eb3f094f9c",
+   "schema_version": "0.1",
+   "cursor": 143,
+   "ts": "2026-11-17T03:45:59+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "interpretation",
+    "locator": "sub-realism-part-ix.txt:36-41"
+   }
+  },
+  {
+   "event_id": "evt_47dd775155e54034",
+   "schema_version": "0.1",
+   "cursor": 144,
+   "ts": "2026-11-17T03:45:59+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_3f09946c7f674eb3",
+   "schema_version": "0.1",
+   "cursor": 145,
+   "ts": "2026-11-17T03:46:01+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "interpretation",
+    "locator": "sub-realism-part-ix.txt:60-62"
+   }
+  },
+  {
+   "event_id": "evt_3fbcf19272a04293",
+   "schema_version": "0.1",
+   "cursor": 146,
+   "ts": "2026-11-17T03:46:01+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_983b71d959624cb1",
+   "schema_version": "0.1",
+   "cursor": 147,
+   "ts": "2026-11-17T03:46:02+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "hypothesis",
+    "locator": "sub-realism-part-ix.txt:60"
+   }
+  },
+  {
+   "event_id": "evt_958e33dd83fe47f9",
+   "schema_version": "0.1",
+   "cursor": 148,
+   "ts": "2026-11-17T03:46:02+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_4bfdd066f0574de8",
+   "schema_version": "0.1",
+   "cursor": 149,
+   "ts": "2026-11-17T03:46:04+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "hypothesis",
+    "locator": "sub-realism-part-ix.txt:54-55"
+   }
+  },
+  {
+   "event_id": "evt_3cca05bbbda54b08",
+   "schema_version": "0.1",
+   "cursor": 150,
+   "ts": "2026-11-17T03:46:04+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_b5ade18f8a8a41c4",
+   "schema_version": "0.1",
+   "cursor": 151,
+   "ts": "2026-11-17T03:46:05+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_21ca61e36d0b4348",
+   "schema_version": "0.1",
+   "cursor": 152,
+   "ts": "2026-11-17T03:46:05+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_50055810001b4b53",
+   "schema_version": "0.1",
+   "cursor": 153,
+   "ts": "2026-11-17T03:46:06+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_80adeb9829244da5",
+   "schema_version": "0.1",
+   "cursor": 154,
+   "ts": "2026-11-17T03:46:06+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_23e590aa7f124c23",
+   "schema_version": "0.1",
+   "cursor": 155,
+   "ts": "2026-11-17T03:46:07+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_fa01f42f8b8548b5",
+   "schema_version": "0.1",
+   "cursor": 156,
+   "ts": "2026-11-17T03:46:07+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_eb389728f1184acf",
+   "schema_version": "0.1",
+   "cursor": 157,
+   "ts": "2026-11-17T03:46:08+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "missing_info"
+   }
+  },
+  {
+   "event_id": "evt_9e86a8fcb3454c9f",
+   "schema_version": "0.1",
+   "cursor": 158,
+   "ts": "2026-11-17T03:46:08+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "report_missing",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_cdb310c660c7431f",
+   "schema_version": "0.1",
+   "cursor": 159,
+   "ts": "2026-11-17T03:46:45+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "artifact.written",
+   "simulation": false,
+   "payload": {
+    "name": "claim-evidence-map.md",
+    "version": 1,
+    "bytes": 10531
+   },
+   "artifact_ref": {
+    "artifact_id": "art_bd7fda1f1b38432c",
+    "sha256": "5bcc827b5f42702faf485c798efe0e7baf89419f9f6ab946cdf49c1a98492667"
+   }
+  },
+  {
+   "event_id": "evt_bec2c58c18164c91",
+   "schema_version": "0.1",
+   "cursor": 160,
+   "ts": "2026-11-17T03:46:45+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "write_artifact",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_56d6c9c0ead04362",
+   "schema_version": "0.1",
+   "cursor": 161,
+   "ts": "2026-11-17T03:46:47+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "run.completed",
+   "simulation": false,
+   "payload": {
+    "provider": "claude",
+    "model_served": "claude-fable-5-2"
+   },
+   "artifact_ref": {
+    "artifact_id": "art_bd7fda1f1b38432c",
+    "sha256": "5bcc827b5f42702faf485c798efe0e7baf89419f9f6ab946cdf49c1a98492667"
+   }
+  },
+  {
+   "event_id": "evt_fcc0faa0af924b1c",
+   "schema_version": "0.1",
+   "cursor": 162,
+   "ts": "2026-11-17T03:46:47+00:00",
+   "office": "institute",
+   "project": null,
+   "task_id": "task_05cc0774ac264d93",
+   "run_id": "run_fc518d70d38346c1",
+   "type": "task.awaiting_review",
+   "simulation": false,
+   "payload": {},
+   "artifact_ref": {
+    "artifact_id": "art_bd7fda1f1b38432c",
+    "sha256": "5bcc827b5f42702faf485c798efe0e7baf89419f9f6ab946cdf49c1a98492667"
+   }
+  },
+  {
+   "event_id": "evt_d76044f9f890469c",
+   "schema_version": "0.1",
+   "cursor": 163,
+   "ts": "2026-11-17T03:46:47+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": null,
+   "type": "task.created",
+   "simulation": false,
+   "payload": {
+    "title": "Fokus 4 · Neue Arbeit — günlük cümle (test oturumu, cevaplar Claude tarafından girildi)",
+    "workflow": "school.lesson",
+    "due": null,
+    "priority": null,
+    "kind": "lesson",
+    "by": "owner"
+   }
+  },
+  {
+   "event_id": "evt_6d2f868c291c4f32",
+   "schema_version": "0.1",
+   "cursor": 164,
+   "ts": "2026-11-17T03:46:47+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": null,
+   "type": "task.queued",
+   "simulation": false,
+   "payload": {}
+  },
+  {
+   "event_id": "evt_e7c29065b5134f16",
+   "schema_version": "0.1",
+   "cursor": 165,
+   "ts": "2026-11-17T03:46:48+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_b4cd40ea14714ea7",
+   "type": "run.started",
+   "simulation": false,
+   "payload": {
+    "agent": "learner",
+    "provider": "interactive"
+   }
+  },
+  {
+   "event_id": "evt_b0f549da8f9d4ac5",
+   "schema_version": "0.1",
+   "cursor": 166,
+   "ts": "2026-11-17T03:46:48+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": null,
+   "type": "lesson.attempt_recorded",
+   "simulation": false,
+   "payload": {
+    "card_id": "f4-1",
+    "correct": false,
+    "hint_level": 0
+   }
+  },
+  {
+   "event_id": "evt_7b024280f7f4471b",
+   "schema_version": "0.1",
+   "cursor": 167,
+   "ts": "2026-11-17T03:46:48+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": null,
+   "type": "lesson.attempt_recorded",
+   "simulation": false,
+   "payload": {
+    "card_id": "f4-1",
+    "correct": null,
+    "hint_level": 1
+   }
+  },
+  {
+   "event_id": "evt_805398d0b01c4b5d",
+   "schema_version": "0.1",
+   "cursor": 168,
+   "ts": "2026-11-17T03:46:48+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": null,
+   "type": "lesson.attempt_recorded",
+   "simulation": false,
+   "payload": {
+    "card_id": "f4-1",
+    "correct": true,
+    "hint_level": 1
+   }
+  },
+  {
+   "event_id": "evt_e1ffa9e405454476",
+   "schema_version": "0.1",
+   "cursor": 169,
+   "ts": "2026-11-17T03:46:48+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": null,
+   "type": "lesson.attempt_recorded",
+   "simulation": false,
+   "payload": {
+    "card_id": "f4-2",
+    "correct": true,
+    "hint_level": 0
+   }
+  },
+  {
+   "event_id": "evt_06f865abe98f432f",
+   "schema_version": "0.1",
+   "cursor": 170,
+   "ts": "2026-11-17T03:46:48+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": null,
+   "type": "lesson.attempt_recorded",
+   "simulation": false,
+   "payload": {
+    "card_id": "f4-3",
+    "correct": false,
+    "hint_level": 0
+   }
+  },
+  {
+   "event_id": "evt_5f5d3acbfb2e4d4b",
+   "schema_version": "0.1",
+   "cursor": 171,
+   "ts": "2026-11-17T03:46:48+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": null,
+   "type": "lesson.attempt_recorded",
+   "simulation": false,
+   "payload": {
+    "card_id": "f4-3",
+    "correct": null,
+    "hint_level": 1
+   }
+  },
+  {
+   "event_id": "evt_a29bdf5fe4074121",
+   "schema_version": "0.1",
+   "cursor": 172,
+   "ts": "2026-11-17T03:46:48+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": null,
+   "type": "lesson.attempt_recorded",
+   "simulation": false,
+   "payload": {
+    "card_id": "f4-3",
+    "correct": true,
+    "hint_level": 1
+   }
+  },
+  {
+   "event_id": "evt_11d82d67c0844994",
+   "schema_version": "0.1",
+   "cursor": 173,
+   "ts": "2026-11-17T03:46:48+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": null,
+   "type": "task.queued",
+   "simulation": false,
+   "payload": {
+    "from": "running",
+    "reason": "lesson finished; review run pending",
+    "attempts": 5,
+    "hints": 2
+   }
+  },
+  {
+   "event_id": "evt_01edc542feff4a50",
+   "schema_version": "0.1",
+   "cursor": 174,
+   "ts": "2026-11-17T03:46:48+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "run.started",
+   "simulation": false,
+   "payload": {
+    "agent": "school-worker",
+    "provider": "claude",
+    "model_requested": "claude-fable-5-2"
+   }
+  },
+  {
+   "event_id": "evt_f3528f00259d4052",
+   "schema_version": "0.1",
+   "cursor": 175,
+   "ts": "2026-11-17T03:46:50+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "list_sources",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_9a25178044e44747",
+   "schema_version": "0.1",
+   "cursor": 176,
+   "ts": "2026-11-17T03:46:51+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "read_source",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_794d63dbe64241a1",
+   "schema_version": "0.1",
+   "cursor": 177,
+   "ts": "2026-11-17T03:46:51+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "read_source",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_211193ee21114819",
+   "schema_version": "0.1",
+   "cursor": 178,
+   "ts": "2026-11-17T03:47:04+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "attempts.json:2"
+   }
+  },
+  {
+   "event_id": "evt_718c316cdf7847d5",
+   "schema_version": "0.1",
+   "cursor": 179,
+   "ts": "2026-11-17T03:47:04+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_e325864f0fa64b82",
+   "schema_version": "0.1",
+   "cursor": 180,
+   "ts": "2026-11-17T03:47:05+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "attempts.json:4"
+   }
+  },
+  {
+   "event_id": "evt_272a6410cbe849f6",
+   "schema_version": "0.1",
+   "cursor": 181,
+   "ts": "2026-11-17T03:47:05+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_ff3e72485ac14a7f",
+   "schema_version": "0.1",
+   "cursor": 182,
+   "ts": "2026-11-17T03:47:06+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "attempts.json:6"
+   }
+  },
+  {
+   "event_id": "evt_0582a0857781401e",
+   "schema_version": "0.1",
+   "cursor": 183,
+   "ts": "2026-11-17T03:47:06+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_edfe155253874170",
+   "schema_version": "0.1",
+   "cursor": 184,
+   "ts": "2026-11-17T03:47:07+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "attempts.json:8"
+   }
+  },
+  {
+   "event_id": "evt_f702fb9ceda749ff",
+   "schema_version": "0.1",
+   "cursor": 185,
+   "ts": "2026-11-17T03:47:07+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_fbaa5540c7204c56",
+   "schema_version": "0.1",
+   "cursor": 186,
+   "ts": "2026-11-17T03:47:08+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "evidence.recorded",
+   "simulation": false,
+   "payload": {
+    "kind": "fact",
+    "locator": "attempts.json:5"
+   }
+  },
+  {
+   "event_id": "evt_e4685db41ff741de",
+   "schema_version": "0.1",
+   "cursor": 187,
+   "ts": "2026-11-17T03:47:08+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "record_evidence",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_9d1b21645e434034",
+   "schema_version": "0.1",
+   "cursor": 188,
+   "ts": "2026-11-17T03:47:27+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "artifact.written",
+   "simulation": false,
+   "payload": {
+    "name": "next-retrieval.md",
+    "version": 1,
+    "bytes": 4086
+   },
+   "artifact_ref": {
+    "artifact_id": "art_9d832c06f27c4f7c",
+    "sha256": "49bc248458249f7a27ac97299adc60c00cfa65ff69a82b3e3c4175dda37d1cf0"
+   }
+  },
+  {
+   "event_id": "evt_4b614229cc054847",
+   "schema_version": "0.1",
+   "cursor": 189,
+   "ts": "2026-11-17T03:47:27+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "tool.called",
+   "simulation": false,
+   "payload": {
+    "tool": "write_artifact",
+    "ok": true
+   }
+  },
+  {
+   "event_id": "evt_0aa91a34c49f46bb",
+   "schema_version": "0.1",
+   "cursor": 190,
+   "ts": "2026-11-17T03:47:28+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "run.completed",
+   "simulation": false,
+   "payload": {
+    "provider": "claude",
+    "model_served": "claude-fable-5-2"
+   },
+   "artifact_ref": {
+    "artifact_id": "art_9d832c06f27c4f7c",
+    "sha256": "49bc248458249f7a27ac97299adc60c00cfa65ff69a82b3e3c4175dda37d1cf0"
+   }
+  },
+  {
+   "event_id": "evt_501316d743864ae1",
+   "schema_version": "0.1",
+   "cursor": 191,
+   "ts": "2026-11-17T03:47:28+00:00",
+   "office": "school",
+   "project": null,
+   "task_id": "task_4ff881e0da4a47fb",
+   "run_id": "run_638eb51ae2ad486e",
+   "type": "task.awaiting_review",
+   "simulation": false,
+   "payload": {},
+   "artifact_ref": {
+    "artifact_id": "art_9d832c06f27c4f7c",
+    "sha256": "49bc248458249f7a27ac97299adc60c00cfa65ff69a82b3e3c4175dda37d1cf0"
+   }
+  }
+ ],
+ "details": {
+  "task_42a3474dd53c47f1": {
+   "evidence": [
+    {
+     "kind": "fact",
+     "locator": "brief.md:4",
+     "note": "Teslim kapsamı: 60 saniyelik tanıtım filmi + 3 adet 9:16 Reels kesimi."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:5",
+     "note": "Çekim: tek gün, tek mekân (restoran salonu ve mutfak), 2026-11-24."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:6",
+     "note": "Teslim tarihi: 2026-12-04, saat 12:00."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:7",
+     "note": "Revizyon en fazla iki tur; müşteri geri bildirimi her turda 2 iş günü içinde gelir."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:8",
+     "note": "Almanca altyazı zorunlu."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:9",
+     "note": "Müzik lisanslı kütüphaneden; müşteri onayı gerekir."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:10",
+     "note": "Çekim günü mutfak 15:00'e kadar kullanılabilir."
+    },
+    {
+     "kind": "fact",
+     "locator": "tasks.csv:2",
+     "note": "Görev listesi (satır 2-9): 8 görev, hepsinin sahibi Ozan, toplam tahmin 3+8+2+6+4+2+3+2 = 30 saat; bağımlılık zinciri shot list → çekim → yedekleme/proxy → kaba kurgu → (renk ve ses, altyazı) → Reels → QC ve export."
+    },
+    {
+     "kind": "interpretation",
+     "locator": "brief.md:7",
+     "note": "Varsayım: 2 iş günü, gönderimi izleyen iş gününden sayılır ve hafta sonu iş günü değildir. İki tur en kötü durumda 4 iş günü bekleme demektir; bu yüzden 1. tur kaba kurgu üzerinden (2026-11-25 gönderim) planlandı."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:4",
+     "note": "Kapsam: 60 saniyelik tanıtım filmi + 3 adet 9:16 Reels kesimi."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:5",
+     "note": "Çekim: tek gün, tek mekân (restoran salonu ve mutfak), 2026-11-24."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:6",
+     "note": "Teslim tarihi: 2026-12-04, saat 12:00."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:7",
+     "note": "Revizyon: en fazla iki tur; müşteri geri bildirimi her turda 2 iş günü içinde gelir."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:8",
+     "note": "Almanca altyazı zorunlu."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:9",
+     "note": "Müzik lisanslı kütüphaneden; müşteri onayı gerekir."
+    },
+    {
+     "kind": "fact",
+     "locator": "brief.md:10",
+     "note": "Çekim günü mutfak 15:00'e kadar kullanılabilir."
+    },
+    {
+     "kind": "fact",
+     "locator": "tasks.csv:2",
+     "note": "Görev listesi (satır 2-9): 8 görev, hepsinin sahibi Ozan, toplam tahmin 30 saat (3+8+2+6+4+2+3+2); bağımlılık zinciri: shot list → çekim → yedekleme/proxy → kaba kurgu → renk ve ses / altyazı → Reels → QC ve export."
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "Müzik onayı: Müşteri tarafında müziği kim onaylıyor ve onay ne kadar sürede gelir? (Brif yalnızca onay gerektiğini söylüyor; süre ve kişi yok.) Hangi lisanslı kütüphane kullanılacak ve lisans bütçesi nedir?"
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "Teslim şekli ve teknik özellikler: Dosyalar nasıl/nereye teslim edilecek; çözünürlük, codec, kare hızı, ses seviyesi (LUFS) ve altyazı biçimi (gömülü mü, ayrı .srt mi) nedir?"
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "Almanca altyazı: Filmde konuşma/seslendirme var mı, hangi dilde? Almanca metni kim yazıyor/çeviriyor ve kim dil kontrolü yapıyor? (tasks.csv yalnızca 2 saat ve Ozan'ı gösteriyor.)"
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "Çekim günü ayrıntıları: Mekâna giriş ve çekim başlangıç saati, mutfağın kaçtan itibaren kullanılabildiği, salonun hangi saatlerde müsait olduğu (restoran o gün açık mı?), müşteri tarafındaki mekân irtibat kişisi."
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "Ekip ve ekipman: Ozan dışında ekip (ışık, ses, asistan) var mı? Kamera/ışık/ses ekipmanı listesi ve kiralama gerekiyor mu? Görev listesinde tek sahip Ozan."
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "Kamera önü ve izinler: Filmde kimler görünecek (personel, şef, misafir/figüran)? Görüntü kullanım muvafakatnameleri (Einwilligung) kimden, ne zaman alınacak?"
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "Yaratıcı içerik: Onaylı konsept/senaryo/mesaj, marka kılavuzu, logo ve yazı tipleri var mı? Shot list'i müşteri çekimden önce onaylayacak mı?"
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "Revizyon tanımı: Revizyon turları hangi sürüm üzerinden sayılır (kaba kurgu bir tur sayılır mı)? Müşterinin geri bildirimi tek kişiden toplu mu gelecek? '2 iş günü' gönderim gününü kapsar mı ve hangi resmî tatil takvimi (hangi eyalet) geçerli?"
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "Reels kesimleri: 3 Reels'in süreleri ve içerikleri nedir (60 sn filmin kısaltmaları mı, ayrı konular mı)? Reels'lerde de Almanca altyazı ve onaylı müzik gerekli mi? 9:16 için ayrı kadraj çekilecek mi?"
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "Ozan'ın 2026-11-17 – 2026-12-04 arasındaki müsaitliği ve günlük çalışma kapasitesi nedir (başka işler, hafta sonu çalışması mümkün mü)? Bütçe ve çekim için yedek gün var mı?"
+    }
+   ]
+  },
+  "task_05cc0774ac264d93": {
+   "evidence": [
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:15",
+     "note": "an idea enters not by being true but by being legible as a refusal of something else that was current at the time"
+    },
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:17",
+     "note": "Sub-Reality describes a condition of the image; Sub-Realism must assert an obligation."
+    },
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:25",
+     "note": "Hyperreality is a claim about circulation; sub-reality is a claim about the deposit."
+    },
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:25",
+     "note": "the referent was not liquidated but impounded"
+    },
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:28",
+     "note": "sub- marks not a lower layer but a deferred legibility."
+    },
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:39",
+     "note": "An actual property of the recording: the surplus of the record over the intention and over the narrative economy that contains it."
+    },
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:40",
+     "note": "Sub-reality — the mode of access under which a seal becomes readable from a later space-time. Not in the film. Not in the spectator."
+    },
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:78",
+     "note": "A reading is admissible when it is anchored in a determinate trace, doubly dated, bearing a named counter-narrative, and actualised as a work. These are norms, not proofs."
+    },
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:54",
+     "note": "Censorship apparatuses are language-shaped. They read scripts, titles, dialogue, synopses, denunciations, and they read them reliably."
+    },
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:86",
+     "note": "I have not checked a single archive. It is plausible, it is central, and it is currently unsupported"
+    },
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:62",
+     "note": "A generated image has no seal. There is no surplus, because nothing was recorded"
+    },
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:60",
+     "note": "the first image form in which the seal is a measurable quantity"
+    },
+    {
+     "kind": "quote",
+     "locator": "sub-realism-part-ix.txt:84",
+     "note": "proposition 5 is an empirical claim that no one has checked, and proposition 11 is a formal promise you have not yet kept in a work."
+    },
+    {
+     "kind": "fact",
+     "locator": "sub-realism-part-ix.txt:34",
+     "note": "The document labels all four repairs VIRTUAL–INFERRED and as the preparer's own constructions, not Karyağdı's; the Part IX proposal and the printed 'entry' (line 64) carry the same label."
+    },
+    {
+     "kind": "fact",
+     "locator": "sub-realism-part-ix.txt:87",
+     "note": "The document marks as OPEN–UNVERIFIED whether any Part IX or 2000–2030 successor volume is in preparation; it worked from the 2003 New Edition structure."
+    },
+    {
+     "kind": "interpretation",
+     "locator": "sub-realism-part-ix.txt:36-41",
+     "note": "My reading: Repair 1 keeps the Institute's distinction intact by making 'seal' the material term, 'sub-reality' the theoretical access-relation, and 'Sub-Realism' the practice (sealing + lectorship). The text does not state this three-way mapping in one sentence."
+    },
+    {
+     "kind": "interpretation",
+     "locator": "sub-realism-part-ix.txt:60-62",
+     "note": "My reading: 4a and 4c pull against each other. 4a treats the seal as recorded-but-unseen (a quantity of attention); line 39 and 4c treat it as surplus over the maker's intention. Unseen area and unintended content are not the same thing."
+    },
+    {
+     "kind": "hypothesis",
+     "locator": "sub-realism-part-ix.txt:60",
+     "note": "Open conjecture (mine): in a 360° recording, the portion no viewer visits contains content that passes the 'anchored' test, i.e. the unseen is not merely empty sky/floor. Untested."
+    },
+    {
+     "kind": "hypothesis",
+     "locator": "sub-realism-part-ix.txt:54-55",
+     "note": "Open conjecture (the text's own, flagged unverified at line 86): censorship interventions cluster at language-bearing stages (script, title, synopsis) rather than at duration/framing; the ratio is checkable in archives but unchecked."
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "The packet omits the tables (README line 2), including the 'Placement against the 1900–2000 structure' table (line 23) and the proposed Part IX section list (IX.26, IX.27 are referenced but never defined). Can you supply them?"
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "The MA thesis (2021), Babelsberg appendix (2022), the Sub-realism / Sub-reality paper and the 19 July 2026 terminology lock are cited but not in the packet. Can you supply them so that quotations attributed to them (e.g. line 36) can be checked at source?"
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "Who prepared this document (the 'I' of the text)? The packet names only the addressee, and the twelve propositions are drafted by the preparer in your name. Do you endorse them as your own position?"
+    },
+    {
+     "kind": "missing_info",
+     "locator": "",
+     "note": "For the experiment proposal: do you have an existing 180°/360° recording with head-orientation logging available, and how many viewers can you realistically run?"
+    }
+   ]
+  },
+  "task_4ff881e0da4a47fb": {
+   "evidence": []
+  }
+ },
+ "bodies": {
+  "art_94280738e8a54b83": "# Production plan — Örnek Restoran tanıtım filmi (sentetik brif)\n\nPlan tarihi: 2026-11-17 (Salı). Teslime 17 takvim günü, çekimden teslime 10 takvim günü var.\nBu bir taslaktır; insan incelemesi içindir.\n\n## Inputs read\n\n- `brief.md`\n- `tasks.csv`\n\n## Constraints and dates\n\n| Kısıt / tarih | Kaynak |\n|---|---|\n| Kapsam: 60 saniyelik tanıtım filmi + 3 adet 9:16 Reels kesimi | brief.md:4 |\n| Çekim: tek gün, tek mekân (restoran salonu ve mutfak), 2026-11-24 (Salı) | brief.md:5 |\n| Teslim: 2026-12-04 (Cuma), saat 12:00 | brief.md:6 |\n| Revizyon: en fazla iki tur; müşteri geri bildirimi her turda 2 iş günü içinde gelir | brief.md:7 |\n| Almanca altyazı zorunlu | brief.md:8 |\n| Müzik lisanslı kütüphaneden; müşteri onayı gerekir | brief.md:9 |\n| Çekim günü mutfak 15:00'e kadar kullanılabilir | brief.md:10 |\n| 8 görev, hepsinin sahibi Ozan, toplam tahmin 30 saat; bağımlılık zinciri shot list → çekim → yedekleme/proxy → kaba kurgu → renk ve ses / altyazı → Reels → QC ve export | tasks.csv:2-9 |\n\nKaynaklarda olmayan, plana ait varsayımlar (onay gerektirir):\n\n- **1. revizyon turu kaba kurgu üzerinden yapılır.** Tam bitmiş paket ilk tura gönderilirse iki tur × 2 iş günü bekleme ile takvimde hiç boşluk kalmıyor; kaba kurguyu 2026-11-25'te göndermek 2026-12-04 sabahını yedek olarak bırakıyor.\n- **Revizyon uygulama süreleri `tasks.csv` içinde yok.** Takvimde 2026-11-30 ve 2026-12-03 günlerine yerleştirildi; saat tahmini verilmedi.\n- **Renk/ses, altyazı ve Reels, 1. tur geri bildirimi beklenirken yapılır.** Kurgu geri bildirimle değişirse bu işlerin bir kısmı yeniden yapılır.\n- **İş günleri Pazartesi–Cuma sayıldı, resmî tatil hesaba katılmadı.** Gönderim günü 2 iş gününe dahil edilmedi.\n- **Müzik onayı çekimden önce istenir.** Brifte onay süresi yok; 2026-11-23 hedef olarak kondu.\n\n## Schedule\n\nTeslim tarihinden geriye doğru hesaplandı: teslim 2026-12-04 → 2. tur geri bildirimi en geç 2026-12-02 → 2. sürüm gönderimi 2026-11-30 → 1. tur geri bildirimi en geç 2026-11-27 → kaba kurgu gönderimi 2026-11-25 → çekim 2026-11-24.\n\n| date | weekday | work | owner | depends on |\n|---|---|---|---|---|\n| 2026-11-18 | Çarşamba | Çekim planı ve shot list (3 sa). Mutfak sahneleri 15:00'ten önceye, salon sahneleri sonrasına; 9:16 kadrajlar listeye dahil | Ozan | Eksik bilgilerin yanıtı (çekim saatleri, konsept) |\n| 2026-11-19 | Perşembe | Lisanslı kütüphaneden müzik adayları seçimi; müşteri onayına sunulmak üzere hazırlık (gönderim insan tarafından) | Ozan | Çekim planı ve shot list |\n| 2026-11-23 | Pazartesi | Müzik onayı için hedef tarih; ekipman ve çekim öncesi son kontrol | Müşteri (onay) / Ozan | Müzik adayları |\n| 2026-11-24 | Salı | Çekim günü (8 sa): önce mutfak (15:00'e kadar), sonra salon | Ozan | Çekim planı ve shot list |\n| 2026-11-25 | Çarşamba | Medya yedekleme ve proxy (2 sa) + kaba kurgu 60 sn (6 sa); gün sonunda kaba kurgu 1. revizyon turu için hazır | Ozan | Çekim günü |\n| 2026-11-26 | Perşembe | Renk ve ses (4 sa) — geri bildirim beklenirken | Ozan | Kaba kurgu 60 sn |\n| 2026-11-27 | Cuma | Almanca altyazı (2 sa) + Reels 9:16 kesimleri taslak (3 sa). 1. tur müşteri geri bildirimi için son gün | Ozan / Müşteri (geri bildirim) | Kaba kurgu 60 sn; Renk ve ses |\n| 2026-11-30 | Pazartesi | 1. tur revizyonlarının uygulanması (film, altyazı, Reels); gün sonunda tam paket 2. revizyon turu için hazır | Ozan | 1. tur geri bildirimi |\n| 2026-12-02 | Çarşamba | 2. tur müşteri geri bildirimi için son gün | Müşteri (geri bildirim) | 2. sürüm gönderimi |\n| 2026-12-03 | Perşembe | 2. tur revizyonlarının uygulanması + Teslim QC ve export (2 sa) | Ozan | 2. tur geri bildirimi; Reels 9:16 kesimleri |\n| 2026-12-04 | Cuma | Sabah: son kontrol (yedek süre). 12:00: teslim | Ozan | Teslim QC ve export |\n\nRiskler:\n\n- **Tek gün yoğunluğu:** 2026-11-25 günü 8 saatlik iş içeriyor ve kaba kurgu aynı gün gönderilmek zorunda. Gecikirse 1. tur geri bildirimi 2026-11-30'a kayar ve yedek süre biter.\n- **Geç geri bildirim:** Müşteri 2. turda 2026-12-02'den sonra dönerse 12:00 teslimi tutmaz.\n- **Müzik:** Onay 2026-11-25'e kadar gelmezse kaba kurgu geçici müzikle gider ve ritim yeniden kurulabilir.\n- **Mutfak:** 15:00 sınırı aşılamaz; mutfak planları çekim gününün ilk yarısında bitmelidir.\n\n## Delivery checklist\n\n- [ ] 60 saniyelik tanıtım filmi (süre tam 60 sn kontrol edildi)\n- [ ] 3 adet 9:16 Reels kesimi\n- [ ] Almanca altyazı filmde mevcut ve dil kontrolünden geçti\n- [ ] Müzik lisanslı kütüphaneden; lisans belgesi arşivlendi\n- [ ] Müziğe müşteri onayı yazılı olarak alındı\n- [ ] En fazla iki revizyon turu tamamlandı; son geri bildirimler uygulandı\n- [ ] Renk ve ses tamamlandı\n- [ ] Teslim QC yapıldı (görüntü, ses, altyazı zamanlaması, 9:16 güvenli alan)\n- [ ] Export'lar kararlaştırılan teknik özelliklere uygun (özellikler eksik — aşağıya bakın)\n- [ ] Ham medya ve proje dosyası yedeklendi\n- [ ] Teslim 2026-12-04 saat 12:00'den önce (insan tarafından yapılacak)\n\n## Missing information\n\n1. Müzik onayı: Müşteri tarafında müziği kim onaylıyor ve onay ne kadar sürede gelir? Hangi lisanslı kütüphane kullanılacak ve lisans bütçesi nedir?\n2. Teslim şekli ve teknik özellikler: Dosyalar nasıl/nereye teslim edilecek; çözünürlük, codec, kare hızı, ses seviyesi (LUFS) ve altyazı biçimi (gömülü mü, ayrı .srt mi) nedir?\n3. Almanca altyazı: Filmde konuşma/seslendirme var mı, hangi dilde? Almanca metni kim yazıyor/çeviriyor ve kim dil kontrolü yapıyor? (`tasks.csv` yalnızca 2 saat ve Ozan'ı gösteriyor.)\n4. Çekim günü ayrıntıları: Mekâna giriş ve çekim başlangıç saati, mutfağın kaçtan itibaren kullanılabildiği, salonun hangi saatlerde müsait olduğu (restoran o gün açık mı?), müşteri tarafındaki mekân irtibat kişisi.\n5. Ekip ve ekipman: Ozan dışında ekip (ışık, ses, asistan) var mı? Ekipman listesi nedir, kiralama gerekiyor mu?\n6. Kamera önü ve izinler: Filmde kimler görünecek (personel, şef, misafir/figüran)? Görüntü kullanım muvafakatnameleri kimden, ne zaman alınacak?\n7. Yaratıcı içerik: Onaylı konsept/senaryo/mesaj, marka kılavuzu, logo ve yazı tipleri var mı? Shot list'i müşteri çekimden önce onaylayacak mı?\n8. Revizyon tanımı: Turlar hangi sürüm üzerinden sayılır (kaba kurgu bir tur sayılır mı)? Geri bildirim tek kişiden toplu mu gelecek? \"2 iş günü\" gönderim gününü kapsar mı ve hangi resmî tatil takvimi geçerli?\n9. Reels kesimleri: 3 Reels'in süreleri ve içerikleri nedir (60 sn filmin kısaltmaları mı, ayrı konular mı)? Reels'lerde de Almanca altyazı ve onaylı müzik gerekli mi? 9:16 için ayrı kadraj çekilecek mi?\n10. Ozan'ın 2026-11-17 – 2026-12-04 arasındaki müsaitliği ve günlük kapasitesi nedir (başka işler, hafta sonu çalışması)? Bütçe ve çekim için yedek gün var mı?\n\n## Not done\n\n- Hiçbir şey gönderilmedi: müşteriye veya başka birine mesaj, müzik önerisi ya da dosya iletilmedi.\n- Hiçbir şey faturalandırılmadı.\n- Hiçbir şey yayımlanmadı.\n- Müzik seçilmedi, lisans alınmadı, mekân veya ekip rezervasyonu yapılmadı.\n- Bu belge yalnızca insan incelemesi için bir plan taslağıdır; yukarıdaki varsayımlar ve eksik bilgiler yanıtlanmadan kesinleşmiş sayılmamalıdır.\n",
+  "art_bd7fda1f1b38432c": "# Claim-evidence map — Sub-Realism, Part IX\n\nSource: `sub-realism-part-ix.txt` (document prepared for M. Ozan Karyağdı, Berlin, 25 August 2026; plain-text extraction, tables omitted).\n\n**Who is speaking.** The document is written by an unnamed preparer addressing Karyağdı. It says the Part IX proposal, the four repairs and the printed \"entry\" are the preparer's constructions (lines 12, 34, 64). The claims below are therefore the document's claims, not Karyağdı's own, unless he adopts them.\n\n**Terms as used here.** *Sub-reality* is the theoretical concept (a mode of access). *Sub-Realism* is the artistic practice/movement. *Seal* is the document's proposed term for the material property of a recording.\n\n## Claims\n\n\"Status\" is my classification of how the claim relates to the text. \"Document's own label\" is the status the text gives itself.\n\n| # | Claim | Located passage (file:line) | Status | Document's own label |\n|---|---|---|---|---|\n| 1 | *Art in Theory* admits positions, not descriptions. Sub-reality began as an analytic category, so Sub-Realism must be converted into a position with a named antagonist and a practice. | `sub-realism-part-ix.txt:15` \"an idea enters not by being true but by being legible as a refusal of something else that was current at the time\"; `:17` \"Sub-Reality describes a condition of the image; Sub-Realism must assert an obligation.\" | stated | Line 15 ACTUAL–VERIFIED; the scoring at line 20 VIRTUAL–INFERRED |\n| 2 | The antagonist is Baudrillard's simulacrum thesis: the referent was impounded, not liquidated, and can become readable later. | `:25` \"the referent was not liquidated but impounded\"; `:25` \"Hyperreality is a claim about circulation; sub-reality is a claim about the deposit.\" | stated | VIRTUAL–INFERRED |\n| 3 | Sub-Realism belongs with realism, not Surrealism. The prefix marks deferred legibility, not a lower layer, so the dream/memory vertical scheme should be demoted. | `:28` \"sub- marks not a lower layer but a deferred legibility.\" | stated | VIRTUAL–INFERRED; the demotion is OPEN–UNVERIFIED (line 88) |\n| 4 | Repair 1: the seal is an actual, material property of the recording; sub-reality is not in the film but is the mode of access from a later space-time. | `:39` \"An actual property of the recording: the surplus of the record over the intention and over the narrative economy that contains it.\"; `:40` \"Sub-reality — the mode of access under which a seal becomes readable from a later space-time. Not in the film. Not in the spectator.\" | stated | VIRTUAL–INFERRED |\n| 5 | Repair 2: lectorship is governed by four admissibility norms (anchored, doubly dated, counter-narrative-bearing, actualised), not by a truth condition. | `:78` \"A reading is admissible when it is anchored in a determinate trace, doubly dated, bearing a named counter-narrative, and actualised as a work. These are norms, not proofs.\" | stated | VIRTUAL–INFERRED |\n| 6 | Repair 3 / proposition 5: censorship apparatuses read language reliably and read duration, framing and surplus unreliably and late. This is offered as the empirical core. | `:54` \"Censorship apparatuses are language-shaped. They read scripts, titles, dialogue, synopses, denunciations, and they read them reliably.\"; `:86` \"I have not checked a single archive. It is plausible, it is central, and it is currently unsupported\" | hypothesis (the text's own, unchecked) | OPEN–UNVERIFIED |\n| 7 | Repair 4c: a generated image bears no seal, because nothing was recorded. This turns \"anti-simulacra\" into a technical specification. | `:62` \"A generated image has no seal. There is no surplus, because nothing was recorded\" | stated | VIRTUAL–INFERRED |\n| 8 | Repair 4a / proposition 11: the 360° recording is Sub-Realism's native form, because the seal becomes a measurable quantity (recorded but unseen). | `:60` \"the first image form in which the seal is a measurable quantity\"; `:84` \"proposition 5 is an empirical claim that no one has checked, and proposition 11 is a formal promise you have not yet kept in a work.\" | stated; not yet realised in a work | VIRTUAL–INFERRED |\n| 9 | The seal / sub-reality / Sub-Realism split maps onto material property / theoretical concept / practice. | `:36-41` (no single sentence states this) | interpreted (my reading) | — |\n| 10 | 4a and 4c use two different notions of the seal: \"unseen by the viewer\" versus \"unintended by the maker\". | `:39`, `:60`, `:62` | interpreted (my reading) | — |\n| 11 | In a 360° recording, the portion no viewer visits contains anchorable content rather than only empty sky or floor. | `:60` (conjecture drawn from it) | hypothesis (mine) | — |\n\n## Counterarguments and uncertainty\n\nThe text names its own two most load-bearing claims at line 84: proposition 5 (claim 6) and proposition 11 (claim 8). I follow that.\n\n**Claim 6: censorship is language-shaped.**\n\n- **Strongest objection.** Censors also acted on finished images. Post-production cuts, shelving of completed films, and objections to visual tone or style would all be cases of an apparatus reading the non-verbal, and reading it in time. If such interventions are common, the claim that the \"machinery that polices the sayable therefore passes over\" the image (line 76) fails. This objection is mine; the packet neither raises nor answers it.\n- **Measurement problem.** A high share of script-stage interventions may reflect only that scripts are reviewed first and are cheaper to change. It would not show that images are illegible to censors.\n- **The prediction is loose.** \"If the ratio is what you expect\" (line 55) gives no threshold, so as written it cannot fail.\n- **Where the text marks it unverified.** Line 86 is OPEN–UNVERIFIED: no archive was checked. Line 84 says no one has checked it. Line 55 describes it as checkable, not checked.\n\n**Claim 8: 360° as native form, the seal as a quantity.**\n\n- **Strongest objection.** The seal is defined at line 39 as surplus over the maker's intention. Line 60 measures something else: what a viewer did not look at. A fully staged 360° scene would have a large unseen fraction and no unintended surplus. The \"quantity\" may therefore measure viewer attention and not the seal (my interpretation, claim 10).\n- **Second objection.** The text itself states that total givenness looks like \"the least sub-realist format imaginable\" (line 59). Its reply relies on redistributing the out-of-field to attention, which is asserted, not demonstrated.\n- **Where the text marks it unverified.** Line 84 calls proposition 11 \"a formal promise you have not yet kept in a work.\" The whole of Repair 4 is VIRTUAL–INFERRED (line 34).\n\n**Other uncertainty the text flags.**\n\n- Whether a Part IX or a 2000–2030 successor volume exists or is in preparation is OPEN–UNVERIFIED (line 87). Claim 1's framing of a \"gap\" depends on it.\n- The admissibility tests are \"a set of disciplinary norms, not a verification procedure in the scientific sense\" (line 49).\n- The demotion of the vertical scheme awaits Karyağdı's decision (line 88).\n- The status of the deferred *Mirror* article is unresolved (line 89).\n\n## Experiment proposal\n\nTests hypothesis 11, and with it claim 8. I chose this over the archival test of claim 6 because it can be bounded with material the packet says already exists (cinematic VR practice, line 58). The archival test needs sources whose availability the packet does not establish.\n\n- **Question.** In a 360° recording, is the recorded-but-unvisited portion a seal in the sense of line 39 (unintended, anchorable surplus), or is it only unattended area?\n- **Material.**\n  - One short, already-shot, unstaged 360° recording of a few minutes.\n  - A headset that logs head orientation.\n  - A small group of viewers.\n  - The maker's written statement, made before any viewing, of what they intended the piece to record.\n- **Procedure.**\n  1. The maker writes the statement of intention and it is set aside.\n  2. Each viewer watches once. Orientation is logged.\n  3. Compute per-viewer coverage (share of the sphere-time seen) and the union across all viewers.\n  4. Two readers who did not make the piece inspect only the region no viewer visited. They list every determinate trace that meets the \"anchored\" test (line 45) and is absent from the maker's statement.\n  5. As a control, they do the same for the most-visited region.\n  6. Exhibit the coverage map and the two lists as the work, which satisfies the \"actualised\" test (line 48).\n- **What would count against it.**\n  - The union of viewers covers nearly all of the sphere-time, so nothing meaningful stays unvisited.\n  - The unvisited region yields no anchorable traces, only sky, floor or the rig.\n  - The unvisited region yields no more unintended traces than the most-visited region. The seal would then be independent of attention, and \"the seal is a quantity\" would not follow from the 360° format.\n- **Bounds.** One recording, one session, no claim beyond that piece. Thresholds (\"nearly all\", \"no more than\") must be fixed in writing before step 2. Viewer numbers and equipment are for the owner to confirm.\n\n## Limits\n\n- **One document only.** The packet contains a single text and a README. The thesis, the Babelsberg appendix, the Sub-realism / Sub-reality paper and the terminology lock are cited but absent. Statements about what Karyağdı wrote (for example the thesis phrase quoted at line 36) are second-hand here.\n- **Tables missing.** The placement table (line 23) and the proposed Part IX section list are not in the extraction. IX.26 and IX.27 are referenced but undefined, so the proposed placement cannot be assessed.\n- **\"ACTUAL–VERIFIED\" is the document's label, not mine.** I could not check the anthology's structure or the Deleuze, Baudrillard, Metz or Eco characterisations against any source.\n- **No empirical support in the packet.** Claim 6 is unchecked by the text's own admission. Claim 8 is unrealised.\n- **Authorship.** The twelve propositions are a draft written in Karyağdı's name by the preparer. This map does not establish that they are his position.\n- **No consensus claim.** Nothing here shows that Sub-Realism or sub-reality is accepted, discussed or known in any scholarly field, nor that the anthology's editors or publisher would entertain the entry.\n- **Questions recorded for the owner.** The missing tables, the missing source texts, the identity of the preparer and endorsement of the propositions, and the equipment and viewer numbers for the experiment.\n"
+ }
+}
