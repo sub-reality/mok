@@ -66,7 +66,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
   await p.goto(base + '#portal'); await p.screenshot({path: path.join(out, 'portal-desktop-dark.png')});
   ok(errs.filter(e => !/127\.0\.0\.1:9|ERR_CONNECTION|Failed to load resource/.test(e)).length === 0, 'no console errors: ' + errs.slice(0, 3).join(' | '));
   // phone
-  const ph = await b.newContext({viewport: {width: 412, height: 915}, deviceScaleFactor: 2, colorScheme: 'light'});
+  const ph = await b.newContext({viewport: {width: 412, height: 915}, deviceScaleFactor: 2});
   const q = await ph.newPage(); await q.goto(base + '#portal'); await q.waitForSelector('.off-okfilm');
   ok(await q.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1), 'no horizontal page scroll (phone)');
   ok(await q.locator('#devam2').isVisible(), 'phone has the Devam button in the thumb zone');

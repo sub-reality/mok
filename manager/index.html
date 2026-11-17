@@ -16,6 +16,7 @@
   --okfilm:#c7772e; --institute:#8a3f6b; --school:#1f8a8a;
   --good:#2f7d4f; --warn:#9a6a00; --bad:#b3362c; --info:#35608f;
   --paper:#f3ecd9; --paper-rule:#d9cfb6; --ribbon:#8a2a2a;
+  --band:var(--shell-3);
   --f-display:"Saira Condensed","Arial Narrow",Arial,sans-serif;
   --f-body:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
@@ -37,6 +38,15 @@
   --good:#256b42; --warn:#8a5e00; --bad:#a32f26; --info:#2c5380;
   --paper:#f6f0df; --paper-rule:#ddd3bb; --ribbon:#8a2a2a;
 }
+/* 'Menajer' skin: dense dark management-game look (original design). Tokens only; placed last so it wins. */
+:root[data-skin="menajer"]{
+  color-scheme:dark;
+  --shell:#12141b; --shell-2:#1a1d27; --shell-3:#272b39; --shell-ink:#eef0f6; --shell-dim:#8f96aa; --shell-line:#2e3344;
+  --panel:#1d212d; --panel-2:#262b3a; --ink:#e9ebf2; --dim:#99a0b4; --line:#333a4d;
+  --okfilm:#e08a3c; --institute:#bb6aa6; --school:#35b3b0;
+  --good:#3fbf7a; --warn:#e0b040; --bad:#ef6a5e; --info:#6aa6f0;
+}
+body[data-office="okfilm"]{--band:var(--okfilm)} body[data-office="institute"]{--band:var(--institute)} body[data-office="school"]{--band:var(--school)}
 *{box-sizing:border-box}
 html,body{height:100%}
 body{background:var(--shell);color:var(--shell-ink);font:14px/1.5 var(--f-body);margin:0;
@@ -65,7 +75,27 @@ nav.main a[aria-current="page"]{background:var(--shell-3);box-shadow:inset 3px 0
 /* top bar */
 .main-col{min-width:0;display:flex;flex-direction:column;gap:12px}
 #view:focus{outline:none}
-.topbar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
+.topbar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:8px 12px;border-radius:5px;
+  background:color-mix(in srgb,var(--band) 26%,var(--shell-2));border-bottom:3px solid var(--band)}
+.crest{width:38px;height:38px;flex:none;color:var(--shell-ink)}
+.who{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.who b{font-family:var(--f-display);font-size:19px;letter-spacing:.03em;text-transform:uppercase}
+.who span{font-size:12px;color:var(--shell-dim)}
+.hdate{text-align:right;line-height:1.15}
+.hdate b{display:block;font-family:var(--f-display);font-size:17px;letter-spacing:.03em}
+.hdate span{font-size:11.5px;color:var(--shell-dim)}
+.btn.devam{font-size:17px;padding:9px 18px}
+nav.main a svg{width:17px;height:17px;flex:none;opacity:.85}
+nav.main a .nl{display:flex;align-items:center;gap:9px}
+.ava{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;font-family:var(--f-display);font-weight:600;font-size:13px;color:#fff;flex:none}
+.ava.okfilm{background:var(--okfilm)} .ava.institute{background:var(--institute)} .ava.school{background:var(--school)}
+.from{display:flex;gap:9px;align-items:flex-start}
+:root[data-skin="menajer"] .panel{border:1px solid var(--line);border-radius:6px;box-shadow:0 1px 0 rgba(255,255,255,.03) inset}
+:root[data-skin="menajer"] .panel h2{font-size:19px}
+:root[data-skin="menajer"] tr:nth-child(even) td{background:color-mix(in srgb,var(--panel-2) 55%,transparent)}
+:root[data-skin="menajer"] th{background:var(--panel-2);border-bottom-color:var(--line)}
+:root[data-skin="menajer"] .ava{color:#12141b}
+:root[data-skin="menajer"] .panel .btn.go{color:#0f1a14}
 .offsw{display:flex;border:1px solid var(--shell-line);border-radius:3px;overflow:hidden}
 .offsw button{background:none;border:0;border-right:1px solid var(--shell-line);padding:6px 11px;font-family:var(--f-display);font-size:14px;letter-spacing:.05em;text-transform:uppercase;color:var(--shell-dim)}
 .offsw button:last-child{border-right:0}
@@ -73,7 +103,7 @@ nav.main a[aria-current="page"]{background:var(--shell-3);box-shadow:inset 3px 0
 .offsw button[data-o="okfilm"][aria-pressed="true"]{box-shadow:inset 0 -3px 0 var(--okfilm)}
 .offsw button[data-o="institute"][aria-pressed="true"]{box-shadow:inset 0 -3px 0 var(--institute)}
 .offsw button[data-o="school"][aria-pressed="true"]{box-shadow:inset 0 -3px 0 var(--school)}
-.modebadge{font-family:var(--f-mono);font-size:11.5px;border:1px solid var(--shell-line);padding:4px 8px;border-radius:3px;color:var(--shell-dim)}
+.modebadge{flex:1 1 160px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--f-mono);font-size:11.5px;border:1px solid var(--shell-line);padding:4px 8px;border-radius:3px;color:var(--shell-dim)}
 .modebadge b{color:var(--shell-ink);font-weight:600}
 .modebadge.sim{border-color:var(--warn);color:var(--shell-ink);background:color-mix(in srgb,var(--warn) 22%,transparent)}
 .modebadge.stale{border-color:var(--bad);color:var(--shell-ink);background:color-mix(in srgb,var(--bad) 22%,transparent)}
@@ -181,14 +211,16 @@ canvas#ink{display:block;width:100%;height:260px;touch-action:none}
     <nav class="main" id="nav" aria-label="Ekranlar"></nav>
   </aside>
   <div class="main-col">
-    <div class="topbar">
+    <header class="topbar">
+      <svg class="crest" viewBox="0 0 1254 1254" aria-hidden="true"><circle cx="627" cy="623" r="447" fill="currentColor"/><polygon points="400,300 893,300 576,622 895,950 400,950" fill="var(--shell-2)"/></svg>
+      <div class="who"><b>Ozan Karyağdı</b><span id="hdrOffice">Menajer · üç ofis</span></div>
       <div class="offsw" id="offsw" role="group" aria-label="Ofis"></div>
       <span class="modebadge" id="modebadge"></span>
-      <span class="grow"></span>
+      <div class="hdate"><b id="hdrDate"></b><span id="hdrDay"></span></div>
       <button class="btn sm" id="modeBtn" type="button">Bağlantı</button>
-      <button class="btn sm" id="themeBtn" type="button">Tema</button>
+      <button class="btn sm" id="themeBtn" type="button">Görünüm</button>
       <button class="btn primary devam" id="devam" type="button">Devam Et <kbd>Space</kbd></button>
-    </div>
+    </header>
     <div id="banner"></div>
     <main id="view" tabindex="-1"></main>
   </div>
@@ -271,6 +303,17 @@ const DECK = [ // Satz-Trainer · Fokus 4 · Neue Arbeit
   ["Güçlü yönleriniz neler? – Titiz çalışırım ve zaman baskısı altında da genel tabloyu kaybetmem.","Was sind Ihre Stärken? – Ich arbeite genau und behalte auch unter Zeitdruck den Überblick.","den Überblick behalten."],
   ["Neden bizde çalışmak istiyorsunuz? – Çünkü belgeselleriniz beni çok etkiliyor.","Warum möchten Sie bei uns arbeiten? – Weil mich Ihre Dokumentarfilme sehr überzeugen.","weil → fiil sona."],
   ["Harddiskleri nereye teslim etmem gerektiğini gösterebilir misiniz?","Könnten Sie mir zeigen, wo ich die Festplatten abgeben soll?","Kibar soru + dolaylı soru, fiil sona."]];
+const STAFF = [ // [name, role, tools, office, source, has core runs]
+  ["hermes","Menajer yardımcısı / koordinatör: gelen işi ofise yönlendirir, haftalık iş ve deadline brifini hazırlar, incelemeni bekleyenleri listeler. Onay veremez.","Bash, Read, Grep, Glob",null,".claude/agents/hermes.md",false],
+  ["rea","Kondisyoner / ritim: uyku çapaları, şekerleme, pomodoro, ışık, duruş molaları, spora dönüş. Müşteri, araştırma ve öğrenci kayıtlarına erişmez.","Read",null,".claude/agents/rea.md",false],
+  ["okfilm-worker","Prodüksiyon planlamacısı: onaylı brif ve görev listesinden üretim planı, takvim ve teslim listesi.","çekirdek araçları (6)","okfilm",".claude/agents + core/offices",true],
+  ["institute-worker","Kaynak okuyucu: konumlu alıntı, yorum/hipotez ayrımı, iddia-kanıt haritası ve deney önerisi.","çekirdek araçları (5)","institute",".claude/agents + core/offices",true],
+  ["school-worker","Ders gözlemcisi: deneme kaydını okur, sonraki tekrar görevini önerir.","çekirdek araçları (5)","school",".claude/agents + core/offices",true],
+  ["Explore","Scout: depoda salt-okunur geniş arama.","okuma ve arama",null,"Claude Code oturumu",false],
+  ["Plan","Taktik analisti: uygulama planı ve mimari seçenekler.","okuma ve arama",null,"Claude Code oturumu",false],
+  ["general-purpose","Yardımcı antrenör: çok adımlı araştırma ve iş.","tümü",null,"Claude Code oturumu",false],
+  ["web-fetch","Dış kaynak gözlemcisi: herkese açık web sayfalarını okur.","WebFetch",null,"Claude Code oturumu",false],
+  ["claude-code-guide","Kural kitabı: Claude Code, Agent SDK ve API soruları.","okuma, web",null,"Claude Code oturumu",false]];
 const CANDIDATES = [{"skill": "codex:visualize", "is": "Görselleştirme & Grafik", "club": "Akademik Athletic", "model": "GPT-6.1 Sol", "ca": 156, "pa": 170, "calls": 108, "source": "codex"}, {"skill": "codex:computer-use", "is": "Masaüstü Operatörü", "club": "Dev Rangers", "model": "GPT-6.1 Sol", "ca": 149, "pa": 168, "calls": 74, "source": "codex"}, {"skill": "codex:template-creator", "is": "Şablon Üretici", "club": "O.K. Film FC", "model": "GPT-6.1 Sol", "ca": 144, "pa": 158, "calls": 68, "source": "codex"}, {"skill": "codex:documents", "is": "Word Belge Ustası", "club": "Bürokratie United", "model": "GPT-6.1 Sol", "ca": 150, "pa": 160, "calls": 60, "source": "codex"}, {"skill": "codex:presentations", "is": "Sunum Hazırlayıcı", "club": "Akademik Athletic", "model": "GPT-6.1 Sol", "ca": 148, "pa": 160, "calls": 60, "source": "codex"}, {"skill": "codex:pdf", "is": "PDF İşleyici", "club": "Bürokratie United", "model": "GPT-6.1 Sol", "ca": 140, "pa": 146, "calls": 60, "source": "codex"}, {"skill": "codex:artifact-template-palace-restaurant-posts", "is": "Palace Restaurant Instagram Serisi", "club": "O.K. Film FC", "model": "GPT-6.1 Sol", "ca": 151, "pa": 170, "calls": 35, "source": "altyapi"}, {"skill": "codex:spreadsheets", "is": "Tablo & Excel Uzmanı", "club": "Bürokratie United", "model": "GPT-6.1 Sol", "ca": 152, "pa": 162, "calls": 27, "source": "codex"}, {"skill": "codex:sites", "is": "Web Sitesi Kurucu", "club": "Dev Rangers", "model": "GPT-6.1 Sol", "ca": 141, "pa": 163, "calls": 25, "source": "codex"}, {"skill": "codex:artifact-template-restaurants", "is": "Restoran Instagram Postları", "club": "O.K. Film FC", "model": "GPT-6.1 Sol", "ca": 146, "pa": 168, "calls": 24, "source": "altyapi"}, {"skill": "premiere-auto-selects", "is": "Otomatik Kesim Seçici", "club": "O.K. Film FC", "model": "Opus 5.5", "ca": 168, "pa": 186, "calls": 13, "source": "altyapi"}, {"skill": "reverse-engineer-anything", "is": "Tersine Mühendislik", "club": "Dev Rangers", "model": "Opus 5.5", "ca": 150, "pa": 180, "calls": 12, "source": "github"}, {"skill": "multicam-audio-sync", "is": "Çok Kamera Ses Senkronu", "club": "O.K. Film FC", "model": "Sonnet 5.5", "ca": 154, "pa": 178, "calls": 11, "source": "altyapi"}, {"skill": "world-brief", "is": "Dünya Bülteni", "club": "Akademik Athletic", "model": "Opus 5.5", "ca": 152, "pa": 170, "calls": 9, "source": "github"}, {"skill": "yt-script", "is": "YouTube Senaristi", "club": "Sosyal Medya City", "model": "Opus 5.5", "ca": 146, "pa": 188, "calls": 8, "source": "github"}, {"skill": "country-briefing", "is": "Ülke Risk Analisti", "club": "Akademik Athletic", "model": "Opus 5.5", "ca": 155, "pa": 172, "calls": 7, "source": "github"}, {"skill": "conflict-pulse", "is": "Çatışma Takipçisi", "club": "Akademik Athletic", "model": "Opus 5.5", "ca": 148, "pa": 165, "calls": 7, "source": "github"}, {"skill": "hazard-watch", "is": "Afet Gözcüsü", "club": "Akademik Athletic", "model": "Opus 5.5", "ca": 146, "pa": 162, "calls": 7, "source": "github"}];
 
 /* ---------- data layer: fixture | live | rehearsal ---------- */
@@ -404,6 +447,9 @@ function xp(){ // visible rule: 10 XP per task the owner accepted in the core. N
 
 /* ---------- rendering ---------- */
 const VIEWS = [["portal","Portal"],["inbox","Gelen Kutusu"],["isler","İşler"],["kadro","Kadro"],["operasyon","Operasyon"],["transfer","Transfer"],["antrenman","Antrenman"],["ajanda","Ajanda"],["yonetim","Yönetim"]];
+const ICON = {portal:"M3 10l7-6 7 6v7h-5v-4H8v4H3z", inbox:"M3 5h14v10H3zM3 6l7 5 7-5", isler:"M5 3h10v14H5zM7 7h6M7 10h6M7 13h4", kadro:"M7 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM1 17c0-4 12-4 12 0M14 9a2.5 2.5 0 1 0 0-5M15 12c3 0 4 2 4 5",
+  operasyon:"M3 4h4v12H3zM8 4h4v8H8zM13 4h4v5h-4z", transfer:"M3 7h12l-3-3M17 13H5l3 3", antrenman:"M2 8v4M5 6v8M15 6v8M18 8v4M5 10h10", ajanda:"M4 4h12v13H4zM4 8h12M7 2v4M13 2v4", yonetim:"M3 17h14M5 17V9M10 17V5M15 17v-6"};
+const ico = k => `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="${ICON[k]}"/></svg>`;
 const view = () => { const h = location.hash.slice(1); return VIEWS.some(v => v[0] === h) ? h : "portal"; };
 function toast(m){ let t = $("#toast"); if(!t){ t = document.createElement("div"); t.id = "toast"; t.setAttribute("role","status");
     t.style.cssText = "position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--shell-ink);color:var(--shell);padding:8px 14px;border-radius:3px;z-index:40;max-width:min(92vw,560px);font-size:13px"; document.body.appendChild(t); }
@@ -415,10 +461,14 @@ const dueTxt = d => { if(!d) return "—"; const n = Math.round((D(d)-D(S.mode==
 function renderChrome(){
   const v = view(), n = actionable();
   const count = k => k === "inbox" ? n.filter(x => x.view === "inbox").length : k === "isler" ? n.filter(x => x.view === "isler").length : k === "antrenman" ? n.filter(x => x.view === "antrenman").length : k === "yonetim" ? n.filter(x => x.view === "yonetim").length : null;
-  const link = ([k,l]) => { const c = count(k); return `<a href="#${k}" ${k===v?'aria-current="page"':""}><span>${l}</span>${c==null?"":`<span class="cnt" data-z="${c?0:1}">${c}</span>`}</a>`; };
+  const link = ([k,l]) => { const c = count(k); return `<a href="#${k}" ${k===v?'aria-current="page"':""}><span class="nl">${ico(k)}<span>${l}</span></span>${c==null?"":`<span class="cnt" data-z="${c?0:1}">${c}</span>`}</a>`; };
   $("#nav").innerHTML = VIEWS.map(link).join("");
   $("#btabs").innerHTML = VIEWS.map(([k,l]) => `<a href="#${k}" ${k===v?'aria-current="page"':""}>${l}</a>`).join("");
   $("#offsw").innerHTML = [["all","Tümü"],["okfilm","O.K. Film"],["institute","Enstitü"],["school","Okul"]].map(([k,l]) => `<button type="button" data-o="${k}" aria-pressed="${S.office===k}">${l}</button>`).join("");
+  document.body.dataset.office = S.office;
+  const now = S.mode === "rehearsal" ? rehearsal.clock : TODAY, dn = dayNo(now);
+  $("#hdrDate").textContent = fmt(now); $("#hdrDay").textContent = TRD[D(now).getDay()] + (dn>=1&&dn<=90 ? " · Gün "+dn+"/90" : "") + (S.mode==="rehearsal" ? " · prova saati" : "");
+  $("#hdrOffice").textContent = S.office === "all" ? "Menajer · üç ofis" : "Menajer · "+OFFICE[S.office].n+" — "+OFFICE[S.office].long;
   const mb = $("#modebadge");
   mb.className = "modebadge"+(S.mode==="rehearsal"?" sim":S.stale?" stale":"");
   mb.innerHTML = S.mode === "rehearsal" ? `<b>PROVA MODU</b> · sentetik veri · saat ${esc(fmt(rehearsal.clock))}`
@@ -494,8 +544,8 @@ function vInbox(){
   if(!ts.length) return `<section class="panel"><h2>Gelen Kutusu</h2><p class="empty">Ajan raporu yok. Bir iş ekleyip çekirdekte çalıştırdığında raporu burada, kanıtlarıyla görürsün.</p></section>`;
   const sel = ts.find(t => t.task_id === S.sel) || ts[0];
   const subj = t => ({awaiting_review:"Rapor hazır — incelemeni bekliyor",awaiting_approval:"Onay isteği",failed:"Koşu başarısız oldu",running:"Çalışıyor",queued:"Sırada — henüz çalıştırılmadı",draft:"Taslak",accepted:"Kabul edildi",cancelled:"İptal edildi"}[t.state]);
-  return `<div class="split"><section class="panel"><h2>Gelen Kutusu</h2><div class="tw"><table><tr><th>Ofis</th><th>Konu</th><th>Durum</th></tr>
-    ${ts.map(t => `<tr class="row ${t.task_id===sel.task_id?"sel":""}" data-act="sel" data-id="${esc(t.task_id)}" tabindex="0"><td style="white-space:nowrap">${offTag(t.office)}</td><td><b>${esc(subj(t))}</b><br>${esc(t.title)}</td><td>${stTag(t.state)}</td></tr>`).join("")}
+  return `<div class="split"><section class="panel"><h2>Gelen Kutusu</h2><div class="tw"><table><tr><th>Kimden · konu</th><th>Durum</th></tr>
+    ${ts.map(t => `<tr class="row ${t.task_id===sel.task_id?"sel":""}" data-act="sel" data-id="${esc(t.task_id)}" tabindex="0"><td><div class="from"><span class="ava ${t.office}" aria-hidden="true">${esc(OFFICE[t.office].n.replace(/[^A-ZÇĞİÖŞÜ]/g,"").slice(0,2) || OFFICE[t.office].n.slice(0,2).toUpperCase())}</span><div><span class="lbl">${esc((runsOf(t.task_id).filter(r => r.provider !== "interactive").slice(-1)[0]?.agent) || t.office+"-worker")}</span><br><b>${esc(subj(t))}</b><br>${esc(t.title)}</div></div></td><td>${stTag(t.state)}</td></tr>`).join("")}
     </table></div></section>${taskDetail(sel)}</div>`;
 }
 
@@ -535,11 +585,11 @@ function vKadro(){
     <p style="margin-top:4px">Bir ofis bir izin ve iş akışı sınırıdır. Her ofiste tek sınırlı işçi var; araç izinleri promptta değil yürütücüde uygulanır.</p>
     <div class="tw"><table><tr><th>Ajan</th><th>Rol</th><th>Durum</th><th>İzinli araçlar</th><th class="num">Koşu</th><th class="num">Tamam</th><th class="num">Başarısız</th><th class="num">Araç çağrısı</th><th class="num">Reddedilen</th></tr>${rows || `<tr><td colspan="9" class="empty">Ajan kaydı yok.</td></tr>`}</table></div>
     <p class="lbl" style="margin-top:8px">Puan yok: adı ve tarihi olan bir değerlendirme verisi olmadan yetenek puanı gösterilmez. Sütunlar çekirdeğin koşu kayıtlarından sayılır.</p></section>
-    <section class="panel"><h3>Koordinasyon ajanları — tanım dosyaları (.claude/agents)</h3>
-      <div class="tw"><table><tr><th>Ad</th><th>Görev</th><th>Durum</th></tr>
-      <tr><td><b>hermes</b></td><td>Dağıtıcı: gelen işi ofise yönlendirme, teslim ve inceleme hatırlatmaları, haftalık brif. Çekirdek CLI'si üzerinden çalışır; onay veremez.</td><td><span class="tag o">tanımlı · çekirdekte koşu kaydı yok</span></td></tr>
-      <tr><td><b>rea</b></td><td>Ritim: özel rutinler modülündeki uyku, şekerleme, pomodoro ve durdurma kuralları. Operasyonel veriye erişmez.</td><td><span class="tag o">tanımlı · çekirdekte koşu kaydı yok</span></td></tr></table></div>
-      <p class="lbl" style="margin-top:8px">“Hermes” burada bir koordinatör adıdır; Nous Research çalışma zamanı ile ilişkisi doğrulanmadı.</p></section></div>`;
+    <section class="panel"><h2>Staff — subagent'lar</h2>
+      <p style="margin-top:4px">Oyuncu değil, kadroyu yöneten ve destekleyen ajanlar. İlk beşi bu depoda <span class="mono">.claude/agents/</span> altında tanımlı; depo açıkken Claude Code oturumunda adlarıyla çağrılabilir. Alttakiler Claude Code'un kendi oturum ajanlarıdır.</p>
+      <div class="tw"><table><tr><th>Staff</th><th>Görev (rol)</th><th>Araçlar</th><th>Ofis</th><th>Kaynak</th><th>Durum</th></tr>
+      ${STAFF.map(x => `<tr><td><b>${esc(x[0])}</b></td><td>${esc(x[1])}</td><td class="mono" style="font-size:11.5px">${esc(x[2])}</td><td>${x[3] ? offTag(x[3]) : "tümü"}</td><td class="lbl">${esc(x[4])}</td><td><span class="tag ${x[5]?"v":"o"}">${esc(x[5] ? "çekirdekte koşusu var" : "tanımlı · koşu kaydı yok")}</span></td></tr>`).join("")}</table></div>
+      <p class="lbl" style="margin-top:8px">“Hermes” burada bir koordinatör adıdır; Nous Research çalışma zamanı ile ilişkisi doğrulanmadı. Staff için de yetenek puanı gösterilmez.</p></section></div>`;
 }
 
 function vOps(){
@@ -730,8 +780,11 @@ document.addEventListener("keydown", e => {
     const i = VIEWS.findIndex(v => v[0] === view()); location.hash = VIEWS[(i + (e.key === "ArrowRight" ? 1 : VIEWS.length-1)) % VIEWS.length][0]; }
 });
 $("#devam").onclick = devam; $("#devam2").onclick = devam;
-$("#themeBtn").onclick = () => { const cur = document.documentElement.getAttribute("data-theme") || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-  const n = cur === "dark" ? "light" : "dark"; document.documentElement.setAttribute("data-theme", n); LS.set("theme", n); };
+function applySkin(k){ const r = document.documentElement; r.removeAttribute("data-skin"); r.removeAttribute("data-theme");
+  if(k === "menajer") r.setAttribute("data-skin", "menajer"); else if(k === "fildisi-acik") r.setAttribute("data-theme", "light"); else r.setAttribute("data-theme", "dark"); }
+const SKINS = [["menajer","Menajer (koyu)"],["fildisi-koyu","Grafit + fildişi"],["fildisi-acik","Açık"]];
+$("#themeBtn").onclick = () => { const i = SKINS.findIndex(x => x[0] === LS.get("skin","menajer")), n = SKINS[(i+1) % SKINS.length];
+  LS.set("skin", n[0]); applySkin(n[0]); toast("Görünüm: "+n[1]); };
 $("#modeBtn").onclick = () => {
   $("#banner").innerHTML = `<div class="panel"><h3>Veri kaynağı</h3>
     <p>Şu an: <b>${S.mode === "live" ? "canlı çekirdek" : S.mode === "rehearsal" ? "prova (sentetik)" : "kayıt (çekirdekten dışa aktarılmış anlık görüntü)"}</b>. Canlı bağlantı yalnızca bu sayfa çekirdekle aynı bilgisayarda yerel olarak açıldığında çalışır; claude.ai üzerinde yayınlanan kopya yerel ağına ulaşamaz.</p>
@@ -740,7 +793,7 @@ $("#modeBtn").onclick = () => {
 };
 window.addEventListener("hashchange", () => { render(); $("#view").focus({preventScroll:true}); });
 (function boot(){
-  const th = LS.get("theme", null); if(th) document.documentElement.setAttribute("data-theme", th);
+  applySkin(LS.get("skin", "menajer"));
   S.snap = emptySnap(); render(); reload();
   try{ if("serviceWorker" in navigator && /^https?:$/.test(location.protocol) && !/claude/.test(location.hostname)) navigator.serviceWorker.register("sw.js").catch(() => {}); }catch(e){}
   setInterval(() => { if(S.mode === "live") reload(); }, 15000);
