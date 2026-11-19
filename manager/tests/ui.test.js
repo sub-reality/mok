@@ -62,18 +62,19 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
   // all screens render; no date before the plan start in planning cards
   // library rooms
   await p.goto(base + '#kutuphane'); await p.waitForSelector('#libCanvas');
-  ok(await p.locator('.seatbtn').count() === 8, 'seat list has one entry per agent in enstitut.json');
+  ok(await p.locator('.seatbtn').count() === 4, 'seat list has one entry per Institute agent in enstitut.json');
   for (const r of ['okuma', 'kabin', 'avize']) { await p.click(`[data-act="room"][data-id="${r}"]`); await p.waitForSelector('#libCanvas'); await p.waitForTimeout(150);
     ok(await p.evaluate(() => Lib.colours()) > 8, '3D room renders non-blank: ' + r); await p.screenshot({path: path.join(out, 'lib-' + r + '.png')}); }
-  await p.click('[data-act="seat"][data-id="okfilm-worker"]'); await p.waitForTimeout(150);
-  const want = await p.evaluate(() => { const t = S.snap.tasks.find(x => x.office === 'okfilm'); return [t.title, STATE_TR[t.state]]; });
+  ok(await p.evaluate(() => ENST.seats.every(s => s.office === 'institute')), 'library seats only Institute staff');
+  await p.click('[data-act="seat"][data-id="institute-worker"]'); await p.waitForTimeout(150);
+  const want = await p.evaluate(() => { const t = S.snap.tasks.find(x => x.office === 'institute'); return [t.title, STATE_TR[t.state]]; });
   const pane = await p.locator('.split.lib > .panel').nth(1).innerText();
-  ok(pane.includes(want[0]) && pane.includes(want[1]) && pane.includes('brief.md'), 'okfilm-worker seat shows the core task, its state and its source files');
-  await p.click('[data-act="seat"][data-id="hermes"]'); await p.waitForTimeout(150);
+  ok(pane.includes(want[0]) && pane.includes(want[1]) && pane.includes('sub-realism-part-ix.txt'), 'institute-worker seat shows the core task, its state and its source files');
+  await p.click('[data-act="seat"][data-id="jakob"]'); await p.waitForTimeout(150);
   ok((await p.locator('.split.lib > .panel').nth(1).innerText()).includes('Boşta'), 'a seat with no recorded task says Boşta');
   await p.click('[data-act="seat"][data-id="iris"]'); await p.waitForTimeout(200);
   ok((await p.locator('.split.lib > .panel').nth(1).innerText()).includes('henüz görev değil'), 'mentor seat marks the pilot question as not yet a core task');
-  await p.click('[data-act="seat"][data-id="rea"]'); await p.waitForTimeout(200);
+  await p.click('[data-act="seat"][data-id="jakob"]'); await p.waitForTimeout(200); await p.click('[data-act="room"][data-id="kabin"]'); await p.waitForTimeout(250);
   const xy = await p.evaluate(() => Lib.screenOf('iris')); await p.mouse.click(xy[0], xy[1]); await p.waitForTimeout(200);
   ok(await p.evaluate(() => libSeat) === 'iris', 'clicking a seat in the 3D scene selects it');
   await p.screenshot({path: path.join(out, 'lib-selected.png')});
@@ -96,6 +97,6 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
   const nogl = await b.newContext({viewport: {width: 1200, height: 800}}); const g = await nogl.newPage();
   await g.addInitScript(() => { const o = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function (t, ...a) { return /webgl/.test(t) ? null : o.call(this, t, ...a); }; });
   await g.goto(base + '#kutuphane'); await g.waitForSelector('.seatbtn'); await g.waitForTimeout(600);
-  ok((await g.locator('#libStage').innerText()).includes('açılamadı') && await g.locator('.seatbtn').count() === 8, 'without WebGL the seat list still works and says so');
+  ok((await g.locator('#libStage').innerText()).includes('açılamadı') && await g.locator('.seatbtn').count() === 4, 'without WebGL the seat list still works and says so');
   await b.close(); srv.close(); console.log(fails ? fails + ' FAILED' : 'ALL PASSED'); process.exit(fails ? 1 : 0);
 })();
