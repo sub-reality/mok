@@ -87,6 +87,19 @@ Deliverable: write_artifact(name='legal-review.md') with: the first line '> Huku
 '## Not found in the documents' (topics a production agreement usually addresses that are absent here — listed as absences, not as violations),
 '## Dates and deadlines' (each with file:line and the day count from today), '## Questions for the lawyer', '## Missing information', '## Not done'."""
 
+BRIEFS["school.lesson_plan"] = """Office: School, English Department (My Teaching). The owner teaches English. Workflow: one lesson plan in his GNR method.
+GNR as the owner defines it: verb-centred sentence ladders, natural repetition, Socratic hints. Raise ONE difficulty dimension at a time.
+A direct-correction drill is a separate, explicitly labelled mode; never mix it into the Socratic ladder.
+Steps: list_sources, read the packet (course notes; it must not contain personal learner records — if it names or grades an individual learner, do not copy that into the artifact and say so under Limits).
+Record what you rely on with record_evidence(kind='fact', locator='file:line'); call report_missing for what a teacher would need and the notes do not give (level, group size, lesson length, prior material).
+write_artifact(name='lesson-plan.md') with: '# Lesson plan — <topic>', '## Based on' (files and the stated level/length, each with file:line),
+'## Target verb and the one dimension raised' (name the single dimension: tense, person, negation, question form, clause, or vocabulary load),
+'## Sentence ladder' (6-8 rungs; each rung is ONE prompt for the learner, built on the previous rung by one change; for each rung give the expected sentence and two Socratic hints that do not contain the answer),
+'## Natural repetition' (where earlier rungs return), '## Direct-correction drill (separate mode)' (4 short items, clearly marked as not Socratic),
+'## Self-correction and transfer check' (how the learner shows the structure in a new sentence of their own),
+'## Limits' (a plan is not evidence of learning; gains need a later assessment), and a final '## Not done' (nothing was sent to learners).
+Write prompts and expected sentences in English; write the teacher-facing explanation in the language of the course notes."""
+
 def system_prompt(task) -> str:
     opts = json.loads(task["params"]).get("options", {})
     return COMMON + "\n\n" + BRIEFS[task["workflow"]].replace("{as_of}", str(opts.get("as_of", "unknown — ask via report_missing")))

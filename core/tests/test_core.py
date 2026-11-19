@@ -216,6 +216,30 @@ class TestOkfilmRoles(Base):
         r = service.handle(self.st, cmd("institute", "task.create", {"title": "x", "workflow": "okfilm.legal_review"}), self.o)
         self.assertEqual(r["error"]["code"], "workflow_office_mismatch")
 
+class TestSchoolDepartments(Base):
+    def test_two_language_departments_with_separate_workers(self):
+        from offices.profiles import OFFICES
+        self.assertEqual({w.id for w in OFFICES["school"].workers.values()}, {"school-worker", "school-english-planner"})
+        shutil.copytree(SAMPLES / "school" / "english-sample", self.st.source_root("school") / "english-sample")
+        r = service.handle(self.st, cmd("school", "task.create", {"title": "English plan", "workflow": "school.lesson_plan",
+                           "source_packet": "english-sample", "queue": True}), self.o)
+        tid = r["result"]["task_id"]
+        self.assertEqual(executor.run_task(self.st, tid, providers.MockProvider())["state"], "awaiting_review")
+        self.assertEqual(service.task_detail(self.st, self.o, tid)["runs"][0]["agent"], "school-english-planner")
+    def test_school_is_its_own_boundary_even_though_affiliated_to_the_institute(self):
+        r = service.handle(self.st, cmd("institute", "task.create", {"title": "x", "workflow": "school.lesson_plan"}), self.o)
+        self.assertEqual(r["error"]["code"], "workflow_office_mismatch")
+        self.assertEqual(service.snapshot(self.st, agent_ctx("institute"))["agents"][0]["office"], "institute")
+        class Peek:
+            name = "mock"
+            def run(s, task, box, sp, up):
+                s.r = box.call("read_source", {"name": "../../school/sources/decks/fokus4-neue-arbeit.json"})
+                box.call("write_artifact", {"name": "a.md", "content": "x"}); return RunResult("mock", None)
+        pk = Peek(); r = service.handle(self.st, cmd("institute", "task.create", {"title": "y", "workflow": "institute.claim_evidence_map",
+                                      "source_packet": "part-ix", "queue": True}), self.o)
+        executor.run_task(self.st, r["result"]["task_id"], pk)
+        self.assertFalse(pk.r[0])
+
 class TestLesson(Base):
     def test_one_prompt_at_a_time_hints_and_review(self):
         r = service.handle(self.st, cmd("school", "task.create", {"title": "Fokus 4 günlük cümle", "workflow": "school.lesson", "queue": True,

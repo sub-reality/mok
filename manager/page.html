@@ -783,7 +783,7 @@ function vLibrary(){
         <dt>Tanım</dt><dd class="mono" style="font-size:12px">${esc(sel.definition)}</dd>
         ${ROLE_REFS[sel.id] ? `<dt>Referans repolar</dt><dd>${refsHtml(sel.id)}</dd>` : ""}</dl>
       ${i.task ? `<div class="row-actions"><button class="btn" type="button" data-act="open" data-id="${esc(i.task.task_id)}">Gelen Kutusu'nda aç</button></div>` : ""}`; }
-  return `<div class="split lib"><section class="panel"><div class="lbl">${esc(room.floor)} · ${room.floor === "Kütüphane" ? esc(room.inspired) + "’den esinlenildi" : "kütüphaneden ayrı kat, her rol kendi odasında"}</div>
+  return `<div class="split lib"><section class="panel"><div class="lbl">${esc(room.floor)} · ${room.floor === "Kütüphane" ? esc(room.inspired) + "’den esinlenildi" : (room.id === "okul" ? "kütüphaneden ayrı kat, iki dil bölümü" : "kütüphaneden ayrı kat, her rol kendi odasında")}</div>
       <div class="row-actions" style="margin:6px 0 10px" role="group" aria-label="Kat ve mekân">${[...new Set(ENST.rooms.map(r => r.floor))].map(f => `<span class="lbl" style="align-self:center">${esc(f)}:</span>` + ENST.rooms.filter(r => r.floor === f).map(r => `<button class="btn sm" type="button" data-act="room" data-id="${r.id}" aria-pressed="${r.id===room.id}">${esc(r.name)}</button>`).join("")).join("")}</div>
       <div id="libStage" class="stage" aria-label="${esc(room.name)} — üç boyutlu görünüm. Koltukların tamamı aşağıdaki listede."></div>
       <p class="lbl" style="margin-top:6px">Sürükle: döndür · tekerlek ya da iki parmak: yakınlaş · koltuğa dokun: ayrıntı. Oturan figür, o ajanın çekirdekte kayıtlı bir görevi olduğunu gösterir; canlı bir çalışma animasyonu değildir.</p>
@@ -900,6 +900,25 @@ const Lib = { three:null, renderer:null, canvas:null, scene:null, cam:null, orbi
         slots.push({p:[x + .4, 0, dz + s * .85], r:back ? 0 : Math.PI});
       }
       return {slots, target:[0, .8, 0], dist:17, theta:.35, phi:.82, min:6, max:26};
+    },
+    okul(L, g, M){ // the School's own floor: two language departments in separate wings divided by a corridor wall
+      const slots = [], H = 2.8, wall = L.mat(0xe9e6dd), carpet = L.mat(0x33414a), teal = L.mat(L.css("--school")), board = L.mat(0x24352f), white = new THREE.MeshBasicMaterial({color:0xf7f5ee});
+      L.box(g, 19, .2, 10.4, 0, -.1, 0, carpet);
+      L.box(g, 19, H, .12, 0, H / 2, -5.2, wall); L.box(g, .12, H, 10.4, -9.5, H / 2, 0, wall); L.box(g, .12, H, 10.4, 9.5, H / 2, 0, wall);
+      L.box(g, .5, H, 7.6, 0, H / 2, -1.4, teal);                                            // dividing wall: two departments, one floor
+      const sign = (txt, sub, x) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(5.6, 1.2), new THREE.MeshBasicMaterial({map:L.text([txt, sub], {fg:"#16171a", bg:"#f3efe4", size:46, h:128})})); m.position.set(x, 2.05, -5.12); g.add(m); };
+      sign("ALMANCA BÖLÜMÜ", "My Learning · Deutsch lernen", -4.8); sign("İNGİLİZCE BÖLÜMÜ", "My Teaching · English, GNR", 4.8);
+      // German department: a study room — one long desk, shelf of course books, a card wall
+      L.table(g, 4.2, 1.1, -4.8, 0, -1.6, M.table, true); L.box(g, .9, .5, .05, -4.2, 1.15, -1.9, M.dark);
+      L.box(g, .5, 1.9, 3.2, -9.1, .95, -2.6, M.wood); for(let k = 0; k < 9; k++) L.box(g, .3, .42, .26, -9.05, .5 + (k % 3) * .55, -3.8 + Math.floor(k / 3) * 1.1, L.mat([0x2f5d6b, 0x8a6a1e, 0x6d1a2b][k % 3]));
+      for(let k = 0; k < 8; k++) L.box(g, .5, .34, .03, -7.4 + (k % 4) * .65, 1.25 + Math.floor(k / 4) * .45, -5.1, white);   // sentence cards
+      slots.push({p:[-4.8, 0, -.7], r:0}); for(const dx of [-1.3, 1.3]) slots.push({p:[-4.8 + dx, 0, -.7], r:0, spare:true});
+      // English department: a classroom — board, teacher's desk, three rows of learner desks
+      L.box(g, 4.6, 1.5, .06, 4.8, 1.55, -5.08, board); L.box(g, 4.7, .06, .12, 4.8, .78, -5.02, M.wood2);
+      L.table(g, 1.8, .8, 4.8, 0, -3.6, M.wood2, true);
+      for(let r = 0; r < 3; r++) for(let c = 0; c < 3; c++){ const x = 2.6 + c * 2.2, z = -1.4 + r * 1.9; L.table(g, 1.3, .6, x, 0, z, M.table, false); slots.push({p:[x, 0, z + .6], r:0, spare:true}); }
+      slots.splice(1, 0, {p:[4.8, 0, -4.35], r:Math.PI});                                    // slot 1: the teacher's chair
+      return {slots, target:[0, .9, -1], dist:16.5, theta:.3, phi:.86, min:6, max:25};
     }
   },
   build(){

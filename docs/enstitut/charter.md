@@ -3,6 +3,9 @@ Founded in conversation on 2026-11-19. Founder, researcher and artist: M. Ozan K
 Fields: philosophy, conceptual art, neuroscience, psychology, history, sociology, cinema, and the founder's concept of sub-reality (Bergson, Deleuze).
 This is the academic and artistic research layer. A handover note to O.K. Film und Medienproduktion is written only when the founder decides to take an idea into production.
 
+## Affiliated department
+**Okul (School)** is affiliated to the Enstitüt but is a separate department on its own floor with its own records and permissions: Almanca Bölümü (the founder's own learning) and İngilizce Bölümü (his teaching). See `docs/charters/school.md`.
+
 ## Functions
 - **Ders** — teaches a method and knowledge on a defined topic. A method learned in a course can be used in a project.
 - **Seminer** — joint discussion around a text, work or question.

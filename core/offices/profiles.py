@@ -44,8 +44,10 @@ OFFICES: dict[str, Office] = {
     }),
     "institute": Office("institute", "Academic & Art — Subrealism Institute", {
         "institute.claim_evidence_map": AgentDef("institute-worker", "institute", "Source reader / claim-evidence mapper", _RW)}),
-    "school": Office("school", "Education — School", {
-        "school.lesson": AgentDef("school-worker", "school", "Lesson reviewer / next-task proposer", _RW)}),
+    # The School is a department affiliated to the Institute, with its own permission boundary, records and floor.
+    "school": Office("school", "Okul — Enstitü'ye bağlı dil bölümleri", {
+        "school.lesson": AgentDef("school-worker", "school", "Almanca Bölümü (My Learning) · lesson reviewer", _RW),
+        "school.lesson_plan": AgentDef("school-english-planner", "school", "İngilizce Bölümü (My Teaching) · GNR lesson planner", _RW)}),
 }
 
 WORKFLOW_OFFICE = {w: o.id for o in OFFICES.values() for w in o.workflows}

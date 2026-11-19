@@ -23,3 +23,17 @@ Gerçek ajan çalışma zamanı (Claude Agent SDK, model `claude-fable-5-2`) üz
 - Canlı model koşuları: yukarıdaki tablo; toplam dört koşu, biri başarısız.
 - Uçtan uca (arayüz ↔ canlı çekirdek API'si, geçici depo, mock sağlayıcı): 7 kontrol geçti — arayüzden girilen iş çekirdekte taslak görev oldu; CLI'den başlatılan koşu arayüzde göründü; inceleme sonrası değişen çıktının kabulünü çekirdek reddetti; çekirdek kapanınca arayüz "eski" uyarısı verdi.
 - Yapılmadı: 30 görevlik fayda deneyi, gerçek cihazda S Pen ve saat, Windows kurulumu, canlı model ile arayüz üzerinden uçtan uca koşu.
+
+## Ek — 19 Kasım 2026
+Canlı model koşuları (Claude Agent SDK, `claude-fable-5-2`), hepsi sentetik girdiyle, hepsi `awaiting_review`:
+
+| Ajan | Çıktı | Araç çağrısı | Süre | SDK kullanım tahmini |
+| --- | --- | --- | --- | --- |
+| okfilm-editor | `edit-plan.md` | 46 | 113 sn | $0,53 |
+| okfilm-lawyer | `legal-review.md` | 29 | 84 sn | $0,39 |
+| okfilm-product-manager | `product-brief.md` | 25 | 66 sn | $0,31 |
+| okfilm-uix-designer | `uix-spec.md` | 25 | 85 sn | $0,36 |
+| okfilm-data-engineer | `data-plan.md` | 29 | 105 sn | $0,45 |
+| school-english-planner | `lesson-plan.md` | 17 | 75 sn | $0,31 |
+
+Toplam tahmin $2,34. Çekirdek testleri 25'e çıktı. Arayüze "Bina" sekmesi eklendi: kütüphane (üç mekân), O.K. Film katı (altı oda) ve Okul katı (iki dil bölümü). Hiçbir çıktı sahibi adına kabul edilmedi.

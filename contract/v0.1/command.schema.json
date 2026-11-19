@@ -112,7 +112,8 @@
                   "okfilm.edit_plan",
                   "okfilm.legal_review",
                   "institute.claim_evidence_map",
-                  "school.lesson"
+                  "school.lesson",
+                  "school.lesson_plan"
                 ]
               },
               "due": {

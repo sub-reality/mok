@@ -1,6 +1,6 @@
 {
   "name": "Enstitüt – Library",
-  "note": "Presentation data owned by the manager: who sits where. Status shown at a seat always comes from the core read model, never from this file. 'open' is a question not yet registered as a core task. The library rooms seat only Institute staff. O.K. Film has its own floor with one room per role.",
+  "note": "Presentation data owned by the manager: who sits where. Status shown at a seat always comes from the core read model, never from this file. 'open' is a question not yet registered as a core task. The library rooms seat only Institute staff. O.K. Film has its own floor with one room per role. The School is affiliated to the Institute but has its own floor with two language departments.",
   "rooms": [
     {
       "id": "okuma",
@@ -25,6 +25,12 @@
       "name": "O.K. Film Katı",
       "inspired": "özgün ofis katı",
       "floor": "O.K. Film und Medienproduktion"
+    },
+    {
+      "id": "okul",
+      "name": "Okul Katı",
+      "inspired": "özgün dil okulu katı",
+      "floor": "Okul — Enstitü'ye bağlı, ayrı departman"
     }
   ],
   "seats": [
@@ -146,6 +152,28 @@
       "agent": "okfilm-lawyer",
       "definition": ".claude/agents/okfilm-lawyer.md",
       "door": "LEGAL"
+    },
+    {
+      "id": "school-worker",
+      "name": "Almanca Bölümü",
+      "role": "My Learning · ders gözlemcisi ve tekrar önerisi (Fokus Deutsch B2, Satz-Trainer)",
+      "office": "school",
+      "room": "okul",
+      "slot": 0,
+      "place": "Almanca Bölümü · çalışma odası",
+      "agent": "school-worker",
+      "definition": ".claude/agents/school-worker.md"
+    },
+    {
+      "id": "school-english-planner",
+      "name": "İngilizce Bölümü",
+      "role": "My Teaching · GNR ders planlayıcısı",
+      "office": "school",
+      "room": "okul",
+      "slot": 1,
+      "place": "İngilizce Bölümü · derslik, öğretmen masası",
+      "agent": "school-english-planner",
+      "definition": ".claude/agents/school-english-planner.md"
     }
   ]
 }
