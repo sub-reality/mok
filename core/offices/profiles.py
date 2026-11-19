@@ -19,23 +19,33 @@ class AgentDef:
 class Office:
     id: str
     name: str
-    workflows: tuple[str, ...]
-    worker: AgentDef
+    workers: dict  # workflow -> AgentDef: one bounded worker role per workflow
     accent: str = ""
 
+    @property
+    def workflows(self) -> tuple:
+        return tuple(self.workers)
+
+    @property
+    def worker(self) -> AgentDef:  # the office's first (default) worker
+        return next(iter(self.workers.values()))
+
+_ALL = tuple(READ_TOOLS + WRITE_TOOLS + DATE_TOOLS)
+_RW = tuple(READ_TOOLS + WRITE_TOOLS)
+
 OFFICES: dict[str, Office] = {
-    "okfilm": Office(
-        "okfilm", "O.K. Film — Production Company / Agency", ("okfilm.production_plan",),
-        AgentDef("okfilm-worker", "okfilm", "Production planner",
-                 tuple(READ_TOOLS + WRITE_TOOLS + DATE_TOOLS))),
-    "institute": Office(
-        "institute", "Academic & Art — Subrealism Institute", ("institute.claim_evidence_map",),
-        AgentDef("institute-worker", "institute", "Source reader / claim-evidence mapper",
-                 tuple(READ_TOOLS + WRITE_TOOLS))),
-    "school": Office(
-        "school", "Education — School", ("school.lesson",),
-        AgentDef("school-worker", "school", "Lesson reviewer / next-task proposer",
-                 tuple(READ_TOOLS + WRITE_TOOLS))),
+    "okfilm": Office("okfilm", "O.K. Film und Medienproduktion", {
+        "okfilm.production_plan": AgentDef("okfilm-worker", "okfilm", "Project Manager · production plan", _ALL),
+        "okfilm.product_brief": AgentDef("okfilm-product-manager", "okfilm", "Product Manager · offer and scope brief", _RW),
+        "okfilm.uix_spec": AgentDef("okfilm-uix-designer", "okfilm", "UI/UX Designer · format and readability spec", _RW),
+        "okfilm.data_plan": AgentDef("okfilm-data-engineer", "okfilm", "Data Engineer · media and data pipeline plan", _RW),
+        "okfilm.edit_plan": AgentDef("okfilm-editor", "okfilm", "Video and Photo Editor · edit plan", _ALL),
+        "okfilm.legal_review": AgentDef("okfilm-lawyer", "okfilm", "Lawyer · issue-spotting review (not legal advice)", _ALL),
+    }),
+    "institute": Office("institute", "Academic & Art — Subrealism Institute", {
+        "institute.claim_evidence_map": AgentDef("institute-worker", "institute", "Source reader / claim-evidence mapper", _RW)}),
+    "school": Office("school", "Education — School", {
+        "school.lesson": AgentDef("school-worker", "school", "Lesson reviewer / next-task proposer", _RW)}),
 }
 
 WORKFLOW_OFFICE = {w: o.id for o in OFFICES.values() for w in o.workflows}

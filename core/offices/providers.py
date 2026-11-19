@@ -33,7 +33,7 @@ class MockProvider:
                     dated.append((m.group(2), n, m.group(1)))
         toolbox.call("report_missing", {"question": "MOCK RUN: no model read these sources; nothing was interpreted."})
         out_name = {"okfilm.production_plan": "production-plan.md", "institute.claim_evidence_map": "claim-evidence-map.md",
-                    "school.lesson": "next-retrieval.md"}[task["workflow"]]
+                    "school.lesson": "next-retrieval.md"}.get(task["workflow"], task["workflow"].split(".")[1].replace("_", "-") + ".md")
         body = [f"# MOCK ARTIFACT — {task['title']}", "",
                 "> Produced by the mock provider from fixtures. **No model inference took place.** Do not review this as real work.", "",
                 "## Inputs read", *[f"- {n}" for n in names], "", "## Dates found by pattern match",

@@ -14,3 +14,6 @@
 | 2026-11-17 | Plan Day 1 = 2026-11-17; historical external deadlines are kept and marked expired | Move every old date to 17.11 | Owner asked for the reset; the specification says expired deadlines stay expired | Implemented in the manager |
 | 2026-11-17 | Personal routines are an opt-in, per-item-confirmed module in the manager | Seed them into the calendar | Specification: optional and private | Off by default |
 | 2026-11-17 | Watch view, local inference, Windows/NAS/Obsidian setup deferred | — | Not reachable or explicitly "later" | Open |
+| 2026-11-19 | Six O.K. Film roles as separate bounded workers, one workflow each | One generalist worker with a role parameter | Separate tool lists and briefs per role are enforceable in the executor; the Lawyer and Designer need different limits | 23 core tests pass; live runs recorded per role |
+| 2026-11-19 | "CA/PA 180+" applied as a filter on reference repos, never as an agent rating | Show 180+ on the agents | No invented scores; the figures are the earlier scan's unverified repo estimates | Labelled in the manager and the charter |
+| 2026-11-19 | Library seats only Institute staff; O.K. Film gets its own floor, one room per role | Everyone in the library | Owner's instruction | Implemented in `manager/enstitut.json` |

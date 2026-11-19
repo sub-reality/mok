@@ -322,6 +322,13 @@ const STAFF = [ // [name, role, tools, office, source, has core runs]
   ["general-purpose","Yardımcı antrenör: çok adımlı araştırma ve iş.","tümü",null,"Claude Code oturumu",false],
   ["web-fetch","Dış kaynak gözlemcisi: herkese açık web sayfalarını okur.","WebFetch",null,"Claude Code oturumu",false],
   ["claude-code-guide","Kural kitabı: Claude Code, Agent SDK ve API soruları.","okuma, web",null,"Claude Code oturumu",false]];
+const ROLE_REFS = { // reference repos per role. CA/PA are the earlier scout's unverified estimates of the REPO, not a rating of our agent.
+  "okfilm-product-manager":[["paperclipai/paperclip",188,200,true],["addyosmani/agent-skills",177,200,true],["alirezarezvani/claude-skills",171,200,true]],
+  "okfilm-uix-designer":[["tt-a1i/archify",185,200,false],["pbakaus/impeccable",179,200,true],["nexu-io/open-design",177,200,false]],
+  "okfilm-worker":[["paperclipai/paperclip",188,200,true],["ruvnet/ruflo",182,200,false]],
+  "okfilm-data-engineer":[["opendatalab/MinerU",182,200,false],["unclecode/crawl4ai",181,200,false],["Graphify-Labs/graphify",180,200,false]],
+  "okfilm-editor":[["harry0703/MoneyPrinterTurbo",171,200,false]],
+  "okfilm-lawyer":[] };
 const CANDIDATES = [{"skill": "codex:visualize", "is": "Görselleştirme & Grafik", "club": "Akademik Athletic", "model": "GPT-6.1 Sol", "ca": 156, "pa": 170, "calls": 108, "source": "codex"}, {"skill": "codex:computer-use", "is": "Masaüstü Operatörü", "club": "Dev Rangers", "model": "GPT-6.1 Sol", "ca": 149, "pa": 168, "calls": 74, "source": "codex"}, {"skill": "codex:template-creator", "is": "Şablon Üretici", "club": "O.K. Film FC", "model": "GPT-6.1 Sol", "ca": 144, "pa": 158, "calls": 68, "source": "codex"}, {"skill": "codex:documents", "is": "Word Belge Ustası", "club": "Bürokratie United", "model": "GPT-6.1 Sol", "ca": 150, "pa": 160, "calls": 60, "source": "codex"}, {"skill": "codex:presentations", "is": "Sunum Hazırlayıcı", "club": "Akademik Athletic", "model": "GPT-6.1 Sol", "ca": 148, "pa": 160, "calls": 60, "source": "codex"}, {"skill": "codex:pdf", "is": "PDF İşleyici", "club": "Bürokratie United", "model": "GPT-6.1 Sol", "ca": 140, "pa": 146, "calls": 60, "source": "codex"}, {"skill": "codex:artifact-template-palace-restaurant-posts", "is": "Palace Restaurant Instagram Serisi", "club": "O.K. Film FC", "model": "GPT-6.1 Sol", "ca": 151, "pa": 170, "calls": 35, "source": "altyapi"}, {"skill": "codex:spreadsheets", "is": "Tablo & Excel Uzmanı", "club": "Bürokratie United", "model": "GPT-6.1 Sol", "ca": 152, "pa": 162, "calls": 27, "source": "codex"}, {"skill": "codex:sites", "is": "Web Sitesi Kurucu", "club": "Dev Rangers", "model": "GPT-6.1 Sol", "ca": 141, "pa": 163, "calls": 25, "source": "codex"}, {"skill": "codex:artifact-template-restaurants", "is": "Restoran Instagram Postları", "club": "O.K. Film FC", "model": "GPT-6.1 Sol", "ca": 146, "pa": 168, "calls": 24, "source": "altyapi"}, {"skill": "premiere-auto-selects", "is": "Otomatik Kesim Seçici", "club": "O.K. Film FC", "model": "Opus 5.5", "ca": 168, "pa": 186, "calls": 13, "source": "altyapi"}, {"skill": "reverse-engineer-anything", "is": "Tersine Mühendislik", "club": "Dev Rangers", "model": "Opus 5.5", "ca": 150, "pa": 180, "calls": 12, "source": "github"}, {"skill": "multicam-audio-sync", "is": "Çok Kamera Ses Senkronu", "club": "O.K. Film FC", "model": "Sonnet 5.5", "ca": 154, "pa": 178, "calls": 11, "source": "altyapi"}, {"skill": "world-brief", "is": "Dünya Bülteni", "club": "Akademik Athletic", "model": "Opus 5.5", "ca": 152, "pa": 170, "calls": 9, "source": "github"}, {"skill": "yt-script", "is": "YouTube Senaristi", "club": "Sosyal Medya City", "model": "Opus 5.5", "ca": 146, "pa": 188, "calls": 8, "source": "github"}, {"skill": "country-briefing", "is": "Ülke Risk Analisti", "club": "Akademik Athletic", "model": "Opus 5.5", "ca": 155, "pa": 172, "calls": 7, "source": "github"}, {"skill": "conflict-pulse", "is": "Çatışma Takipçisi", "club": "Akademik Athletic", "model": "Opus 5.5", "ca": 148, "pa": 165, "calls": 7, "source": "github"}, {"skill": "hazard-watch", "is": "Afet Gözcüsü", "club": "Akademik Athletic", "model": "Opus 5.5", "ca": 146, "pa": 162, "calls": 7, "source": "github"}];
 
 /* ---------- data layer: fixture | live | rehearsal ---------- */
@@ -454,7 +461,7 @@ function xp(){ // visible rule: 10 XP per task the owner accepted in the core. N
 }
 
 /* ---------- rendering ---------- */
-const VIEWS = [["portal","Portal"],["inbox","Gelen Kutusu"],["isler","İşler"],["kadro","Kadro"],["operasyon","Operasyon"],["transfer","Transfer"],["antrenman","Antrenman"],["ajanda","Ajanda"],["kutuphane","Kütüphane"],["yonetim","Yönetim"]];
+const VIEWS = [["portal","Portal"],["inbox","Gelen Kutusu"],["isler","İşler"],["kadro","Kadro"],["operasyon","Operasyon"],["transfer","Transfer"],["antrenman","Antrenman"],["ajanda","Ajanda"],["kutuphane","Bina"],["yonetim","Yönetim"]];
 const ICON = {portal:"M3 10l7-6 7 6v7h-5v-4H8v4H3z", inbox:"M3 5h14v10H3zM3 6l7 5 7-5", isler:"M5 3h10v14H5zM7 7h6M7 10h6M7 13h4", kadro:"M7 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM1 17c0-4 12-4 12 0M14 9a2.5 2.5 0 1 0 0-5M15 12c3 0 4 2 4 5",
   operasyon:"M3 4h4v12H3zM8 4h4v8H8zM13 4h4v5h-4z", transfer:"M3 7h12l-3-3M17 13H5l3 3", antrenman:"M2 8v4M5 6v8M15 6v8M18 8v4M5 10h10", ajanda:"M4 4h12v13H4zM4 8h12M7 2v4M13 2v4", kutuphane:"M3 16V5l7-2 7 2v11M3 16h14M7 16V8M10 16V7M13 16V8", yonetim:"M3 17h14M5 17V9M10 17V5M15 17v-6"};
 const ico = k => `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="${ICON[k]}"/></svg>`;
@@ -751,6 +758,8 @@ function seatInfo(seat){
     : t.due ? `${fmt(t.due)} · ${STATE_TR[t.state]}` : `Tarihsiz · ${STATE_TR[t.state]}`;
   return {task:t, question:t.title, source:files.length ? files.join(", ") : null, next};
 }
+function refsHtml(id){ const r = ROLE_REFS[id] || []; if(!r.length) return `Önceki taramada bu role uyan CA/PA 180+ repo yok.`;
+  return r.map(x => `<span class="mono" style="font-size:12px">${esc(x[0])}</span> <span class="tag">CA ${x[1]} · PA ${x[2]}*</span>${x[3] ? ` <span class="tag v">README okundu</span>` : ""}`).join("<br>") + `<br><span class="lbl">* önceki taramanın doğrulanmamış repo tahmini; ajanın puanı değildir</span>`; }
 function vLibrary(){
   if(!ENST){ loadEnst().then(() => { if(view() === "kutuphane") render(); }); return `<section class="panel"><h2>Kütüphane</h2><p class="empty">Yükleniyor…</p></section>`; }
   if(ENST.failed) return `<section class="panel"><h2>Kütüphane</h2><p class="empty">Koltuk planı (enstitut.json) okunamadı.</p></section>`;
@@ -771,10 +780,11 @@ function vLibrary(){
         <dt>Kullandığı kaynak</dt><dd>${i.source ? `<span class="mono">${esc(i.source)}</span>` : i.task ? "kaynak kaydı yok" : "—"}</dd>
         <dt>Sıradaki teslim</dt><dd>${i.next ? esc(i.next) : "—"}</dd>
         <dt>Durum</dt><dd>${i.task ? stTag(i.task.state) : `<b>Boşta</b> — çekirdekte kayıtlı görev yok`}</dd>
-        <dt>Tanım</dt><dd class="mono" style="font-size:12px">${esc(sel.definition)}</dd></dl>
+        <dt>Tanım</dt><dd class="mono" style="font-size:12px">${esc(sel.definition)}</dd>
+        ${ROLE_REFS[sel.id] ? `<dt>Referans repolar</dt><dd>${refsHtml(sel.id)}</dd>` : ""}</dl>
       ${i.task ? `<div class="row-actions"><button class="btn" type="button" data-act="open" data-id="${esc(i.task.task_id)}">Gelen Kutusu'nda aç</button></div>` : ""}`; }
-  return `<div class="split lib"><section class="panel"><div class="lbl">${esc(ENST.name)} · ${esc(room.inspired)}’den esinlenildi</div>
-      <div class="row-actions" style="margin:6px 0 10px" role="group" aria-label="Mekân">${ENST.rooms.map(r => `<button class="btn sm" type="button" data-act="room" data-id="${r.id}" aria-pressed="${r.id===room.id}">${esc(r.name)}</button>`).join("")}</div>
+  return `<div class="split lib"><section class="panel"><div class="lbl">${esc(room.floor)} · ${room.floor === "Kütüphane" ? esc(room.inspired) + "’den esinlenildi" : "kütüphaneden ayrı kat, her rol kendi odasında"}</div>
+      <div class="row-actions" style="margin:6px 0 10px" role="group" aria-label="Kat ve mekân">${[...new Set(ENST.rooms.map(r => r.floor))].map(f => `<span class="lbl" style="align-self:center">${esc(f)}:</span>` + ENST.rooms.filter(r => r.floor === f).map(r => `<button class="btn sm" type="button" data-act="room" data-id="${r.id}" aria-pressed="${r.id===room.id}">${esc(r.name)}</button>`).join("")).join("")}</div>
       <div id="libStage" class="stage" aria-label="${esc(room.name)} — üç boyutlu görünüm. Koltukların tamamı aşağıdaki listede."></div>
       <p class="lbl" style="margin-top:6px">Sürükle: döndür · tekerlek ya da iki parmak: yakınlaş · koltuğa dokun: ayrıntı. Oturan figür, o ajanın çekirdekte kayıtlı bir görevi olduğunu gösterir; canlı bir çalışma animasyonu değildir.</p>
       <h3 style="margin-top:12px">${esc(room.name)} — koltuklar</h3>
@@ -869,6 +879,27 @@ const Lib = { three:null, renderer:null, canvas:null, scene:null, cam:null, orbi
         for(let k = 0; k < 8; k++){ const a = k * Math.PI / 4, b = new THREE.Mesh(new THREE.SphereGeometry(.13, 10, 8), new THREE.MeshBasicMaterial({color:0xffe9b0})); b.position.set(x + Math.cos(a) * .9, 5.72, Math.sin(a) * .9); g.add(b); } }
       L.box(g, 18, .2, 13, 0, 8.1, 0, M.panel);
       return {slots, target:[0, 1.8, -.4], dist:14.5, theta:.42, phi:1.2, min:5, max:19};
+    },
+    okfilm(L, g, M){ // a separate office floor: corridor with three rooms on each side, one room per role, roofless so you can look in
+      const slots = [], names = (ENST.seats || []).filter(s => s.room === "okfilm").sort((a, b) => a.slot - b.slot);
+      const W = 5.2, D = 4.6, H = 2.7, wall = L.mat(0xe7e2d6), trim = L.mat(L.css("--okfilm")), carpet = L.mat(0x3a3f48), cor = L.mat(0x8a8f98);
+      L.box(g, W * 3 + .4, .2, D * 2 + 3.4, 0, -.1, 0, carpet); L.box(g, W * 3 + .4, .02, 2.6, 0, .011, 0, cor);
+      for(let i = 0; i < 6; i++){ const col = i % 3, back = i < 3, x = (col - 1) * W, zc = back ? -(1.3 + D / 2) : (1.3 + D / 2), s = back ? 1 : -1;
+        L.box(g, .12, H, D, x - W / 2, H / 2, zc, wall); L.box(g, .12, H, D, x + W / 2, H / 2, zc, wall);                 // side walls
+        L.box(g, W, H, .12, x, H / 2, zc - s * D / 2, wall);                                                              // outer wall
+        L.box(g, W - 1.5, H, .1, x + .75, H / 2, zc + s * D / 2, M.glass); L.box(g, W - 1.5, .08, .12, x + .75, H, zc + s * D / 2, trim);   // glass front, door gap at the left
+        L.box(g, .1, H, .14, x - W / 2 + 1.45, H / 2, zc + s * D / 2, trim);
+        const sign = new THREE.Mesh(new THREE.PlaneGeometry(2.4, .5), new THREE.MeshBasicMaterial({map:L.text([(names[i]?.door) || ("ODA " + (i + 1))], {fg:"#16171a", bg:"#f3efe4", size:60, h:108}), side:THREE.DoubleSide}));
+        sign.material.side = THREE.FrontSide; sign.position.set(x + .75, 2.2, zc + s * (D / 2 + .07)); if(!back) sign.rotation.y = Math.PI; g.add(sign);
+        const sign2 = sign.clone(); sign2.rotation.y = back ? Math.PI : 0; sign2.position.z = zc + s * (D / 2 - .07); g.add(sign2);
+        const dz = zc - s * .9; L.table(g, 2.2, .95, x + .4, 0, dz, M.table, true);                                       // desk
+        L.box(g, .9, .5, .05, x + .4, 1.15, dz - s * .25, M.dark); if(i === 4) L.box(g, .9, .5, .05, x + 1.35, 1.15, dz - s * .2, M.dark);   // monitor(s); the edit suite gets two
+        L.box(g, .5, 1.5, 1.6, x - W / 2 + .4, .75, zc - s * 1.2, i === 5 ? M.wood2 : M.wood);                             // shelf / cabinet
+        if(i === 3){ L.box(g, .7, 1.7, .8, x + W / 2 - .6, .85, zc - s * 1.4, M.dark); for(let k = 0; k < 4; k++) L.box(g, .5, .04, .02, x + W / 2 - .6, .4 + k * .35, zc - s * 1.4 + s * .41, new THREE.MeshBasicMaterial({color:0x6fe0a0})); }  // storage rack with status lights
+        if(i === 1) L.box(g, 1.6, 1.1, .05, x + W / 2 - 1.1, 1.5, zc - s * (D / 2 - .1), new THREE.MeshBasicMaterial({color:0xfaf7ef}));         // pin board
+        slots.push({p:[x + .4, 0, dz + s * .85], r:back ? 0 : Math.PI});
+      }
+      return {slots, target:[0, .8, 0], dist:17, theta:.35, phi:.82, min:6, max:26};
     }
   },
   build(){
@@ -876,7 +907,7 @@ const Lib = { three:null, renderer:null, canvas:null, scene:null, cam:null, orbi
     this.scene = new T.Scene(); this.scene.background = new T.Color(this.css("--shell")); this.picks = [];
     this.scene.add(new T.HemisphereLight(0xfff0d2, 0x4a2c14, 1.0)); const d = new T.DirectionalLight(0xffe2ad, .7); d.position.set(9, 16, 6); this.scene.add(d);
     // Palette sampled by eye from the owner's Grimm-Zentrum photographs: cherry-veneer piers, grey-green linoleum tables, black chairs, brown wood-block floor.
-    const grimm = libRoom !== "avize";
+    const grimm = libRoom === "okuma" || libRoom === "kabin";
     const M = {wood:this.mat(grimm ? 0xb4682a : 0xb07538), wood2:this.mat(grimm ? 0x8f4f1f : 0x8c5a2a), floor:this.mat(libRoom === "kabin" ? 0x2b2e33 : 0x6a4a30), table:this.mat(grimm ? 0x3f4c4e : 0x2e3b3a), dark:this.mat(0x17181b),
                parquet:this.mat(0x9a6b3c), panel:this.mat(0x5e3d24), gold:this.mat(0xc9a24a), glass:new T.MeshLambertMaterial({color:0xdfeef0, transparent:true, opacity:.12})};
     const g = new T.Group(); this.scene.add(g);

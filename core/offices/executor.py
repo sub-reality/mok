@@ -18,7 +18,7 @@ def run_task(store: Store, task_id: str, provider) -> dict:
     if store.simulation and provider.name != "mock":
         raise NotRunnable("a rehearsal store never gets live inference or live tools; use the mock provider")
     office = OFFICES[task["office"]]
-    agent = office.worker
+    agent = office.workers[task["workflow"]]
     run_id = new_id("run")
     store.set_state(task_id, "running")
     store.q("INSERT INTO runs VALUES(?,?,?,?,?,?,?,?,?,?,?)", run_id, task_id, agent.id, provider.name,

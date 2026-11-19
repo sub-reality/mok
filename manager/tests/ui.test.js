@@ -62,10 +62,10 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
   // all screens render; no date before the plan start in planning cards
   // library rooms
   await p.goto(base + '#kutuphane'); await p.waitForSelector('#libCanvas');
-  ok(await p.locator('.seatbtn').count() === 4, 'seat list has one entry per Institute agent in enstitut.json');
-  for (const r of ['okuma', 'kabin', 'avize']) { await p.click(`[data-act="room"][data-id="${r}"]`); await p.waitForSelector('#libCanvas'); await p.waitForTimeout(150);
+  ok(await p.locator('.seatbtn').count() === 10, 'seat list has one entry per seat in enstitut.json');
+  for (const r of ['okuma', 'kabin', 'avize', 'okfilm']) { await p.click(`[data-act="room"][data-id="${r}"]`); await p.waitForSelector('#libCanvas'); await p.waitForTimeout(150);
     ok(await p.evaluate(() => Lib.colours()) > 8, '3D room renders non-blank: ' + r); await p.screenshot({path: path.join(out, 'lib-' + r + '.png')}); }
-  ok(await p.evaluate(() => ENST.seats.every(s => s.office === 'institute')), 'library seats only Institute staff');
+  ok(await p.evaluate(() => ENST.seats.every(s => (s.room === 'okfilm') === (s.office === 'okfilm') && (s.room === 'okfilm' || s.office === 'institute')) && ENST.seats.filter(s => s.room === 'okfilm').length === 6), 'library seats only Institute staff; O.K. Film floor has six role rooms');
   await p.click('[data-act="seat"][data-id="institute-worker"]'); await p.waitForTimeout(150);
   const want = await p.evaluate(() => { const t = S.snap.tasks.find(x => x.office === 'institute'); return [t.title, STATE_TR[t.state]]; });
   const pane = await p.locator('.split.lib > .panel').nth(1).innerText();
@@ -97,6 +97,6 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
   const nogl = await b.newContext({viewport: {width: 1200, height: 800}}); const g = await nogl.newPage();
   await g.addInitScript(() => { const o = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function (t, ...a) { return /webgl/.test(t) ? null : o.call(this, t, ...a); }; });
   await g.goto(base + '#kutuphane'); await g.waitForSelector('.seatbtn'); await g.waitForTimeout(600);
-  ok((await g.locator('#libStage').innerText()).includes('açılamadı') && await g.locator('.seatbtn').count() === 4, 'without WebGL the seat list still works and says so');
+  ok((await g.locator('#libStage').innerText()).includes('açılamadı') && await g.locator('.seatbtn').count() === 10, 'without WebGL the seat list still works and says so');
   await b.close(); srv.close(); console.log(fails ? fails + ' FAILED' : 'ALL PASSED'); process.exit(fails ? 1 : 0);
 })();

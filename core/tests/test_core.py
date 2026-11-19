@@ -193,6 +193,29 @@ class TestRuns(Base):
         tid = self.make()
         self.assertEqual(executor.run_task(self.st, tid, Sub())["state"], "failed")
 
+class TestOkfilmRoles(Base):
+    ROLES = {"okfilm.product_brief": "okfilm-product-manager", "okfilm.uix_spec": "okfilm-uix-designer", "okfilm.data_plan": "okfilm-data-engineer",
+             "okfilm.edit_plan": "okfilm-editor", "okfilm.legal_review": "okfilm-lawyer", "okfilm.production_plan": "okfilm-worker"}
+    def test_each_role_has_its_own_worker_brief_and_run(self):
+        from offices import workflows
+        for wf, agent in self.ROLES.items():
+            tid = self.make(workflow=wf)
+            res = executor.run_task(self.st, tid, providers.MockProvider())
+            self.assertEqual(res["state"], "awaiting_review", wf)
+            self.assertEqual(service.task_detail(self.st, self.o, tid)["runs"][0]["agent"], agent)
+            self.assertIn("Not done", workflows.system_prompt(self.st.task(tid)))
+        self.assertEqual({a["id"] for a in service.snapshot(self.st, self.o)["agents"] if a["office"] == "okfilm"}, set(self.ROLES.values()))
+    def test_lawyer_brief_forbids_legal_advice_and_cannot_decide_approvals(self):
+        from offices import workflows
+        from offices.profiles import OFFICES
+        tid = self.make(workflow="okfilm.legal_review")
+        sp = workflows.system_prompt(self.st.task(tid))
+        self.assertIn("NOT legal advice", sp); self.assertIn("Hukuki tavsiye değildir", sp)
+        self.assertNotIn("date_math", OFFICES["okfilm"].workers["okfilm.uix_spec"].tools)
+    def test_role_workflow_cannot_be_created_in_another_office(self):
+        r = service.handle(self.st, cmd("institute", "task.create", {"title": "x", "workflow": "okfilm.legal_review"}), self.o)
+        self.assertEqual(r["error"]["code"], "workflow_office_mismatch")
+
 class TestLesson(Base):
     def test_one_prompt_at_a_time_hints_and_review(self):
         r = service.handle(self.st, cmd("school", "task.create", {"title": "Fokus 4 günlük cümle", "workflow": "school.lesson", "queue": True,

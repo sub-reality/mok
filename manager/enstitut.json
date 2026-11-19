@@ -1,21 +1,30 @@
 {
   "name": "Enstitüt – Library",
-  "note": "Presentation data owned by the manager: who sits where. Status shown at a seat always comes from the core read model, never from this file. 'open' is a question not yet registered as a core task. The library seats only Institute staff; other offices' workers are listed on the Kadro screen.",
+  "note": "Presentation data owned by the manager: who sits where. Status shown at a seat always comes from the core read model, never from this file. 'open' is a question not yet registered as a core task. The library rooms seat only Institute staff. O.K. Film has its own floor with one room per role.",
   "rooms": [
     {
       "id": "okuma",
       "name": "Okuma Salonu",
-      "inspired": "Grimm-Zentrum, Berlin"
+      "inspired": "Grimm-Zentrum, Berlin",
+      "floor": "Kütüphane"
     },
     {
       "id": "kabin",
       "name": "Kabinler",
-      "inspired": "Grimm-Zentrum çalışma kabinleri"
+      "inspired": "Grimm-Zentrum çalışma kabinleri",
+      "floor": "Kütüphane"
     },
     {
       "id": "avize",
       "name": "Avizeli Salon",
-      "inspired": "Szabó Ervin Kütüphanesi, Budapeşte"
+      "inspired": "Szabó Ervin Kütüphanesi, Budapeşte",
+      "floor": "Kütüphane"
+    },
+    {
+      "id": "okfilm",
+      "name": "O.K. Film Katı",
+      "inspired": "özgün ofis katı",
+      "floor": "O.K. Film und Medienproduktion"
     }
   ],
   "seats": [
@@ -65,6 +74,78 @@
       "place": "Teras 3 · soldan birinci koltuk",
       "agent": "institute-worker",
       "definition": ".claude/agents/institute-worker.md"
+    },
+    {
+      "id": "okfilm-product-manager",
+      "name": "Product Manager",
+      "role": "Teklif ve kapsam brifi",
+      "office": "okfilm",
+      "room": "okfilm",
+      "slot": 0,
+      "place": "Oda 1 · Product",
+      "agent": "okfilm-product-manager",
+      "definition": ".claude/agents/okfilm-product-manager.md",
+      "door": "PRODUCT"
+    },
+    {
+      "id": "okfilm-uix-designer",
+      "name": "UI/UX Designer",
+      "role": "Biçim ve okunabilirlik şartnamesi",
+      "office": "okfilm",
+      "room": "okfilm",
+      "slot": 1,
+      "place": "Oda 2 · Design",
+      "agent": "okfilm-uix-designer",
+      "definition": ".claude/agents/okfilm-uix-designer.md",
+      "door": "DESIGN"
+    },
+    {
+      "id": "okfilm-worker",
+      "name": "Project Manager",
+      "role": "Üretim planı, takvim, teslim listesi",
+      "office": "okfilm",
+      "room": "okfilm",
+      "slot": 2,
+      "place": "Oda 3 · Project",
+      "agent": "okfilm-worker",
+      "definition": ".claude/agents/okfilm-worker.md",
+      "door": "PROJECT"
+    },
+    {
+      "id": "okfilm-data-engineer",
+      "name": "Data Engineer",
+      "role": "Medya ve veri hattı planı",
+      "office": "okfilm",
+      "room": "okfilm",
+      "slot": 3,
+      "place": "Oda 4 · Data",
+      "agent": "okfilm-data-engineer",
+      "definition": ".claude/agents/okfilm-data-engineer.md",
+      "door": "DATA"
+    },
+    {
+      "id": "okfilm-editor",
+      "name": "Video and Photo Editor",
+      "role": "Kurgu planı, sürümler, export kontrol listesi",
+      "office": "okfilm",
+      "room": "okfilm",
+      "slot": 4,
+      "place": "Oda 5 · Edit Suite",
+      "agent": "okfilm-editor",
+      "definition": ".claude/agents/okfilm-editor.md",
+      "door": "EDIT SUITE"
+    },
+    {
+      "id": "okfilm-lawyer",
+      "name": "Lawyer",
+      "role": "Hukuki ön tespit listesi — hukuki tavsiye değildir",
+      "office": "okfilm",
+      "room": "okfilm",
+      "slot": 5,
+      "place": "Oda 6 · Legal",
+      "agent": "okfilm-lawyer",
+      "definition": ".claude/agents/okfilm-lawyer.md",
+      "door": "LEGAL"
     }
   ]
 }

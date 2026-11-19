@@ -169,8 +169,8 @@ def snapshot(store: Store, auth: AuthContext) -> dict:
     return {"schema_version": SCHEMA_VERSION, "generated_at": now(), "cursor": store.cursor(),
             "oldest_cursor": store.oldest_cursor(), "simulation": store.simulation,
             "offices": [{"id": o.id, "name": o.name, "workflows": list(o.workflows)} for o in OFFICES.values() if o.id in auth.offices],
-            "agents": [{"id": o.worker.id, "office": o.id, "role": o.worker.role, "tools": list(o.worker.tools),
-                        "runtime": "claude-agent-sdk | mock"} for o in OFFICES.values() if o.id in auth.offices],
+            "agents": [{"id": w.id, "office": o.id, "role": w.role, "tools": list(w.tools), "runtime": "claude-agent-sdk | mock"}
+                       for o in OFFICES.values() if o.id in auth.offices for w in o.workers.values()],
             "tasks": tasks, "runs": runs, "artifacts": arts}
 
 def events_since(store: Store, auth: AuthContext, since: int, limit: int = 500) -> dict:
