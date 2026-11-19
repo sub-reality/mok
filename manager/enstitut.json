@@ -1,0 +1,22 @@
+{
+  "name": "Enstitüt – Library",
+  "note": "Presentation data owned by the manager: who sits where. Status shown at a seat always comes from the core read model, never from this file. 'open' is a question not yet registered as a core task.",
+  "rooms": [
+    {"id": "okuma", "name": "Okuma Salonu", "inspired": "Grimm-Zentrum, Berlin"},
+    {"id": "kabin", "name": "Kabinler", "inspired": "Grimm-Zentrum çalışma kabinleri"},
+    {"id": "avize", "name": "Avizeli Salon", "inspired": "Szabó Ervin Kütüphanesi, Budapeşte"}
+  ],
+  "seats": [
+    {"id": "iris", "name": "Dr. Iris Dauer", "role": "Ana mentor · Felsefe ve Estetik kürsü başkanı", "office": "institute", "room": "kabin", "slot": 2, "place": "Arbeitskabine 5.16", "project": "pilot-01", "definition": ".claude/agents/mentor.md",
+     "open": "Pilot 01 — Bleu'de konçerto teması ikinci kez duyulduğunda görüntü nasıl değişiyor?"},
+    {"id": "jakob", "name": "Jakob Lindner", "role": "Araştırma kütüphanecisi", "office": "institute", "room": "avize", "slot": 0, "place": "Merdivenli okuma köşesi", "project": "kaynak-dogrulama", "definition": ".claude/agents/kutuphaneci.md",
+     "open": "“Auteurs and Their Music” izlencesi — yüklenmesi bekleniyor"},
+    {"id": "mira", "name": "Mira Ervin", "role": "Araştırma asistanı", "office": "institute", "room": "okuma", "slot": 13, "place": "Teras 3 · soldan ikinci koltuk", "project": "pilot-01-kayit", "definition": ".claude/agents/asistan.md",
+     "open": "Bleu — kullanılan film kopyasında iki anın doğrulanması (kopya bilgisi bekleniyor)"},
+    {"id": "institute-worker", "name": "institute-worker", "role": "Kaynak okuyucu · iddia-kanıt haritası", "office": "institute", "room": "okuma", "slot": 12, "place": "Teras 3 · soldan birinci koltuk", "agent": "institute-worker", "definition": ".claude/agents/institute-worker.md"},
+    {"id": "okfilm-worker", "name": "okfilm-worker", "role": "Prodüksiyon planlamacısı", "office": "okfilm", "room": "okuma", "slot": 0, "place": "Teras 1 · soldan birinci koltuk", "agent": "okfilm-worker", "definition": ".claude/agents/okfilm-worker.md"},
+    {"id": "school-worker", "name": "school-worker", "role": "Ders gözlemcisi", "office": "school", "room": "okuma", "slot": 4, "place": "Teras 1 · soldan beşinci koltuk", "agent": "school-worker", "definition": ".claude/agents/school-worker.md"},
+    {"id": "hermes", "name": "hermes", "role": "Koordinatör · haftalık brif", "office": null, "room": "avize", "slot": 1, "place": "Uzun masa · baş koltuk", "agent": "hermes", "definition": ".claude/agents/hermes.md"},
+    {"id": "rea", "name": "rea", "role": "Ritim · özel rutinler", "office": null, "room": "kabin", "slot": 4, "place": "Arbeitskabine 5.18", "agent": "rea", "definition": ".claude/agents/rea.md"}
+  ]
+}

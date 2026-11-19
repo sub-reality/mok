@@ -60,7 +60,24 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
   ok((await p.locator('#banner').innerText()).includes('ulaşılamıyor'), 'unreachable core shows a stale banner');
   ok(await p.evaluate(() => S.snap.tasks.length === 3), 'last known state is kept, nothing invented');
   // all screens render; no date before the plan start in planning cards
-  for (const v of ['portal','inbox','isler','kadro','operasyon','transfer','antrenman','ajanda','yonetim']) { await p.goto(base + '#' + v); await p.waitForTimeout(80); ok((await p.locator('#view').innerText()).length > 40, 'screen renders: ' + v); }
+  // library rooms
+  await p.goto(base + '#kutuphane'); await p.waitForSelector('#libCanvas');
+  ok(await p.locator('.seatbtn').count() === 8, 'seat list has one entry per agent in enstitut.json');
+  for (const r of ['okuma', 'kabin', 'avize']) { await p.click(`[data-act="room"][data-id="${r}"]`); await p.waitForSelector('#libCanvas'); await p.waitForTimeout(150);
+    ok(await p.evaluate(() => Lib.colours()) > 8, '3D room renders non-blank: ' + r); await p.screenshot({path: path.join(out, 'lib-' + r + '.png')}); }
+  await p.click('[data-act="seat"][data-id="okfilm-worker"]'); await p.waitForTimeout(150);
+  const want = await p.evaluate(() => { const t = S.snap.tasks.find(x => x.office === 'okfilm'); return [t.title, STATE_TR[t.state]]; });
+  const pane = await p.locator('.split.lib > .panel').nth(1).innerText();
+  ok(pane.includes(want[0]) && pane.includes(want[1]) && pane.includes('brief.md'), 'okfilm-worker seat shows the core task, its state and its source files');
+  await p.click('[data-act="seat"][data-id="hermes"]'); await p.waitForTimeout(150);
+  ok((await p.locator('.split.lib > .panel').nth(1).innerText()).includes('Boşta'), 'a seat with no recorded task says Boşta');
+  await p.click('[data-act="seat"][data-id="iris"]'); await p.waitForTimeout(200);
+  ok((await p.locator('.split.lib > .panel').nth(1).innerText()).includes('henüz görev değil'), 'mentor seat marks the pilot question as not yet a core task');
+  await p.click('[data-act="seat"][data-id="rea"]'); await p.waitForTimeout(200);
+  const xy = await p.evaluate(() => Lib.screenOf('iris')); await p.mouse.click(xy[0], xy[1]); await p.waitForTimeout(200);
+  ok(await p.evaluate(() => libSeat) === 'iris', 'clicking a seat in the 3D scene selects it');
+  await p.screenshot({path: path.join(out, 'lib-selected.png')});
+  for (const v of ['portal','inbox','isler','kadro','operasyon','transfer','antrenman','ajanda','kutuphane','yonetim']) { await p.goto(base + '#' + v); await p.waitForTimeout(80); ok((await p.locator('#view').innerText()).length > 40, 'screen renders: ' + v); }
   ok(await p.evaluate(() => MILESTONES.every(m => addDays(PLAN_START, m[0]-1) >= '2026-11-17') && addDays(PLAN_START, 89) === '2027-02-14'), 'plan dates start 17.11.2026 and end 14.02.2027');
   ok(await p.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1), 'no horizontal page scroll (desktop)');
   await p.goto(base + '#portal'); await p.screenshot({path: path.join(out, 'portal-desktop-dark.png')});
@@ -72,5 +89,13 @@ let fails = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); 
   ok(await q.locator('#devam2').isVisible(), 'phone has the Devam button in the thumb zone');
   await q.screenshot({path: path.join(out, 'portal-phone-light.png')});
   await q.goto(base + '#ajanda'); await q.waitForSelector('#ink'); await q.screenshot({path: path.join(out, 'ajanda-phone-light.png')});
+  await q.goto(base + '#kutuphane'); await q.waitForSelector('#libCanvas'); await q.waitForTimeout(200);
+  ok(await q.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1), 'library: no horizontal page scroll (phone)');
+  await q.screenshot({path: path.join(out, 'lib-phone.png')});
+  // no WebGL -> list fallback
+  const nogl = await b.newContext({viewport: {width: 1200, height: 800}}); const g = await nogl.newPage();
+  await g.addInitScript(() => { const o = HTMLCanvasElement.prototype.getContext; HTMLCanvasElement.prototype.getContext = function (t, ...a) { return /webgl/.test(t) ? null : o.call(this, t, ...a); }; });
+  await g.goto(base + '#kutuphane'); await g.waitForSelector('.seatbtn'); await g.waitForTimeout(600);
+  ok((await g.locator('#libStage').innerText()).includes('açılamadı') && await g.locator('.seatbtn').count() === 8, 'without WebGL the seat list still works and says so');
   await b.close(); srv.close(); console.log(fails ? fails + ' FAILED' : 'ALL PASSED'); process.exit(fails ? 1 : 0);
 })();

@@ -196,6 +196,15 @@ canvas#ink{display:block;width:100%;height:260px;touch-action:none}
   .bottom .btn{padding:11px 14px}
   .topbar .devam{display:none}
 }
+.stage{position:relative;width:100%;aspect-ratio:16/10;max-height:62vh;min-height:240px;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--shell)}
+.stage canvas{display:block;width:100%;height:100%;cursor:grab}
+.split.lib{grid-template-columns:minmax(0,7fr) minmax(0,4fr)}
+.seatlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:6px}
+.seatbtn{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;text-align:left;background:var(--panel-2);border:1px solid var(--line);border-radius:4px;padding:6px 8px;color:var(--ink);min-width:0}
+.seatbtn[aria-pressed="true"]{border-color:var(--info);box-shadow:inset 0 0 0 1px var(--info)}
+.ava.none{background:var(--dim)}
+.panel .btn[aria-pressed="true"]{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+@media (max-width:900px){.split.lib{grid-template-columns:minmax(0,1fr)}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 
@@ -445,9 +454,9 @@ function xp(){ // visible rule: 10 XP per task the owner accepted in the core. N
 }
 
 /* ---------- rendering ---------- */
-const VIEWS = [["portal","Portal"],["inbox","Gelen Kutusu"],["isler","İşler"],["kadro","Kadro"],["operasyon","Operasyon"],["transfer","Transfer"],["antrenman","Antrenman"],["ajanda","Ajanda"],["yonetim","Yönetim"]];
+const VIEWS = [["portal","Portal"],["inbox","Gelen Kutusu"],["isler","İşler"],["kadro","Kadro"],["operasyon","Operasyon"],["transfer","Transfer"],["antrenman","Antrenman"],["ajanda","Ajanda"],["kutuphane","Kütüphane"],["yonetim","Yönetim"]];
 const ICON = {portal:"M3 10l7-6 7 6v7h-5v-4H8v4H3z", inbox:"M3 5h14v10H3zM3 6l7 5 7-5", isler:"M5 3h10v14H5zM7 7h6M7 10h6M7 13h4", kadro:"M7 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM1 17c0-4 12-4 12 0M14 9a2.5 2.5 0 1 0 0-5M15 12c3 0 4 2 4 5",
-  operasyon:"M3 4h4v12H3zM8 4h4v8H8zM13 4h4v5h-4z", transfer:"M3 7h12l-3-3M17 13H5l3 3", antrenman:"M2 8v4M5 6v8M15 6v8M18 8v4M5 10h10", ajanda:"M4 4h12v13H4zM4 8h12M7 2v4M13 2v4", yonetim:"M3 17h14M5 17V9M10 17V5M15 17v-6"};
+  operasyon:"M3 4h4v12H3zM8 4h4v8H8zM13 4h4v5h-4z", transfer:"M3 7h12l-3-3M17 13H5l3 3", antrenman:"M2 8v4M5 6v8M15 6v8M18 8v4M5 10h10", ajanda:"M4 4h12v13H4zM4 8h12M7 2v4M13 2v4", kutuphane:"M3 16V5l7-2 7 2v11M3 16h14M7 16V8M10 16V7M13 16V8", yonetim:"M3 17h14M5 17V9M10 17V5M15 17v-6"};
 const ico = k => `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="${ICON[k]}"/></svg>`;
 const view = () => { const h = location.hash.slice(1); return VIEWS.some(v => v[0] === h) ? h : "portal"; };
 function toast(m){ let t = $("#toast"); if(!t){ t = document.createElement("div"); t.id = "toast"; t.setAttribute("role","status");
@@ -479,8 +488,9 @@ function renderChrome(){
 function render(){
   renderChrome();
   const v = view();
-  $("#view").innerHTML = ({portal:vPortal, inbox:vInbox, isler:vIsler, kadro:vKadro, operasyon:vOps, transfer:vTransfer, antrenman:vTraining, ajanda:vAjanda, yonetim:vBoard}[v])();
+  $("#view").innerHTML = ({portal:vPortal, inbox:vInbox, isler:vIsler, kadro:vKadro, operasyon:vOps, transfer:vTransfer, antrenman:vTraining, ajanda:vAjanda, kutuphane:vLibrary, yonetim:vBoard}[v])();
   if(v === "ajanda") initInk();
+  if(v === "kutuphane" && ENST && !ENST.failed) Lib.mount();
 }
 
 function vPortal(){
@@ -718,6 +728,185 @@ function vBoard(){
       <div class="row-actions"><button class="btn" type="button" data-act="enter-sim">${S.mode==="rehearsal"?"Prova modundasın":"Prova modunu aç (sentetik)"}</button></div></section></div>`;
 }
 
+/* ================= Kütüphane — three 3D rooms =================
+   A navigation and glance layer over the core's records. Seats and names are presentation data (enstitut.json);
+   what a seat shows (question, source, next delivery) is read from the snapshot. Nothing here simulates work. */
+let ENST = null, libRoom = LS.get("libRoom", "okuma"), libSeat = null;
+async function loadEnst(){ if(ENST) return ENST; try{ const r = await fetch("enstitut.json", {cache:"no-store"}); ENST = await r.json(); }catch(e){ ENST = {rooms:[], seats:[], failed:true}; } return ENST; }
+function seatTasks(seat){
+  const all = S.snap?.tasks || [];
+  let ts = [];
+  if(seat.agent){ const ids = new Set((S.snap?.runs || []).filter(r => r.agent === seat.agent).map(r => r.task_id)); ts = all.filter(t => ids.has(t.task_id)); }
+  else if(seat.project) ts = all.filter(t => t.project === seat.project);
+  const rank = {running:0, awaiting_review:1, awaiting_approval:1, queued:2, draft:3, failed:4, accepted:5, cancelled:6};
+  return ts.slice().sort((a,b) => rank[a.state]-rank[b.state] || (b.updated_at||"").localeCompare(a.updated_at||""));
+}
+function seatInfo(seat){
+  const t = seatTasks(seat)[0];
+  if(!t) return {task:null, question:seat.open || null, source:null, next:null};
+  const ev = (S.details[t.task_id]?.evidence || []).map(e => (e.locator||"").split(":")[0]).filter(Boolean);
+  const files = [...new Set(ev)], art = latestArt(t.task_id);
+  const next = t.state === "awaiting_review" && art ? `${art.name} v${art.version} — incelemeni bekliyor`
+    : t.state === "accepted" ? "Kabul edildi; açık teslim yok" : t.state === "failed" ? "Koşu başarısız; yeniden sıraya alınmayı bekliyor"
+    : t.due ? `${fmt(t.due)} · ${STATE_TR[t.state]}` : `Tarihsiz · ${STATE_TR[t.state]}`;
+  return {task:t, question:t.title, source:files.length ? files.join(", ") : null, next};
+}
+function vLibrary(){
+  if(!ENST){ loadEnst().then(() => { if(view() === "kutuphane") render(); }); return `<section class="panel"><h2>Kütüphane</h2><p class="empty">Yükleniyor…</p></section>`; }
+  if(ENST.failed) return `<section class="panel"><h2>Kütüphane</h2><p class="empty">Koltuk planı (enstitut.json) okunamadı.</p></section>`;
+  const seats = ENST.seats.filter(s => S.office === "all" || s.office === S.office || s.office == null);
+  const room = ENST.rooms.find(r => r.id === libRoom) || ENST.rooms[0];
+  const here = seats.filter(s => s.room === room.id);
+  const sel = seats.find(s => s.id === libSeat) || null;
+  const row = s => { const i = seatInfo(s); return `<button type="button" class="seatbtn" data-act="seat" data-id="${esc(s.id)}" aria-pressed="${sel?.id===s.id}">
+      <span class="ava ${s.office || "none"}" aria-hidden="true">${esc(s.name.replace(/^Dr\. /,"").slice(0,2).toUpperCase())}</span>
+      <span><b>${esc(s.name)}</b><br><span class="lbl">${esc(s.place)}</span></span>
+      ${i.task ? stTag(i.task.state) : `<span class="st idle">${i.question ? "görev değil" : "boşta"}</span>`}</button>`; };
+  let detail = `<p class="empty">Bir koltuk seç: sahnede tıkla ya da listeden seç.</p>`;
+  if(sel){ const i = seatInfo(sel);
+    detail = `<div class="lbl">${sel.office ? offTag(sel.office) : "tüm ofisler"} · ${esc(ENST.rooms.find(r => r.id === sel.room).name)} · ${esc(sel.place)}</div>
+      <h2 style="margin-top:2px;text-transform:none">${esc(sel.name)}</h2><p style="margin-top:2px">${esc(sel.role)}</p>
+      <dl class="kv" style="margin-top:8px">
+        <dt>Araştırdığı soru</dt><dd>${i.question ? esc(i.question) : "—"}${!i.task && i.question ? ` <span class="tag o">çekirdekte henüz görev değil</span>` : ""}</dd>
+        <dt>Kullandığı kaynak</dt><dd>${i.source ? `<span class="mono">${esc(i.source)}</span>` : i.task ? "kaynak kaydı yok" : "—"}</dd>
+        <dt>Sıradaki teslim</dt><dd>${i.next ? esc(i.next) : "—"}</dd>
+        <dt>Durum</dt><dd>${i.task ? stTag(i.task.state) : `<b>Boşta</b> — çekirdekte kayıtlı görev yok`}</dd>
+        <dt>Tanım</dt><dd class="mono" style="font-size:12px">${esc(sel.definition)}</dd></dl>
+      ${i.task ? `<div class="row-actions"><button class="btn" type="button" data-act="open" data-id="${esc(i.task.task_id)}">Gelen Kutusu'nda aç</button></div>` : ""}`; }
+  return `<div class="split lib"><section class="panel"><div class="lbl">${esc(ENST.name)} · ${esc(room.inspired)}’den esinlenildi</div>
+      <div class="row-actions" style="margin:6px 0 10px" role="group" aria-label="Mekân">${ENST.rooms.map(r => `<button class="btn sm" type="button" data-act="room" data-id="${r.id}" aria-pressed="${r.id===room.id}">${esc(r.name)}</button>`).join("")}</div>
+      <div id="libStage" class="stage" aria-label="${esc(room.name)} — üç boyutlu görünüm. Koltukların tamamı aşağıdaki listede."></div>
+      <p class="lbl" style="margin-top:6px">Sürükle: döndür · tekerlek ya da iki parmak: yakınlaş · koltuğa dokun: ayrıntı. Oturan figür, o ajanın çekirdekte kayıtlı bir görevi olduğunu gösterir; canlı bir çalışma animasyonu değildir.</p>
+      <h3 style="margin-top:12px">${esc(room.name)} — koltuklar</h3>
+      <div class="seatlist">${here.length ? here.map(row).join("") : `<p class="empty">Bu mekânda seçili ofise ait koltuk yok.</p>`}</div>
+      ${seats.filter(s => s.room !== room.id).length ? `<h3 style="margin-top:12px">Diğer mekânlar</h3><div class="seatlist">${seats.filter(s => s.room !== room.id).map(row).join("")}</div>` : ""}
+    </section><section class="panel">${detail}</section></div>`;
+}
+
+const Lib = { three:null, renderer:null, canvas:null, scene:null, cam:null, orbit:{}, picks:[], failed:false, built:"",
+  load(){ if(this.three) return this.three; this.three = new Promise((ok, no) => { if(window.THREE) return ok(); const s = document.createElement("script"); s.src = "vendor/three.min.js"; s.onload = () => ok(); s.onerror = () => no(new Error("three")); document.head.appendChild(s); }); return this.three; },
+  css(n){ return getComputedStyle(document.documentElement).getPropertyValue(n).trim() || "#888888"; },
+  async mount(){
+    const stage = $("#libStage"); if(!stage) return;
+    if(this.failed){ stage.innerHTML = `<p class="empty" style="padding:14px">Bu cihazda 3D görünüm açılamadı. Koltukların tamamı aşağıdaki listede.</p>`; return; }
+    try{ await this.load();
+      if(!this.renderer){ this.canvas = document.createElement("canvas"); this.canvas.id = "libCanvas";
+        this.renderer = new THREE.WebGLRenderer({canvas:this.canvas, antialias:true, preserveDrawingBuffer:true}); this.renderer.setPixelRatio(Math.min(2, devicePixelRatio || 1));
+        this.cam = new THREE.PerspectiveCamera(50, 1, .1, 200); this.bind(); }
+    }catch(e){ this.failed = true; return this.mount(); }
+    const st = $("#libStage"); if(!st) return; st.appendChild(this.canvas);
+    const w = st.clientWidth, h = st.clientHeight; this.renderer.setSize(w, h, false); this.cam.aspect = w / h; this.cam.updateProjectionMatrix();
+    this.build(); this.draw();
+  },
+  mat(c, o){ return new THREE.MeshLambertMaterial(Object.assign({color:c}, o || {})); },
+  box(g, w, h, d, x, y, z, m){ const b = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); b.position.set(x, y, z); g.add(b); return b; },
+  text(lines, opt){ const c = document.createElement("canvas"); c.width = 512; c.height = opt?.h || 128; const x = c.getContext("2d");
+    if(opt?.bg){ x.fillStyle = opt.bg; x.fillRect(0, 0, c.width, c.height); }
+    x.textAlign = "center"; x.textBaseline = "middle"; x.fillStyle = opt?.fg || "#ffffff";
+    lines.forEach((l, i) => { x.font = (i ? "500 " : "600 ") + (opt?.size || (i ? 30 : 44)) + "px 'Saira Condensed','Arial Narrow',Arial,sans-serif"; x.fillText(l, 256, c.height * (i + .5) / lines.length); });
+    const t = new THREE.CanvasTexture(c); t.anisotropy = 4; return t; },
+  chair(g, x, y, z, rot, m){ const c = new THREE.Group(); this.box(c, .46, .05, .46, 0, .46, 0, m); this.box(c, .46, .5, .05, 0, .72, .22, m);
+    for(const [a, b] of [[-.2,-.2],[.2,-.2],[-.2,.2],[.2,.2]]) this.box(c, .04, .46, .04, a, .23, b, m); c.position.set(x, y, z); c.rotation.y = rot; g.add(c); return c; },
+  table(g, w, d, x, y, z, m, lamp){ this.box(g, w, .06, d, x, y + .75, z, m); for(const [a, b] of [[-1,-1],[1,-1],[-1,1],[1,1]]) this.box(g, .06, .75, .06, x + a * (w / 2 - .08), y + .375, z + b * (d / 2 - .08), m);
+    if(lamp){ this.box(g, .05, .34, .05, x, y + .95, z, m); this.box(g, .34, .04, .2, x, y + 1.13, z, new THREE.MeshBasicMaterial({color:0xfff1c9})); } },
+  seatAt(g, seat, p, rot, chairMat){
+    const info = seatInfo(seat), busy = !!info.task, col = seat.office ? this.css("--" + seat.office) : "#9aa0ad";
+    const grp = new THREE.Group(); grp.position.set(p[0], p[1], p[2]); grp.rotation.y = rot; g.add(grp);
+    const ch = this.chair(grp, 0, 0, 0, 0, chairMat); const tag = o => { o.traverse(n => { n.userData.seat = seat.id; if(n.isMesh) this.picks.push(n); }); };
+    if(busy){ const body = new THREE.Mesh(new THREE.CylinderGeometry(.19, .23, .62, 14), this.mat(col)); body.position.set(0, .8, .02); grp.add(body);
+      const head = new THREE.Mesh(new THREE.SphereGeometry(.16, 16, 12), this.mat(col)); head.position.set(0, 1.28, .02); grp.add(head); }
+    const hit = new THREE.Mesh(new THREE.CylinderGeometry(.55, .55, 1.6, 10), new THREE.MeshBasicMaterial({visible:false})); hit.position.y = .8; grp.add(hit);
+    if(libSeat === seat.id){ const ring = new THREE.Mesh(new THREE.RingGeometry(.58, .72, 32), new THREE.MeshBasicMaterial({color:col, side:THREE.DoubleSide})); ring.rotation.x = -Math.PI / 2; ring.position.y = .03; grp.add(ring); }
+    tag(grp);
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({map:this.text([seat.name, busy ? STATE_TR[info.task.state] : (info.question ? "görev değil" : "boşta")], {bg:busy ? "rgba(18,20,27,.86)" : "rgba(18,20,27,.5)"}), depthTest:false, sizeAttenuation:false}));
+    sp.scale.set(.2, .05, 1); sp.position.set(p[0], p[1] + 1.95, p[2]); sp.userData.seat = seat.id; sp.renderOrder = 5; g.add(sp); this.picks.push(sp);
+  },
+  rooms: {
+    okuma(L, g, M){ // stepped terraces, timber piers, skylight grid, long dark tables
+      const slots = [];
+      for(let t = 0; t < 5; t++){ const y = t * 1.1, z = -t * 6.4;
+        L.box(g, 15, .3, 6.4, 0, y - .15, z, M.floor); L.box(g, 15, 1.1, .2, 0, y - .7, z + 3.2, M.wood);
+        L.box(g, 15, .05, .05, 0, y + 1, z + 3.15, M.dark);
+        for(let k = 0; k < 3; k++){ const x = (k - 1) * 4.6; L.table(g, 3.6, 1.1, x, y, z - .4, M.table, true);
+          for(let c = 0; c < 2; c++) slots.push({p:[x + (c ? .85 : -.85), y, z + .65], r:0}); } }
+      for(const side of [-1, 1]) for(let i = 0; i < 24; i++){ const z = 5 - i * 1.5; L.box(g, .9, 15, .55, side * 8.2, 7.5 - 1, z, i % 2 ? M.wood : M.wood2); }
+      for(const side of [-1, 1]) for(const y of [2.6, 5.8, 9]) L.box(g, .5, .5, 36, side * 8.5, y, -12, M.wood2);
+      L.box(g, 17, 15, .4, 0, 6.5, -31, M.wood2);
+      for(let i = 0; i < 9; i++) L.box(g, 16.4, .12, .12, 0, 13.4, 4 - i * 4.2, M.dark);
+      for(let i = -2; i <= 2; i++) L.box(g, .12, .12, 36, i * 3.3, 13.4, -12, M.dark);
+      L.box(g, 16.4, .05, 36, 0, 13.6, -12, new THREE.MeshBasicMaterial({color:0xf4efe2}));
+      return {slots, target:[0, 2.2, -9], dist:21, theta:.32, phi:1.18, min:8, max:34};
+    },
+    kabin(L, g, M){ // glass-fronted timber study cabins in a row
+      const slots = []; L.box(g, 22, .2, 9, 0, -.1, 0, M.floor);
+      for(let i = 0; i < 5; i++){ const x = (i - 2) * 3.6;
+        L.box(g, .14, 3, 3.2, x - 1.7, 1.5, -1.6, M.wood); L.box(g, .14, 3, 3.2, x + 1.7, 1.5, -1.6, M.wood); L.box(g, 3.4, 3, .14, x, 1.5, -3.2, M.wood2); L.box(g, 3.54, .14, 3.34, x, 3.05, -1.6, M.wood2);
+        L.box(g, 3.26, 2.9, .04, x, 1.45, 0, M.glass);
+        L.box(g, .5, 1.2, 2.6, x - 1.4, 1.5, -1.6, M.wood2); L.box(g, .46, .05, 2.5, x - 1.4, 1.2, -1.6, M.wood);
+        L.table(g, 1.5, .8, x + .5, 0, -1.9, M.table, true); L.box(g, .7, .42, .04, x + .5, 1.12, -2.2, M.dark); L.box(g, .5, .04, .34, x + .2, .8, -1.75, new THREE.MeshBasicMaterial({color:0xf1ede2}));
+        const lab = new THREE.Mesh(new THREE.PlaneGeometry(2.6, .65), new THREE.MeshBasicMaterial({map:L.text(["ARBEITS-", "KABINE 5." + (14 + i)], {fg:"#16171a", size:52, h:128}), transparent:true})); lab.position.set(x, 2.2, .04); g.add(lab);
+        slots.push({p:[x + .5, 0, -1.15], r:0}); }
+      L.box(g, 22, 3.4, .2, 0, 1.7, -3.4, M.wood2);
+      return {slots, target:[0, 1.3, -1.2], dist:11.5, theta:.25, phi:1.32, min:4, max:18};
+    },
+    avize(L, g, M){ // panelled hall, gallery, chandeliers, wall shelves, rolling ladder and reading nook
+      const slots = []; L.box(g, 18, .2, 13, 0, -.1, 0, M.parquet);
+      L.box(g, 18, 8, .3, 0, 4, -6.5, M.panel); L.box(g, .3, 8, 13, -9, 4, 0, M.panel); L.box(g, .3, 8, 13, 9, 4, 0, M.panel);
+      L.box(g, 18, .25, 1.6, 0, 4, -5.7, M.wood2); L.box(g, 1.6, .25, 13, -8.2, 4, 0, M.wood2); L.box(g, 1.6, .25, 13, 8.2, 4, 0, M.wood2);
+      L.box(g, 15, .06, .06, 0, 5, -4.95, M.gold); L.box(g, .06, .06, 12, -7.45, 5, .4, M.gold); L.box(g, .06, .06, 12, 7.45, 5, .4, M.gold);
+      for(let i = 0; i < 16; i++){ L.box(g, .05, 1, .05, -7.5 + i, 4.5, -4.95, M.gold); }
+      const books = [0x6d1a2b, 0x2f5d6b, 0x8a6a1e, 0x3b3f5c, 0x4a5a2e];
+      for(const [x, z, w, rot] of [[-4.5, -6.2, 6, 0], [4.5, -6.2, 6, 0], [-8.7, 1, 8, 1]]) for(let r = 0; r < 4; r++){
+        const sh = new THREE.Group(); L.box(sh, w, .06, .4, 0, 0, 0, M.wood2);
+        for(let b = 0; b < w * 3; b++) L.box(sh, .26, .5 + ((b * 7 + r * 3) % 5) * .05, .3, -w / 2 + .2 + b * .33, .32, 0, L.mat(books[(b + r) % 5]));
+        sh.position.set(x, .5 + r * .82, z); sh.rotation.y = rot ? Math.PI / 2 : 0; g.add(sh); }
+      const lad = new THREE.Group(); L.box(lad, .07, 3.9, .07, -.3, 1.95, 0, M.wood); L.box(lad, .07, 3.9, .07, .3, 1.95, 0, M.wood); for(let r = 0; r < 10; r++) L.box(lad, .6, .05, .07, 0, .35 + r * .36, 0, M.wood);
+      lad.position.set(-7.9, 0, 3.4); lad.rotation.set(0, Math.PI / 2, -.22); g.add(lad);
+      L.table(g, .8, .8, -6.4, 0, 4.4, M.wood2, true); slots.push({p:[-6.4, 0, 3.4], r:Math.PI});
+      L.table(g, 7, 1.3, 1, 0, .5, M.table, true); slots.push({p:[-3, 0, .5], r:-Math.PI / 2});
+      for(let c = 0; c < 5; c++) slots.push({p:[-1.6 + c * 1.3, 0, 1.6], r:0});
+      for(const x of [-4.5, 1, 6.5]){ L.box(g, .04, 2.4, .04, x, 6.8, 0, M.gold); const ring = new THREE.Mesh(new THREE.TorusGeometry(.9, .05, 8, 28), M.gold); ring.rotation.x = Math.PI / 2; ring.position.set(x, 5.6, 0); g.add(ring);
+        for(let k = 0; k < 8; k++){ const a = k * Math.PI / 4, b = new THREE.Mesh(new THREE.SphereGeometry(.13, 10, 8), new THREE.MeshBasicMaterial({color:0xffe9b0})); b.position.set(x + Math.cos(a) * .9, 5.72, Math.sin(a) * .9); g.add(b); } }
+      L.box(g, 18, .2, 13, 0, 8.1, 0, M.panel);
+      return {slots, target:[0, 1.8, -.4], dist:14.5, theta:.42, phi:1.2, min:5, max:19};
+    }
+  },
+  build(){
+    const T = THREE; if(this.scene) this.scene.traverse(o => { o.geometry?.dispose(); if(o.material){ o.material.map?.dispose(); o.material.dispose(); } });
+    this.scene = new T.Scene(); this.scene.background = new T.Color(this.css("--shell")); this.picks = [];
+    this.scene.add(new T.HemisphereLight(0xfff0d2, 0x4a2c14, 1.0)); const d = new T.DirectionalLight(0xffe2ad, .7); d.position.set(9, 16, 6); this.scene.add(d);
+    // Palette sampled by eye from the owner's Grimm-Zentrum photographs: cherry-veneer piers, grey-green linoleum tables, black chairs, brown wood-block floor.
+    const grimm = libRoom !== "avize";
+    const M = {wood:this.mat(grimm ? 0xb4682a : 0xb07538), wood2:this.mat(grimm ? 0x8f4f1f : 0x8c5a2a), floor:this.mat(libRoom === "kabin" ? 0x2b2e33 : 0x6a4a30), table:this.mat(grimm ? 0x3f4c4e : 0x2e3b3a), dark:this.mat(0x17181b),
+               parquet:this.mat(0x9a6b3c), panel:this.mat(0x5e3d24), gold:this.mat(0xc9a24a), glass:new T.MeshLambertMaterial({color:0xdfeef0, transparent:true, opacity:.12})};
+    const g = new T.Group(); this.scene.add(g);
+    const R = this.rooms[libRoom](this, g, M); this.R = R;
+    const seats = (ENST?.seats || []).filter(s => s.room === libRoom && (S.office === "all" || s.office === S.office || s.office == null));
+    const used = new Set(seats.map(s => s.slot));
+    R.slots.forEach((sl, i) => { if(!used.has(i)) this.chair(g, sl.p[0], sl.p[1], sl.p[2], sl.r, M.dark); });
+    for(const s of seats){ const sl = R.slots[s.slot]; if(sl) this.seatAt(g, s, sl.p, sl.r, M.dark); }
+    if(!this.orbit[libRoom]) this.orbit[libRoom] = {theta:R.theta, phi:R.phi, dist:R.dist};
+  },
+  draw(){ if(!this.renderer || !this.R) return; const o = this.orbit[libRoom], t = this.R.target;
+    o.phi = Math.min(1.5, Math.max(.35, o.phi)); o.dist = Math.min(this.R.max, Math.max(this.R.min, o.dist)); o.theta = Math.min(1.25, Math.max(-1.25, o.theta));
+    this.cam.position.set(t[0] + o.dist * Math.sin(o.phi) * Math.sin(o.theta), t[1] + o.dist * Math.cos(o.phi), t[2] + o.dist * Math.sin(o.phi) * Math.cos(o.theta));
+    this.cam.lookAt(t[0], t[1], t[2]); this.renderer.render(this.scene, this.cam); },
+  bind(){ const c = this.canvas, pts = new Map(); let moved = 0, pinch = 0; c.style.touchAction = "none";
+    c.addEventListener("pointerdown", e => { pts.set(e.pointerId, [e.clientX, e.clientY]); moved = 0; c.setPointerCapture(e.pointerId); });
+    c.addEventListener("pointermove", e => { const p = pts.get(e.pointerId); if(!p) return; const o = this.orbit[libRoom], dx = e.clientX - p[0], dy = e.clientY - p[1]; pts.set(e.pointerId, [e.clientX, e.clientY]);
+      if(pts.size === 2){ const [a, b] = [...pts.values()], dd = Math.hypot(a[0] - b[0], a[1] - b[1]); if(pinch) o.dist *= pinch / dd; pinch = dd; moved = 99; }
+      else { o.theta -= dx * .006; o.phi -= dy * .005; moved += Math.abs(dx) + Math.abs(dy); } this.draw(); });
+    const up = e => { const had = pts.delete(e.pointerId); pinch = 0; if(had && moved < 6 && e.type === "pointerup") this.pick(e); };
+    c.addEventListener("pointerup", up); c.addEventListener("pointercancel", up);
+    c.addEventListener("wheel", e => { e.preventDefault(); this.orbit[libRoom].dist *= e.deltaY > 0 ? 1.1 : .9; this.draw(); }, {passive:false});
+    addEventListener("resize", () => { if(view() === "kutuphane") this.mount(); }); },
+  pick(e){ const b = this.canvas.getBoundingClientRect(), v = new THREE.Vector2((e.clientX - b.left) / b.width * 2 - 1, -(e.clientY - b.top) / b.height * 2 + 1), rc = new THREE.Raycaster(); rc.setFromCamera(v, this.cam);
+    const h = rc.intersectObjects(this.picks, false)[0]; if(h){ libSeat = h.object.userData.seat; render(); } },
+  screenOf(id){ const s = ENST.seats.find(x => x.id === id), sl = this.R.slots[s.slot], v = new THREE.Vector3(sl.p[0], sl.p[1] + .8, sl.p[2]).project(this.cam), b = this.canvas.getBoundingClientRect(); return [b.left + (v.x + 1) / 2 * b.width, b.top + (1 - v.y) / 2 * b.height]; },
+  colours(){ const gl = this.renderer.getContext(), w = gl.drawingBufferWidth, h = gl.drawingBufferHeight, px = new Uint8Array(4), seen = new Set(); this.draw();
+    for(let i = 1; i < 12; i++) for(let j = 1; j < 8; j++){ gl.readPixels(Math.floor(w * i / 12), Math.floor(h * j / 8), 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px); seen.add(px[0] >> 3 << 10 | px[1] >> 3 << 5 | px[2] >> 3); } return seen.size; }
+};
+
 /* ---------- events ---------- */
 function norm(s){ return s.toLowerCase().replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue").replace(/ß/g,"ss").match(/[a-z0-9']+/g)?.join(" ") || ""; }
 document.addEventListener("click", async e => {
@@ -725,6 +914,8 @@ document.addEventListener("click", async e => {
   if(b.dataset.o){ S.office = b.dataset.o; S.sel = null; render(); return; }
   const a = b.dataset.act, id = b.dataset.id;
   if(a === "devam") return devam();
+  if(a === "seat"){ libSeat = id; const st = ENST.seats.find(x => x.id === id); if(st && st.room !== libRoom){ libRoom = st.room; LS.set("libRoom", libRoom); } return render(); }
+  if(a === "room"){ libRoom = id; LS.set("libRoom", id); return render(); }
   if(a === "sel"){ S.sel = id; render(); return; }
   if(a === "open"){ S.sel = id; location.hash = "inbox"; render(); return; }
   if(a === "decide"){
